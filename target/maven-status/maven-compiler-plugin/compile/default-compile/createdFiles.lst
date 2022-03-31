@@ -1,2 +1,6 @@
 com/syntech/controller/EmployeeController.class
 com/syntech/model/Employee.class
+com/syntech/controller/CategoryController.class
+com/syntech/repository/EmployeeRepository.class
+com/syntech/repository/CategoryRepository.class
+com/syntech/model/Category.class

@@ -30,7 +30,7 @@ public class EmployeeController {
         Scanner sc = new Scanner(System.in);
         String num;
         do {
-            System.out.println("Employee");
+            System.out.println("1.Employee");
             System.out.println("Press 1.1 to create");
             System.out.println("Press 1.2 to edit");
             System.out.println("Press 1.3 to delete");
