@@ -33,4 +33,28 @@ public class EmployeeRepository {
         return null;
     }
 
+    public void delete(Employee employee) {
+        this.employeeList.remove(employee);
+    }
+
+    public void edit(Employee emp) {
+
+//        Employee e = findById(emp.getId());
+//        employeeList.remove(e);
+//        employeeList.add(emp);
+//        for (Employee eee : employeeList) {
+//            if (eee.getId().equals(emp.getId())) {
+//                eee.setFirstName(emp.getFirstName());
+//                eee.setLastName(emp.getLastName());
+//                eee.setJoinDate(emp.getJoinDate());
+//                break;
+//            }
+//        }
+        employeeList.stream().filter(x -> x.getId().equals(emp.getId()))
+                .forEach(eee -> {
+                    eee.setFirstName(emp.getFirstName());
+                    eee.setLastName(emp.getLastName());
+                    eee.setJoinDate(emp.getJoinDate());
+                });
+    }
 }
