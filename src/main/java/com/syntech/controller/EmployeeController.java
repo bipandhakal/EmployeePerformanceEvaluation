@@ -13,12 +13,18 @@ import java.util.Scanner;
  */
 public class EmployeeController {
 
-    private static EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
-    private static ValidationUtil validationUtil;
+    private ValidationUtil validationUtil;
 
-//    public static void main(String[] args) {
+    public EmployeeController() {
+        employeeRepository = new EmployeeRepository();
+        validationUtil = new ValidationUtil();
+    }
+
+    public static void main(String[] args) {
 //        employeeRepository = new EmployeeRepository();
+//        validationUtil = new ValidationUtil();
 //        Employee e1 = new Employee(1L, "bipan", "dhakal", LocalDate.now());
 //        Employee e2 = new Employee(2L, "bibas", "poudel", LocalDate.now());
 //        Employee e3 = new Employee(3L, "bikram", "sharma", LocalDate.now());
@@ -75,7 +81,8 @@ public class EmployeeController {
 //                    break;
 //            }
 //        } while (!num.equals("0"));
-//    }
+    }
+
     public void create() {
 
         Long id = null;
@@ -84,12 +91,12 @@ public class EmployeeController {
         String joinedDate = null;
 
         Scanner sc = new Scanner(System.in);
-       // while (validationUtil.validateLong(id)) {
+        while (!validationUtil.validatesLong(id)) {
             System.out.println("Enter employee id");
             id = sc.nextLong();
-      //  }
+        }
 
-        while (validationUtil.validateString(firstName)) {
+        while (!validationUtil.validateString(firstName)) {
             System.out.println("Enter employee firstname");
             firstName = sc.next();
         }
@@ -98,7 +105,7 @@ public class EmployeeController {
             System.out.println("Enter employee lastname");
             lastName = sc.next();
 
-        } while (validationUtil.validateString(lastName));
+        } while (!validationUtil.validateString(lastName));
 
         do {
             System.out.println("Enter employee join-date");
@@ -112,7 +119,7 @@ public class EmployeeController {
 
     }
 
-    public static void edit() {
+    public void edit() {
         Long id = null;
         String firstName = null;
         String lastName = null;
@@ -150,7 +157,7 @@ public class EmployeeController {
         }
     }
 
-    public static void delete() {
+    public void delete() {
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter employee id to delete");
@@ -166,17 +173,16 @@ public class EmployeeController {
 
     }
 
-    public static void findAll() {
+    public void findAll() {
 
         Iterator<Employee> i = employeeRepository.findAll().iterator();
         while (i.hasNext()) {
             Employee employee = i.next();
             System.out.println(employee);
-
         }
     }
 
-    public static void findById() {
+    public void findById() {
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter employee id to find");

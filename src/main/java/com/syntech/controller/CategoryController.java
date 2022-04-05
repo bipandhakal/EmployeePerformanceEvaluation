@@ -11,61 +11,65 @@ import java.util.Scanner;
  */
 public class CategoryController {
 
-    private static CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
-    public static void main(String[] args) {
+    public CategoryController() {
         categoryRepository = new CategoryRepository();
-
-        Scanner sc = new Scanner(System.in);
-        String num;
-        do {
-            System.out.println("2.Category");
-            System.out.println("Press 2.1 to create");
-            System.out.println("Press 2.2 to edit");
-            System.out.println("Press 2.3 to delete");
-            System.out.println("Press 2.4 to findAll");
-            System.out.println("Press 2.5 to findById");
-            System.out.println("Enter your choice : ");
-            num = sc.next();
-
-            switch (num) {
-                case "2.1":
-
-                    create();
-
-                    break;
-
-                case "2.2":
-
-                    edit();
-
-                    break;
-                case "2.3":
-
-                    delete();
-
-                    break;
-
-                case "2.4":
-
-                    findAll();
-
-                    break;
-
-                case "2.5":
-
-                    findById();
-
-                    break;
-
-                default:
-                    System.out.println("Invalid number");
-                    break;
-            }
-        } while (!num.equals("0"));
     }
 
-    public static void create() {
+    public static void main(String[] args) {
+//        categoryRepository = new CategoryRepository();
+
+//        Scanner sc = new Scanner(System.in);
+//        String num;
+//        do {
+//            System.out.println("2.Category");
+//            System.out.println("Press 2.1 to create");
+//            System.out.println("Press 2.2 to edit");
+//            System.out.println("Press 2.3 to delete");
+//            System.out.println("Press 2.4 to findAll");
+//            System.out.println("Press 2.5 to findById");
+//            System.out.println("Enter your choice : ");
+//            num = sc.next();
+//
+//            switch (num) {
+//                case "2.1":
+//
+//                    create();
+//
+//                    break;
+//
+//                case "2.2":
+//
+//                    edit();
+//
+//                    break;
+//                case "2.3":
+//
+//                    delete();
+//
+//                    break;
+//
+//                case "2.4":
+//
+//                    findAll();
+//
+//                    break;
+//
+//                case "2.5":
+//
+//                    findById();
+//
+//                    break;
+//
+//                default:
+//                    System.out.println("Invalid number");
+//                    break;
+//            }
+//        } while (!num.equals("0"));
+    }
+
+    public void create() {
         Long id = null;
         String name = null;
         Double totalMarks = null;
@@ -103,7 +107,7 @@ public class CategoryController {
         categoryRepository.create(category);
     }
 
-    public static void edit() {
+    public void edit() {
         Long id = null;
         String name = null;
         Double totalMarks = null;
@@ -139,7 +143,7 @@ public class CategoryController {
         }
     }
 
-    public static void delete() {
+    public void delete() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter category id to delete");
         Long id = sc.nextLong();
@@ -153,7 +157,7 @@ public class CategoryController {
         }
     }
 
-    public static void findAll() {
+    public void findAll() {
         Iterator<Category> i = categoryRepository.findAll().iterator();
         while (i.hasNext()) {
             Category category = i.next();
@@ -161,7 +165,7 @@ public class CategoryController {
         }
     }
 
-    public static void findById() {
+    public void findById() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter Category id to find");
         Long id = sc.nextLong();

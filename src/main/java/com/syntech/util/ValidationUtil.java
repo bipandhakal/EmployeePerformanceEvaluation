@@ -35,4 +35,9 @@ public class ValidationUtil {
             throw new CustomeMessageException("Invalid input");
         }
     }
+
+    public Boolean validatesLong(Long number) {
+        return number != null && number != 0L;
+    }
+
 }
