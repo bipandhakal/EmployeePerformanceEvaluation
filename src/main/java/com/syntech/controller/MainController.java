@@ -1,5 +1,8 @@
 package com.syntech.controller;
 
+import com.syntech.repository.CategoryRepository;
+import com.syntech.repository.CriteriaRepository;
+import com.syntech.repository.EmployeeRepository;
 import java.util.Scanner;
 
 /**
@@ -8,88 +11,45 @@ import java.util.Scanner;
  */
 public class MainController {
 
+    static EmployeeController employeeController;
+    static CategoryController categoryController;
+    static CriteriaController criteriaController;
+    static EmployeeRepository employeeRepository;
+    static CategoryRepository categoryRepository;
+    static CriteriaRepository criteriaRepository;
+
     public static void main(String[] args) {
-        EmployeeController employeeController;
-        CategoryController categoryController;
         employeeController = new EmployeeController();
         categoryController = new CategoryController();
+        criteriaController = new CriteriaController();
+        employeeRepository = new EmployeeRepository();
+        categoryRepository = new CategoryRepository();
+        criteriaRepository = new CriteriaRepository();
+        showMenu();
+    }
+
+    public static void showMenu() {
 
         Scanner sc = new Scanner(System.in);
         String num;
         do {
             System.out.println("1.Employee");
-            System.out.println("Press 1.1 to create employee");
-            System.out.println("Press 1.2 to edit employee");
-            System.out.println("Press 1.3 to delete employee");
-            System.out.println("Press 1.4 to findAll employee");
-            System.out.println("Press 1.5 to findById employee");
-            System.out.println("--------------------------------------");
             System.out.println("2.Category");
-            System.out.println("Press 2.1 to create category");
-            System.out.println("Press 2.2 to edit category");
-            System.out.println("Press 2.3 to delete category");
-            System.out.println("Press 2.4 to findAll category");
-            System.out.println("Press 2.5 to findById category");
+            System.out.println("3.Criteria");
             System.out.println("Enter your choice : ");
             num = sc.next();
 
             switch (num) {
-                case "1.1":
-
-                    employeeController.create();
-
+                case "1":
+                    employeeController.showMenu(employeeRepository);
                     break;
 
-                case "1.2":
-
-                    employeeController.edit();
-
-                    break;
-                case "1.3":
-
-                    employeeController.delete();
-
+                case "2":
+                    categoryController.showMenu(categoryRepository);
                     break;
 
-                case "1.4":
-
-                    employeeController.findAll();
-
-                    break;
-
-                case "1.5":
-
-                    employeeController.findById();
-
-                    break;
-
-                case "2.1":
-
-                    categoryController.create();
-
-                    break;
-
-                case "2.2":
-
-                    categoryController.edit();
-
-                    break;
-                case "2.3":
-
-                    categoryController.delete();
-
-                    break;
-
-                case "2.4":
-
-                    categoryController.findAll();
-
-                    break;
-
-                case "2.5":
-
-                    categoryController.findById();
-
+                case "3":
+                    criteriaController.showMenu(criteriaRepository);
                     break;
 
                 default:

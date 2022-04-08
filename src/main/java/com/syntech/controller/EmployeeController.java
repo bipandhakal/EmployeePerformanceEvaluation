@@ -14,73 +14,57 @@ import java.util.Scanner;
 public class EmployeeController {
 
     private EmployeeRepository employeeRepository;
-
     private ValidationUtil validationUtil;
 
     public EmployeeController() {
-        employeeRepository = new EmployeeRepository();
         validationUtil = new ValidationUtil();
     }
 
-    public static void main(String[] args) {
-//        employeeRepository = new EmployeeRepository();
-//        validationUtil = new ValidationUtil();
-//        Employee e1 = new Employee(1L, "bipan", "dhakal", LocalDate.now());
-//        Employee e2 = new Employee(2L, "bibas", "poudel", LocalDate.now());
-//        Employee e3 = new Employee(3L, "bikram", "sharma", LocalDate.now());
-//        employeeRepository.create(e1);
-//        employeeRepository.create(e2);
-//        employeeRepository.create(e3);
-//
-//        employeeRepository.findAll().stream().forEach(x -> System.out.println(x));
-//
-//        Scanner sc = new Scanner(System.in);
-//        String num;
-//        do {
-//            System.out.println("1.Employee");
-//            System.out.println("Press 1.1 to create");
-//            System.out.println("Press 1.2 to edit");
-//            System.out.println("Press 1.3 to delete");
-//            System.out.println("Press 1.4 to findAll");
-//            System.out.println("Press 1.5 to findById");
-//            System.out.println("Enter your choice : ");
-//            num = sc.next();
-//
-//            switch (num) {
-//                case "1.1":
-//
-//                    create();
-//
-//                    break;
-//
-//                case "1.2":
-//
-//                    edit();
-//
-//                    break;
-//                case "1.3":
-//
-//                    delete();
-//
-//                    break;
-//
-//                case "1.4":
-//
-//                    findAll();
-//
-//                    break;
-//
-//                case "1.5":
-//
-//                    findById();
-//
-//                    break;
-//
-//                default:
-//                    System.out.println("Invalid number");
-//                    break;
-//            }
-//        } while (!num.equals("0"));
+    public void showMenu(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+
+        Scanner sc = new Scanner(System.in);
+        String num;
+        do {
+            System.out.println("Employee");
+            System.out.println("Press 1.1 to create employee");
+            System.out.println("Press 1.2 to edit employee");
+            System.out.println("Press 1.3 to delete employee");
+            System.out.println("Press 1.4 to findAll employee");
+            System.out.println("Press 1.5 to findById employee");
+            System.out.println("Enter your choice : ");
+            num = sc.next();
+
+            switch (num) {
+                case "1.1":
+                    create();
+                    break;
+
+                case "1.2":
+                    edit();
+                    break;
+
+                case "1.3":
+                    delete();
+                    break;
+
+                case "1.4":
+                    findAll();
+                    break;
+
+                case "1.5":
+                    findById();
+                    break;
+
+                case "*":
+                    MainController.showMenu();
+                    break;
+
+                default:
+                    System.out.println("Invalid number");
+                    break;
+            }
+        } while (!num.equals("0"));
     }
 
     public void create() {
@@ -116,6 +100,7 @@ public class EmployeeController {
         Employee employee = new Employee(id, firstName, lastName, joinDate);
 
         employeeRepository.create(employee);
+        System.out.println("Created Successfully!");
 
     }
 

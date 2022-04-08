@@ -7,7 +7,7 @@ import java.util.Objects;
  *
  * @author bipan
  */
-public class Employee {
+public class Employee implements IEntity {
 
     private Long id;
     private String firstName;
@@ -25,10 +25,12 @@ public class Employee {
         this.joinDate = joinDate;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

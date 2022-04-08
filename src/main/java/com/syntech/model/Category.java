@@ -6,7 +6,7 @@ import java.util.Objects;
  *
  * @author bipan
  */
-public class Category {
+public class Category implements IEntity {
 
     private Long id;
     private String name;

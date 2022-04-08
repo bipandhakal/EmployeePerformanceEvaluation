@@ -1,6 +1,8 @@
 package com.syntech.util;
 
 import com.syntech.exception.CustomeMessageException;
+import com.syntech.model.CalculatedBy;
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,4 +42,20 @@ public class ValidationUtil {
         return number != null && number != 0L;
     }
 
+    public Boolean validatesDouble(Double number) {
+        return number != null && number != 0.0d;
+    }
+
+    public Boolean validateBigDecimal(BigDecimal number) {
+        return number != null;
+    }
+
+    public CalculatedBy validateCalculatedBy(String calcString) {
+        try {
+            return CalculatedBy.valueOf(calcString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid methods");
+            return null;
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.syntech.controller;
 
 import com.syntech.model.Category;
 import com.syntech.repository.CategoryRepository;
+import com.syntech.util.ValidationUtil;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -12,61 +13,58 @@ import java.util.Scanner;
 public class CategoryController {
 
     private CategoryRepository categoryRepository;
+    private ValidationUtil validationUtil;
 
     public CategoryController() {
-        categoryRepository = new CategoryRepository();
+        validationUtil = new ValidationUtil();
+
     }
 
-    public static void main(String[] args) {
-//        categoryRepository = new CategoryRepository();
+    public void showMenu(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
 
-//        Scanner sc = new Scanner(System.in);
-//        String num;
-//        do {
-//            System.out.println("2.Category");
-//            System.out.println("Press 2.1 to create");
-//            System.out.println("Press 2.2 to edit");
-//            System.out.println("Press 2.3 to delete");
-//            System.out.println("Press 2.4 to findAll");
-//            System.out.println("Press 2.5 to findById");
-//            System.out.println("Enter your choice : ");
-//            num = sc.next();
-//
-//            switch (num) {
-//                case "2.1":
-//
-//                    create();
-//
-//                    break;
-//
-//                case "2.2":
-//
-//                    edit();
-//
-//                    break;
-//                case "2.3":
-//
-//                    delete();
-//
-//                    break;
-//
-//                case "2.4":
-//
-//                    findAll();
-//
-//                    break;
-//
-//                case "2.5":
-//
-//                    findById();
-//
-//                    break;
-//
-//                default:
-//                    System.out.println("Invalid number");
-//                    break;
-//            }
-//        } while (!num.equals("0"));
+        Scanner sc = new Scanner(System.in);
+        String num;
+        do {
+            System.out.println("Category");
+            System.out.println("Press 2.1 to create");
+            System.out.println("Press 2.2 to edit");
+            System.out.println("Press 2.3 to delete");
+            System.out.println("Press 2.4 to findAll");
+            System.out.println("Press 2.5 to findById");
+            System.out.println("Enter your choice : ");
+            num = sc.next();
+
+            switch (num) {
+                case "2.1":
+                    create();
+                    break;
+
+                case "2.2":
+                    edit();
+                    break;
+
+                case "2.3":
+                    delete();
+                    break;
+
+                case "2.4":
+                    findAll();
+                    break;
+
+                case "2.5":
+                    findById();
+                    break;
+
+                case "*":
+                    MainController.showMenu();
+                    break;
+
+                default:
+                    System.out.println("Invalid number");
+                    break;
+            }
+        } while (!num.equals("0"));
     }
 
     public void create() {
@@ -75,32 +73,21 @@ public class CategoryController {
         Double totalMarks = null;
 
         Scanner sc = new Scanner(System.in);
-        while (id == null) {
+        while (!validationUtil.validatesLong(id)) {
             System.out.println("Enter Category id");
-            String idd = sc.next();
-            try {
-                id = Long.parseLong(idd);
-            } catch (Exception e) {
-                System.out.println("Invalid input");
-                id = null;
-            }
+            id = sc.nextLong();
         }
 
-        while (name == null || name.isEmpty()) {
-            System.out.println("Enter Category name");
+        while (!validationUtil.validateString(name)) {
+            System.out.println("Enter Category Name");
             name = sc.next();
         }
+        
+        do{
+            System.out.println("Enter TotalMarks for Category");
+            totalMarks = sc.nextDouble();
+        }while(!validationUtil.validatesDouble(totalMarks));
 
-        while (totalMarks == null) {
-            System.out.println("Enter totalMarks for Category");
-            String tm = sc.next();
-            try {
-                totalMarks = Double.parseDouble(tm);
-            } catch (Exception e) {
-                System.out.println("Invalid input");
-                totalMarks = null;
-            }
-        }
 
         Category category = new Category(id, name, totalMarks);
 
