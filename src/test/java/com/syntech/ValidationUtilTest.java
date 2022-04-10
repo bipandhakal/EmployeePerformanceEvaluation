@@ -11,7 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.rules.ExpectedException;
 
 /**

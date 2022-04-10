@@ -21,46 +21,6 @@ public class CriteriaController {
         validationUtil = new ValidationUtil();
     }
 
-//    public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        String num;
-//        do {
-//            System.out.println("Criteria");
-//            System.out.println("Press 3.1 to create criteria");
-//            System.out.println("Press 3.2 to edit criteria");
-//            System.out.println("Press 3.3 to delete criteria");
-//            System.out.println("Press 3.4 to findAll criteria");
-//            System.out.println("Press 3.5 to findById criteria");
-//            System.out.println("Enter your choice : ");
-//            num = sc.next();
-//
-//            switch (num) {
-//                case "3.1":
-//                    create();
-//                    break;
-//
-//                case "3.2":
-//                    edit();
-//                    break;
-//
-//                case "3.3":
-//                    delete();
-//                    break;
-//
-//                case "3.4":
-//                    findAll();
-//                    break;
-//
-//                case "3.5":
-//                    findById();
-//                    break;
-//
-//                default:
-//                    System.out.println("Invalid number");
-//                    break;
-//            }
-//        } while (!num.equals("0"));
-//    }
     public void showMenu(CriteriaRepository criteriaRepository) {
         this.criteriaRepository = criteriaRepository;
 

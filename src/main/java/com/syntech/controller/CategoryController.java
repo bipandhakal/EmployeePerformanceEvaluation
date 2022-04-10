@@ -27,11 +27,11 @@ public class CategoryController {
         String num;
         do {
             System.out.println("Category");
-            System.out.println("Press 2.1 to create");
-            System.out.println("Press 2.2 to edit");
-            System.out.println("Press 2.3 to delete");
-            System.out.println("Press 2.4 to findAll");
-            System.out.println("Press 2.5 to findById");
+            System.out.println("Press 2.1 to create category");
+            System.out.println("Press 2.2 to edit category");
+            System.out.println("Press 2.3 to delete category");
+            System.out.println("Press 2.4 to findAll category");
+            System.out.println("Press 2.5 to findById category");
             System.out.println("Enter your choice : ");
             num = sc.next();
 
@@ -73,6 +73,7 @@ public class CategoryController {
         Double totalMarks = null;
 
         Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         while (!validationUtil.validatesLong(id)) {
             System.out.println("Enter Category id");
             id = sc.nextLong();
@@ -80,14 +81,13 @@ public class CategoryController {
 
         while (!validationUtil.validateString(name)) {
             System.out.println("Enter Category Name");
-            name = sc.next();
+            name = scanner.nextLine();
         }
-        
-        do{
+
+        do {
             System.out.println("Enter TotalMarks for Category");
             totalMarks = sc.nextDouble();
-        }while(!validationUtil.validatesDouble(totalMarks));
-
+        } while (!validationUtil.validatesDouble(totalMarks));
 
         Category category = new Category(id, name, totalMarks);
 
@@ -99,6 +99,7 @@ public class CategoryController {
         String name = null;
         Double totalMarks = null;
         Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter category id to edit");
         id = sc.nextLong();
 
@@ -109,7 +110,7 @@ public class CategoryController {
         } else {
             while (name == null || name.isEmpty()) {
                 System.out.println("Enter Category name");
-                name = sc.next();
+                name = scanner.nextLine();
             }
 
             while (totalMarks == null) {
