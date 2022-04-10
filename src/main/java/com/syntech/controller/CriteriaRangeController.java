@@ -111,7 +111,7 @@ public class CriteriaRangeController {
 
         CriteriaRange criteriaRange = criteriaRangeRepository.findById(id);
         if (criteriaRange == null) {
-            System.out.println("Criteria with id: " + id + " not found");
+            System.out.println("Criteria Range with id: " + id + " not found");
 
         } else {
             while (!validationUtil.validatesLong(from)) {

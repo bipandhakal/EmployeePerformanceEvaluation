@@ -3,6 +3,7 @@ package com.syntech.controller;
 import com.syntech.repository.CategoryRepository;
 import com.syntech.repository.CriteriaRangeRepository;
 import com.syntech.repository.CriteriaRepository;
+import com.syntech.repository.CriteriaSelfRepository;
 import com.syntech.repository.CriteriaTrueFalseRepository;
 import com.syntech.repository.EmployeeRepository;
 import java.util.Scanner;
@@ -21,8 +22,10 @@ public class MainController {
     static CriteriaRepository criteriaRepository;
     static CriteriaRangeController criteriaRangeController;
     static CriteriaTrueFalseController criteriaTrueFalseController;
+    static CriteriaSelfController criteriaSelfController;
     static CriteriaRangeRepository criteriaRangeRepository;
     static CriteriaTrueFalseRepository criteriaTrueFalseRepository;
+    static CriteriaSelfRepository criteriaSelfRepository;
 
     public static void main(String[] args) {
         employeeController = new EmployeeController();
@@ -30,11 +33,13 @@ public class MainController {
         criteriaController = new CriteriaController();
         criteriaRangeController = new CriteriaRangeController();
         criteriaTrueFalseController = new CriteriaTrueFalseController();
+        criteriaSelfController = new CriteriaSelfController();
         employeeRepository = new EmployeeRepository();
         categoryRepository = new CategoryRepository();
         criteriaRepository = new CriteriaRepository();
         criteriaRangeRepository = new CriteriaRangeRepository();
         criteriaTrueFalseRepository = new CriteriaTrueFalseRepository();
+        criteriaSelfRepository = new CriteriaSelfRepository();
         showMenu();
     }
 
@@ -48,6 +53,7 @@ public class MainController {
             System.out.println("3.Criteria");
             System.out.println("4.Criteria Range");
             System.out.println("5.Criteria True False");
+            System.out.println("6.Criteria Self Marks");
             System.out.println("Enter your choice : ");
             num = sc.next();
 
@@ -70,6 +76,10 @@ public class MainController {
 
                 case "5":
                     criteriaTrueFalseController.showMenu(criteriaTrueFalseRepository);
+                    break;
+
+                case "6":
+                    criteriaSelfController.showMenu(criteriaSelfRepository);
                     break;
 
                 default:
