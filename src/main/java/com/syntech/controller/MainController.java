@@ -3,6 +3,7 @@ package com.syntech.controller;
 import com.syntech.repository.CategoryRepository;
 import com.syntech.repository.CriteriaRangeRepository;
 import com.syntech.repository.CriteriaRepository;
+import com.syntech.repository.CriteriaTrueFalseRepository;
 import com.syntech.repository.EmployeeRepository;
 import java.util.Scanner;
 
@@ -19,17 +20,21 @@ public class MainController {
     static CategoryRepository categoryRepository;
     static CriteriaRepository criteriaRepository;
     static CriteriaRangeController criteriaRangeController;
+    static CriteriaTrueFalseController criteriaTrueFalseController;
     static CriteriaRangeRepository criteriaRangeRepository;
+    static CriteriaTrueFalseRepository criteriaTrueFalseRepository;
 
     public static void main(String[] args) {
         employeeController = new EmployeeController();
         categoryController = new CategoryController();
         criteriaController = new CriteriaController();
         criteriaRangeController = new CriteriaRangeController();
+        criteriaTrueFalseController = new CriteriaTrueFalseController();
         employeeRepository = new EmployeeRepository();
         categoryRepository = new CategoryRepository();
         criteriaRepository = new CriteriaRepository();
         criteriaRangeRepository = new CriteriaRangeRepository();
+        criteriaTrueFalseRepository = new CriteriaTrueFalseRepository();
         showMenu();
     }
 
@@ -42,6 +47,7 @@ public class MainController {
             System.out.println("2.Category");
             System.out.println("3.Criteria");
             System.out.println("4.Criteria Range");
+            System.out.println("5.Criteria True False");
             System.out.println("Enter your choice : ");
             num = sc.next();
 
@@ -60,6 +66,10 @@ public class MainController {
 
                 case "4":
                     criteriaRangeController.showMenu(criteriaRangeRepository);
+                    break;
+
+                case "5":
+                    criteriaTrueFalseController.showMenu(criteriaTrueFalseRepository);
                     break;
 
                 default:
