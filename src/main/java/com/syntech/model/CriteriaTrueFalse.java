@@ -9,14 +9,16 @@ import java.util.Objects;
 public class CriteriaTrueFalse implements IEntity {
 
     private Long id;
+    private Long criteriaId;
     private String status;
     private Double marks;
 
     public CriteriaTrueFalse() {
     }
 
-    public CriteriaTrueFalse(Long id, String status, Double marks) {
+    public CriteriaTrueFalse(Long id, Long criteriaId, String status, Double marks) {
         this.id = id;
+        this.criteriaId = criteriaId;
         this.status = status;
         this.marks = marks;
     }
@@ -27,6 +29,14 @@ public class CriteriaTrueFalse implements IEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCriteriaId() {
+        return criteriaId;
+    }
+
+    public void setCriteriaId(Long criteriaId) {
+        this.criteriaId = criteriaId;
     }
 
     public String getStatus() {
@@ -48,9 +58,10 @@ public class CriteriaTrueFalse implements IEntity {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.status);
-        hash = 37 * hash + Objects.hashCode(this.marks);
+        hash = 17 * hash + Objects.hashCode(this.id);
+        hash = 17 * hash + Objects.hashCode(this.criteriaId);
+        hash = 17 * hash + Objects.hashCode(this.status);
+        hash = 17 * hash + Objects.hashCode(this.marks);
         return hash;
     }
 
@@ -72,6 +83,9 @@ public class CriteriaTrueFalse implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.criteriaId, other.criteriaId)) {
+            return false;
+        }
         if (!Objects.equals(this.marks, other.marks)) {
             return false;
         }
@@ -80,7 +94,7 @@ public class CriteriaTrueFalse implements IEntity {
 
     @Override
     public String toString() {
-        return "CriteriaTrueFalse{" + "id=" + id + ", status=" + status + ", marks=" + marks + '}';
+        return "CriteriaTrueFalse{" + "id=" + id + ", criteriaId=" + criteriaId + ", status=" + status + ", marks=" + marks + '}';
     }
 
 }

@@ -70,6 +70,7 @@ public class CriteriaController {
 
     public void create() {
         Long id = null;
+        Long categoryId = null;
         String name = null;
         Double marks = null;
         BigDecimal target = null;
@@ -81,6 +82,11 @@ public class CriteriaController {
             System.out.println("Enter Criteria id");
             id = sc.nextLong();
         }
+
+        do {
+            System.out.println("Enter Category id for this criteria");
+            categoryId = sc.nextLong();
+        } while (!validationUtil.validatesLong(categoryId));
 
         while (!validationUtil.validateString(name)) {
             System.out.println("Enter Criteria Name");
@@ -104,7 +110,7 @@ public class CriteriaController {
 
         CalculatedBy calcBy = CalculatedBy.valueOf(calculatedBy.toUpperCase());
 
-        Criteria criteria = new Criteria(id, name, marks, target, calcBy);
+        Criteria criteria = new Criteria(id, categoryId, name, marks, target, calcBy);
 
         criteriaRepository.create(criteria);
         System.out.println("Created Successfully!");
@@ -113,6 +119,7 @@ public class CriteriaController {
 
     public void edit() {
         Long id = null;
+        Long categoryId = null;
         String name = null;
         Double marks = null;
         BigDecimal target = null;
@@ -128,10 +135,15 @@ public class CriteriaController {
             System.out.println("Criteria with id: " + id + " not found");
 
         } else {
-            while (!validationUtil.validateString(name)) {
+
+            while (!validationUtil.validatesLong(categoryId)) {
+                System.out.println("Enter Category id for this criteria");
+                categoryId = sc.nextLong();
+            }
+            do {
                 System.out.println("Enter Criteria Name");
                 name = scanner.nextLine();
-            }
+            } while (!validationUtil.validateString(name));
 
             do {
                 System.out.println("Enter Marks for Criteria");
@@ -149,7 +161,7 @@ public class CriteriaController {
             } while (validationUtil.validateCalculatedBy(calculatedBy) == null);
 
             CalculatedBy calcBy = CalculatedBy.valueOf(calculatedBy.toUpperCase());
-            Criteria crt = new Criteria(id, name, marks, target, calcBy);
+            Criteria crt = new Criteria(id, categoryId, name, marks, target, calcBy);
 
             criteriaRepository.edit(crt);
             System.out.println("Edited Successfully!");

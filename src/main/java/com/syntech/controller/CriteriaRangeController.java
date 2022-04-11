@@ -68,6 +68,7 @@ public class CriteriaRangeController {
 
     public void create() {
         Long id = null;
+        Long criteriaId = null;
         Long from = null;
         Long to = null;
         Double marks = null;
@@ -77,7 +78,10 @@ public class CriteriaRangeController {
             System.out.println("Enter Criteria Range id");
             id = sc.nextLong();
         }
-
+        while (!validationUtil.validatesLong(criteriaId)) {
+            System.out.println("Enter Criteria id for Criteria Range");
+            criteriaId = sc.nextLong();
+        }
         do {
             System.out.println("Enter Criteria Range from");
             from = sc.nextLong();
@@ -93,14 +97,14 @@ public class CriteriaRangeController {
             marks = sc.nextDouble();
         } while (!validationUtil.validatesDouble(marks));
 
-        CriteriaRange criteriaRange = new CriteriaRange(id, from, to, marks);
-
+        CriteriaRange criteriaRange = new CriteriaRange(id, criteriaId, from, to, marks);
         criteriaRangeRepository.create(criteriaRange);
         System.out.println("Created Successfully!");
     }
 
     public void edit() {
         Long id = null;
+        Long criteriaId = null;
         Long from = null;
         Long to = null;
         Double marks = null;
@@ -114,6 +118,10 @@ public class CriteriaRangeController {
             System.out.println("Criteria Range with id: " + id + " not found");
 
         } else {
+            while (!validationUtil.validatesLong(criteriaId)) {
+                System.out.println("Enter Criteria id for Criteria Range");
+                criteriaId = sc.nextLong();
+            }
             while (!validationUtil.validatesLong(from)) {
                 System.out.println("Enter Criteria Range from");
                 from = sc.nextLong();
@@ -129,8 +137,7 @@ public class CriteriaRangeController {
                 marks = sc.nextDouble();
             } while (!validationUtil.validatesDouble(marks));
 
-            CriteriaRange crtR = new CriteriaRange(id, from, to, marks);
-
+            CriteriaRange crtR = new CriteriaRange(id, criteriaId, from, to, marks);
             criteriaRangeRepository.edit(crtR);
             System.out.println("Edited Successfully!");
         }

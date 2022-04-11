@@ -15,21 +15,21 @@ public class CriteriaRangeRepositoryTest {
 
     @Test
     public void createTest() {
-        CriteriaRange cr1 = new CriteriaRange(1L, 10L, 20L, 15.0);
+        CriteriaRange cr1 = new CriteriaRange(1L, 1L, 10L, 20L, 15.0);
         criteriaRangeRepository.create(cr1);
         assertEquals(1, criteriaRangeRepository.findAll().size());
     }
 
     @Test
     public void findAllTest() {
-        CriteriaRange cr2 = new CriteriaRange(2L, 10L, 20L, 15.0);
+        CriteriaRange cr2 = new CriteriaRange(2L, 2L, 10L, 20L, 15.0);
         criteriaRangeRepository.create(cr2);
         assertEquals(1, criteriaRangeRepository.findAll().size());
     }
 
     @Test
     public void deleteTest() {
-        CriteriaRange cr3 = new CriteriaRange(3L, 10L, 20L, 18.0);
+        CriteriaRange cr3 = new CriteriaRange(3L, 3L, 10L, 20L, 18.0);
         criteriaRangeRepository.create(cr3);
         criteriaRangeRepository.delete(cr3);
         assertEquals(0, criteriaRangeRepository.findAll().size());
@@ -37,7 +37,7 @@ public class CriteriaRangeRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        CriteriaRange cr4 = new CriteriaRange(4L, 11L, 20L, 18.0);
+        CriteriaRange cr4 = new CriteriaRange(4L, 4L, 11L, 20L, 18.0);
         criteriaRangeRepository.create(cr4);
         assertEquals(cr4, criteriaRangeRepository.findById(4l));
         assertNotEquals(cr4, criteriaRangeRepository.findById(3l));
@@ -45,7 +45,7 @@ public class CriteriaRangeRepositoryTest {
 
     @Test
     public void editTest() {
-        CriteriaRange cr5 = new CriteriaRange(5L, 15L, 20L, 15.0);
+        CriteriaRange cr5 = new CriteriaRange(5L, 5L, 15L, 20L, 15.0);
         criteriaRangeRepository.create(cr5);
         cr5.setFrom(10L);
         criteriaRangeRepository.edit(cr5);

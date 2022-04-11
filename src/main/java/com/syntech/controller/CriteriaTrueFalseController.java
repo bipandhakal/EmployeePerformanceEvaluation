@@ -69,6 +69,7 @@ public class CriteriaTrueFalseController {
 
     public void create() {
         Long id = null;
+        Long criteriaId = null;
         String status = null;
         Double marks = null;
 
@@ -77,6 +78,10 @@ public class CriteriaTrueFalseController {
         while (!validationUtil.validatesLong(id)) {
             System.out.println("Enter Criteria True False id");
             id = sc.nextLong();
+        }
+        while (!validationUtil.validatesLong(criteriaId)) {
+            System.out.println("Enter Criteria id for Criteria True False");
+            criteriaId = sc.nextLong();
         }
 
         do {
@@ -89,7 +94,7 @@ public class CriteriaTrueFalseController {
             marks = sc.nextDouble();
         } while (!validationUtil.validatesDouble(marks));
 
-        CriteriaTrueFalse criteriaTrueFalse = new CriteriaTrueFalse(id, status, marks);
+        CriteriaTrueFalse criteriaTrueFalse = new CriteriaTrueFalse(id, criteriaId, status, marks);
 
         criteriaTrueFalseRepository.create(criteriaTrueFalse);
         System.out.println("Created Successfully!");
@@ -97,6 +102,7 @@ public class CriteriaTrueFalseController {
 
     public void edit() {
         Long id = null;
+        Long criteriaId = null;
         String status = null;
         Double marks = null;
 
@@ -110,6 +116,10 @@ public class CriteriaTrueFalseController {
             System.out.println("Criteria with id: " + id + " not found");
 
         } else {
+            while (!validationUtil.validatesLong(criteriaId)) {
+                System.out.println("Enter Criteria id for Criteria True False");
+                criteriaId = sc.nextLong();
+            }
             do {
                 System.out.println("Enter Criteria True False Status");
                 status = scanner.nextLine();
@@ -120,7 +130,7 @@ public class CriteriaTrueFalseController {
                 marks = sc.nextDouble();
             } while (!validationUtil.validatesDouble(marks));
 
-            CriteriaTrueFalse crtf = new CriteriaTrueFalse(id, status, marks);
+            CriteriaTrueFalse crtf = new CriteriaTrueFalse(id, criteriaId, status, marks);
 
             criteriaTrueFalseRepository.edit(crtf);
             System.out.println("Edited Successfully!");

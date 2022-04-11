@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Criteria implements IEntity {
 
     private Long id;
+    private Long categoryId;
     private String name;
     private Double marks;
     private BigDecimal target;
@@ -18,8 +19,9 @@ public class Criteria implements IEntity {
     public Criteria() {
     }
 
-    public Criteria(Long id, String name, Double marks, BigDecimal target, CalculatedBy calculatedBy) {
+    public Criteria(Long id, Long categoryId, String name, Double marks, BigDecimal target, CalculatedBy calculatedBy) {
         this.id = id;
+        this.categoryId = categoryId;
         this.name = name;
         this.marks = marks;
         this.target = target;
@@ -32,6 +34,14 @@ public class Criteria implements IEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -68,12 +78,13 @@ public class Criteria implements IEntity {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 31 * hash + Objects.hashCode(this.id);
-        hash = 31 * hash + Objects.hashCode(this.name);
-        hash = 31 * hash + Objects.hashCode(this.marks);
-        hash = 31 * hash + Objects.hashCode(this.target);
-        hash = 31 * hash + Objects.hashCode(this.calculatedBy);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.categoryId);
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.marks);
+        hash = 97 * hash + Objects.hashCode(this.target);
+        hash = 97 * hash + Objects.hashCode(this.calculatedBy);
         return hash;
     }
 
@@ -95,6 +106,9 @@ public class Criteria implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.categoryId, other.categoryId)) {
+            return false;
+        }
         if (!Objects.equals(this.marks, other.marks)) {
             return false;
         }
@@ -109,7 +123,7 @@ public class Criteria implements IEntity {
 
     @Override
     public String toString() {
-        return "Criteria{" + "id=" + id + ", name=" + name + ", marks=" + marks + ", target=" + target + ", calculatedBy=" + calculatedBy + '}';
+        return "Criteria{" + "id=" + id + ", categoryId=" + categoryId + ", name=" + name + ", marks=" + marks + ", target=" + target + ", calculatedBy=" + calculatedBy + '}';
     }
 
 }

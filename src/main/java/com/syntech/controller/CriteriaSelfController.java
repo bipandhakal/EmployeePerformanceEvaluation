@@ -68,6 +68,7 @@ public class CriteriaSelfController {
 
     public void create() {
         Long id = null;
+        Long criteriaId = null;
         Double marks = null;
 
         Scanner sc = new Scanner(System.in);
@@ -75,19 +76,24 @@ public class CriteriaSelfController {
             System.out.println("Enter Criteria Self id");
             id = sc.nextLong();
         }
+        while (!validationUtil.validatesLong(criteriaId)) {
+            System.out.println("Enter Criteria id for Criteria Self");
+            criteriaId = sc.nextLong();
+        }
 
         do {
             System.out.println("Enter Criteria Self Marks");
             marks = sc.nextDouble();
         } while (!validationUtil.validatesDouble(marks));
 
-        CriteriaSelf criteriaSelf = new CriteriaSelf(id, marks);
+        CriteriaSelf criteriaSelf = new CriteriaSelf(id, criteriaId, marks);
         criteriaSelfRepository.create(criteriaSelf);
         System.out.println("Created Successfully!");
     }
 
     public void edit() {
         Long id = null;
+        Long criteriaId = null;
         Double marks = null;
 
         Scanner sc = new Scanner(System.in);
@@ -100,12 +106,17 @@ public class CriteriaSelfController {
 
         } else {
 
+            while (!validationUtil.validatesLong(criteriaId)) {
+                System.out.println("Enter Criteria id for Criteria Self");
+                criteriaId = sc.nextLong();
+            }
+
             do {
                 System.out.println("Enter Criteria Self Marks");
                 marks = sc.nextDouble();
             } while (!validationUtil.validatesDouble(marks));
 
-            CriteriaSelf crself = new CriteriaSelf(id, marks);
+            CriteriaSelf crself = new CriteriaSelf(id, criteriaId, marks);
             criteriaSelfRepository.edit(crself);
             System.out.println("Edited Successfully!");
         }

@@ -81,7 +81,6 @@ public class MainController {
                 case "6":
                     criteriaSelfController.showMenu(criteriaSelfRepository);
                     break;
-
                 default:
                     System.out.println("Invalid number");
                     break;

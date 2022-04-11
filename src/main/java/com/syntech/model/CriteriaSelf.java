@@ -9,13 +9,15 @@ import java.util.Objects;
 public class CriteriaSelf implements IEntity {
 
     private Long id;
+    private Long criteriaId;
     private Double marks;
 
     public CriteriaSelf() {
     }
 
-    public CriteriaSelf(Long id, Double marks) {
+    public CriteriaSelf(Long id, Long criteriaId, Double marks) {
         this.id = id;
+        this.criteriaId = criteriaId;
         this.marks = marks;
     }
 
@@ -25,6 +27,14 @@ public class CriteriaSelf implements IEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCriteriaId() {
+        return criteriaId;
+    }
+
+    public void setCriteriaId(Long criteriaId) {
+        this.criteriaId = criteriaId;
     }
 
     public Double getMarks() {
@@ -37,9 +47,10 @@ public class CriteriaSelf implements IEntity {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.marks);
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.id);
+        hash = 23 * hash + Objects.hashCode(this.criteriaId);
+        hash = 23 * hash + Objects.hashCode(this.marks);
         return hash;
     }
 
@@ -58,6 +69,9 @@ public class CriteriaSelf implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.criteriaId, other.criteriaId)) {
+            return false;
+        }
         if (!Objects.equals(this.marks, other.marks)) {
             return false;
         }
@@ -66,7 +80,7 @@ public class CriteriaSelf implements IEntity {
 
     @Override
     public String toString() {
-        return "CriteriaSelf{" + "id=" + id + ", marks=" + marks + '}';
+        return "CriteriaSelf{" + "id=" + id + ", criteriaId=" + criteriaId + ", marks=" + marks + '}';
     }
 
 }
