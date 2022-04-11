@@ -12,8 +12,8 @@ import java.util.Scanner;
  */
 public class EmployeeAchievementsController {
 
-    private static EmployeeAchievementsRepository employeeAchievementsRepository;
-    private static ValidationUtil validationUtil;
+    private EmployeeAchievementsRepository employeeAchievementsRepository;
+    private ValidationUtil validationUtil;
 
     public EmployeeAchievementsController() {
         validationUtil = new ValidationUtil();

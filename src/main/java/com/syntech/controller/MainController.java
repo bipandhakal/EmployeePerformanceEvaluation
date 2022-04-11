@@ -7,6 +7,7 @@ import com.syntech.repository.CriteriaSelfRepository;
 import com.syntech.repository.CriteriaTrueFalseRepository;
 import com.syntech.repository.EmployeeAchievementsRepository;
 import com.syntech.repository.EmployeeRepository;
+import com.syntech.repository.SupervisorEvaluationRepository;
 import java.util.Scanner;
 
 /**
@@ -25,10 +26,12 @@ public class MainController {
     static CriteriaTrueFalseController criteriaTrueFalseController;
     static CriteriaSelfController criteriaSelfController;
     static EmployeeAchievementsController employeeAchievementsController;
+    static SupervisorEvaluationController supervisorEvaluationController;
     static CriteriaRangeRepository criteriaRangeRepository;
     static CriteriaTrueFalseRepository criteriaTrueFalseRepository;
     static CriteriaSelfRepository criteriaSelfRepository;
     static EmployeeAchievementsRepository employeeAchievementsRepository;
+    static SupervisorEvaluationRepository supervisorEvaluationRepository;
 
     public static void main(String[] args) {
         employeeController = new EmployeeController();
@@ -38,6 +41,7 @@ public class MainController {
         criteriaTrueFalseController = new CriteriaTrueFalseController();
         criteriaSelfController = new CriteriaSelfController();
         employeeAchievementsController = new EmployeeAchievementsController();
+        supervisorEvaluationController = new SupervisorEvaluationController();
         employeeRepository = new EmployeeRepository();
         categoryRepository = new CategoryRepository();
         criteriaRepository = new CriteriaRepository();
@@ -45,6 +49,7 @@ public class MainController {
         criteriaTrueFalseRepository = new CriteriaTrueFalseRepository();
         criteriaSelfRepository = new CriteriaSelfRepository();
         employeeAchievementsRepository = new EmployeeAchievementsRepository();
+        supervisorEvaluationRepository = new SupervisorEvaluationRepository();
         showMenu();
     }
 
@@ -60,6 +65,7 @@ public class MainController {
             System.out.println("5.Criteria True False");
             System.out.println("6.Criteria Self Marks");
             System.out.println("7.Employee Achievements");
+            System.out.println("8.Supervisor Evaluation");
             System.out.println("Enter your choice : ");
             num = sc.next();
 
@@ -90,6 +96,10 @@ public class MainController {
 
                 case "7":
                     employeeAchievementsController.showMenu(employeeAchievementsRepository);
+                    break;
+
+                case "8":
+                    supervisorEvaluationController.showMenu(supervisorEvaluationRepository);
                     break;
 
                 default:
