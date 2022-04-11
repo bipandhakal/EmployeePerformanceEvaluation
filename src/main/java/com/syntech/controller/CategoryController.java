@@ -92,6 +92,7 @@ public class CategoryController {
         Category category = new Category(id, name, totalMarks);
 
         categoryRepository.create(category);
+        System.out.println("Created Successfully!");
     }
 
     public void edit() {
