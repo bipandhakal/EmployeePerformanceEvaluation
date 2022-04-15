@@ -17,4 +17,6 @@ public interface IRepository<T> {
     public void delete(T employee);
 
     public void edit(T emp);
+
+    public void establishConnection();
 }

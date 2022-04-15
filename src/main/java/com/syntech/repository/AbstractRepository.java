@@ -2,6 +2,10 @@ package com.syntech.repository;
 
 import com.syntech.model.IEntity;
 import com.syntech.model.IRepository;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,5 +44,17 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
     @Override
     public void delete(T obj) {
         this.list.remove(obj);
+    }
+
+    @Override
+    public void establishConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/EPE", "root", "toor");
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
