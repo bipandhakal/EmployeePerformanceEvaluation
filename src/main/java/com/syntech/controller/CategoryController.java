@@ -88,7 +88,6 @@ public class CategoryController {
             System.out.println("Enter TotalMarks for Category");
             totalMarks = sc.nextDouble();
         } while (!validationUtil.validatesDouble(totalMarks));
-
         Category category = new Category(id, name, totalMarks);
 
         categoryRepository.create(category);

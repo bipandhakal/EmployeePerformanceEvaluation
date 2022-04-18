@@ -18,5 +18,4 @@ public interface IRepository<T> {
 
     public void edit(T emp);
 
-    public void establishConnection();
 }
