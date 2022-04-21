@@ -1,12 +1,22 @@
 package com.syntech.repository;
 
 import com.syntech.model.SupervisorEvaluation;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author bipan
  */
 public class SupervisorEvaluationRepository extends AbstractRepository<SupervisorEvaluation> {
+
+    @PersistenceContext(name = "EPE")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     @Override
     public void edit(SupervisorEvaluation supervisorEvaluation) {

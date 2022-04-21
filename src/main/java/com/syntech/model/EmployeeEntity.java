@@ -2,23 +2,32 @@ package com.syntech.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author bipan
  */
-public class Employee implements IEntity {
+@Entity
+@Table(name = "employee")
+public class EmployeeEntity implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String firstName;
     private String lastName;
     private LocalDate joinDate;
 
-    public Employee() {
+    public EmployeeEntity() {
 
     }
 
-    public Employee(Long id, String firstName, String lastName, LocalDate joinDate) {
+    public EmployeeEntity(Long id, String firstName, String lastName, LocalDate joinDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -80,7 +89,7 @@ public class Employee implements IEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Employee other = (Employee) obj;
+        final EmployeeEntity other = (EmployeeEntity) obj;
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
@@ -98,6 +107,6 @@ public class Employee implements IEntity {
 
     @Override
     public String toString() {
-        return "Employee{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", joinDate=" + joinDate + '}';
+        return "EmployeeEntity{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", joinDate=" + joinDate + '}';
     }
 }

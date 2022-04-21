@@ -7,12 +7,22 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author bipan
  */
 public class CategoryRepository extends AbstractRepository<Category> {
+
+    @PersistenceContext(name = "EPE")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     @Override
     public void edit(Category category) {

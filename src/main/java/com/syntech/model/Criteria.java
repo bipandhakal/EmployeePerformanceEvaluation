@@ -28,10 +28,12 @@ public class Criteria implements IEntity {
         this.calculatedBy = calculatedBy;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

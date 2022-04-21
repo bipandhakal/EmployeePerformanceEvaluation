@@ -6,12 +6,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 
 /**
  *
  * @author bipan
  */
 public abstract class AbstractRepository<T extends IEntity> implements IRepository<T> {
+    
+    protected abstract EntityManager getEntityManager();
 
     private List<T> list;
 

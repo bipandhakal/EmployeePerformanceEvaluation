@@ -1,6 +1,6 @@
 package com.syntech.controller;
 
-import com.syntech.model.Employee;
+import com.syntech.model.EmployeeEntity;
 import com.syntech.repository.EmployeeRepository;
 import com.syntech.util.ValidationUtil;
 import java.time.LocalDate;
@@ -97,7 +97,7 @@ public class EmployeeController {
         } while (joinedDate == null || joinedDate.isEmpty() || !validationUtil.validateDate(joinedDate));
 
         LocalDate joinDate = LocalDate.parse(joinedDate);
-        Employee employee = new Employee(id, firstName, lastName, joinDate);
+        EmployeeEntity employee = new EmployeeEntity(id, firstName, lastName, joinDate);
 
         employeeRepository.create(employee);
         System.out.println("Created Successfully!");
@@ -113,7 +113,7 @@ public class EmployeeController {
         System.out.println("Enter employee id to edit");
         id = sc.nextLong();
 
-        Employee employee = employeeRepository.findById(id);
+        EmployeeEntity employee = employeeRepository.findById(id);
         if (employee == null) {
             System.out.println("Employee with id: " + id + " not found");
 
@@ -135,7 +135,7 @@ public class EmployeeController {
             } while (joinedDate == null || joinedDate.isEmpty() || !validationUtil.validateDate(joinedDate));
 
             LocalDate joinDate = LocalDate.parse(joinedDate);
-            Employee emp = new Employee(id, firstName, lastName, joinDate);
+            EmployeeEntity emp = new EmployeeEntity(id, firstName, lastName, joinDate);
 
             employeeRepository.edit(emp);
             System.out.println("Edited Successfully!");
@@ -148,7 +148,7 @@ public class EmployeeController {
         System.out.println("Enter employee id to delete");
         Long id = sc.nextLong();
 
-        Employee employee = employeeRepository.findById(id);
+        EmployeeEntity employee = employeeRepository.findById(id);
         if (employee == null) {
             System.out.println("Employee with id: " + id + " not found");
         } else {
@@ -160,9 +160,9 @@ public class EmployeeController {
 
     public void findAll() {
 
-        Iterator<Employee> i = employeeRepository.findAll().iterator();
+        Iterator<EmployeeEntity> i = employeeRepository.findAll().iterator();
         while (i.hasNext()) {
-            Employee employee = i.next();
+            EmployeeEntity employee = i.next();
             System.out.println(employee);
         }
     }
@@ -173,7 +173,7 @@ public class EmployeeController {
         System.out.println("Enter employee id to find");
         Long id = sc.nextLong();
 
-        Employee employee = employeeRepository.findById(id);
+        EmployeeEntity employee = employeeRepository.findById(id);
         if (employee == null) {
             System.out.println("Employee with id: " + id + " not found");
         } else {
