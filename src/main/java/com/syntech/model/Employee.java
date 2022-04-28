@@ -1,12 +1,15 @@
 package com.syntech.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -14,20 +17,27 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "employee")
-public class EmployeeEntity implements IEntity {
+public class Employee implements IEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private LocalDate joinDate;
 
-    public EmployeeEntity() {
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Temporal(value = TemporalType.DATE)
+    @Column(name = "join_date", nullable = false)
+    private Date joinDate;
+
+    public Employee() {
 
     }
 
-    public EmployeeEntity(Long id, String firstName, String lastName, LocalDate joinDate) {
+    public Employee(Long id, String firstName, String lastName, Date joinDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -60,11 +70,11 @@ public class EmployeeEntity implements IEntity {
         this.lastName = lastName;
     }
 
-    public LocalDate getJoinDate() {
+    public Date getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(LocalDate joinDate) {
+    public void setJoinDate(Date joinDate) {
         this.joinDate = joinDate;
     }
 
@@ -89,7 +99,7 @@ public class EmployeeEntity implements IEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final EmployeeEntity other = (EmployeeEntity) obj;
+        final Employee other = (Employee) obj;
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
@@ -107,6 +117,6 @@ public class EmployeeEntity implements IEntity {
 
     @Override
     public String toString() {
-        return "EmployeeEntity{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", joinDate=" + joinDate + '}';
+        return "Employee{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", joinDate=" + joinDate + '}';
     }
 }

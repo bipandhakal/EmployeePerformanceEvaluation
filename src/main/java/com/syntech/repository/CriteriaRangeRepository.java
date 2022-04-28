@@ -13,6 +13,10 @@ public class CriteriaRangeRepository extends AbstractRepository<CriteriaRange> {
     @PersistenceContext(name = "EPE")
     private EntityManager em;
 
+    public CriteriaRangeRepository() {
+        super(CriteriaRange.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

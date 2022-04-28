@@ -1,10 +1,10 @@
 package com.syntech.repository;
 
+import com.syntech.model.Employee;
 import com.syntech.model.IEntity;
 import com.syntech.model.IRepository;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -13,38 +13,40 @@ import javax.persistence.EntityManager;
  * @author bipan
  */
 public abstract class AbstractRepository<T extends IEntity> implements IRepository<T> {
-    
+
     protected abstract EntityManager getEntityManager();
+    private Class<T> entityClass;
 
-    private List<T> list;
-
-    public AbstractRepository() {
-        list = new ArrayList<>();
+    public AbstractRepository(Class<T> entityClass) {
+        this.entityClass = entityClass;
     }
 
     @Override
     public void create(T obj) {
-        this.list.add(obj);
+        getEntityManager().persist(obj);
+        getEntityManager().flush();
+    }
+
+    @Override
+    public void edit(T obj) {
+        getEntityManager().merge(obj);
+        getEntityManager().flush();
     }
 
     @Override
     public List<T> findAll() {
-        return list;
+        return getEntityManager().createQuery("Select t from " + entityClass.getName() + " t").getResultList();
     }
 
     @Override
     public T findById(Long id) {
-        for (T obj : list) {
-            if (obj.getId().equals(id)) {
-                return obj;
-            }
-        }
-        return null;
+        return getEntityManager().find(entityClass, id);
     }
 
     @Override
     public void delete(T obj) {
-        this.list.remove(obj);
+        getEntityManager().remove(findById(obj.getId()));
+        getEntityManager().flush();
     }
 
     public Connection establishConnection() {
@@ -52,7 +54,6 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/EPE", "root", "toor");
-//            con.close();
             return con;
         } catch (Exception e) {
             System.out.println(e);

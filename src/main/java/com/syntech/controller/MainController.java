@@ -9,11 +9,13 @@ import com.syntech.repository.EmployeeAchievementsRepository;
 import com.syntech.repository.EmployeeRepository;
 import com.syntech.repository.SupervisorEvaluationRepository;
 import java.util.Scanner;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author bipan
  */
+@RequestScoped
 public class MainController {
 
     static EmployeeController employeeController;

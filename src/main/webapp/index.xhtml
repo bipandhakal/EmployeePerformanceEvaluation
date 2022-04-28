@@ -1,12 +1,85 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <h:form id="frm_emp_table">
+            <center>  
+                <h2><h:outputText value="Employee Records"/></h2>  
+            </center> 
+            <p:dataTable id = "emp_table" value="#{employeeController.employeeList}" var="e"   
+                         rowIndexVar="rowIndex">
+
+                <p:column headerText="ID">
+                    <h:outputText value="#{rowIndex + 1}"/> 
+                </p:column>
+
+                <p:column headerText="FirstName">
+                    <h:outputText value="#{e.firstName}"/>
+                </p:column>
+
+                <p:column headerText="LastName">
+                    <h:outputText value="#{e.lastName}"/>
+                </p:column>
+
+                <p:column headerText="Joined Date">
+                    <h:outputText value="#{e.joinDate}"/>
+                </p:column>
+
+                <p:column headerText="Action" id="action">  
+                    <p:commandButton id = "edit" value ="Edit" actionListener="#{employeeController.beforeEdit(e)}" 
+                                     oncomplete="PF('sample').show();" process="@this"
+                                     update="@this frm_emp_create_edit" />
+                    <p:commandButton id = "delete" value ="Delete"  actionListener="#{employeeController.delete(e)}"
+                                     process="@this" update="@this" />
+                </p:column>
+            </p:dataTable>
+            <br/><br/>
+        </h:form>
+        <center>
+            <p:commandButton id = "create_emp" value ="Create Employee" oncomplete="PF('sample').show();" 
+                             process="@this" update="@this" />
+        </center> 
+        <br/><br/>
+
+        <p:dialog header="Enter employee details" widgetVar="sample" id="dlog_emp">
+            <h:form id="frm_emp_create_edit">
+                <label>FirstName</label>
+                <p:inputText value="#{employeeController.employee.firstName}" >
+                    <p:ajax update="@this" process="@this" />
+                </p:inputText>
+                <br/><br/>
+
+                <label>LastName</label>
+                <p:inputText value="#{employeeController.employee.lastName}">
+                    <p:ajax update="@this" process="@this" />
+                </p:inputText>
+                <br/><br/>
+
+                <label>Joined Date</label> 
+                <p:datePicker  value="#{employeeController.employee.joinDate}">
+                    <p:ajax update="@this" process="@this" />
+                </p:datePicker>
+
+                <p:commandButton id = "save" value ="Save" oncomplete="PF('sample').hide();"
+                                 rendered="#{empty employeeController.employee.id}"
+                                 actionListener="#{employeeController.create()}" process="@this" update="@this" />
+
+                <p:commandButton id = "update" value="Update"  
+                                 oncomplete="PF('sample').hide();"
+                                 actionListener="#{employeeController.edit()}" 
+                                 rendered="#{not empty employeeController.employee.id}"
+                                 process="@this" update="@this" />
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>
 

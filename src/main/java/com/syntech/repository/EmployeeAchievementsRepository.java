@@ -13,6 +13,10 @@ public class EmployeeAchievementsRepository extends AbstractRepository<EmployeeA
     @PersistenceContext(name = "EPE")
     private EntityManager em;
 
+    public EmployeeAchievementsRepository() {
+        super(EmployeeAchievements.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

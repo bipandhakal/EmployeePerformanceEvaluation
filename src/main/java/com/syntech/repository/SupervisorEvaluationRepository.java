@@ -13,6 +13,10 @@ public class SupervisorEvaluationRepository extends AbstractRepository<Superviso
     @PersistenceContext(name = "EPE")
     private EntityManager em;
 
+    public SupervisorEvaluationRepository() {
+        super(SupervisorEvaluation.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

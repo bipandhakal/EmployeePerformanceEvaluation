@@ -19,6 +19,10 @@ public class CategoryRepository extends AbstractRepository<Category> {
     @PersistenceContext(name = "EPE")
     private EntityManager em;
 
+    public CategoryRepository() {
+        super(Category.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

@@ -13,6 +13,10 @@ public class CriteriaTrueFalseRepository extends AbstractRepository<CriteriaTrue
     @PersistenceContext(name = "EPE")
     private EntityManager em;
 
+    public CriteriaTrueFalseRepository() {
+        super(CriteriaTrueFalse.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

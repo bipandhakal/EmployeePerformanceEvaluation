@@ -1,23 +1,56 @@
 package com.syntech.controller;
 
-import com.syntech.model.EmployeeEntity;
+import com.syntech.model.Employee;
 import com.syntech.repository.EmployeeRepository;
 import com.syntech.util.ValidationUtil;
-import java.time.LocalDate;
-import java.util.Iterator;
+import java.io.Serializable;
+import java.util.List;
 import java.util.Scanner;
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author bipan
  */
-public class EmployeeController {
+@ViewScoped
+@Named
+public class EmployeeController implements Serializable {
 
+    private Employee employee;
+
+    private List<Employee> employeeList;
+
+    @Inject
     private EmployeeRepository employeeRepository;
+
+    @Inject
     private ValidationUtil validationUtil;
 
-    public EmployeeController() {
-        validationUtil = new ValidationUtil();
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
+    }
+
+    @PostConstruct
+    public void init() {
+        this.employee = new Employee();
+        this.employeeList = employeeRepository.findAll();
+        System.out.println(employeeList.size());
+
     }
 
     public void showMenu(EmployeeRepository employeeRepository) {
@@ -41,11 +74,11 @@ public class EmployeeController {
                     break;
 
                 case "1.2":
-                    edit();
+//                    edit();
                     break;
 
                 case "1.3":
-                    delete();
+                    //  delete(employee);
                     break;
 
                 case "1.4":
@@ -53,7 +86,7 @@ public class EmployeeController {
                     break;
 
                 case "1.5":
-                    findById();
+//                    findById();
                     break;
 
                 case "*":
@@ -69,115 +102,119 @@ public class EmployeeController {
 
     public void create() {
 
-        Long id = null;
-        String firstName = null;
-        String lastName = null;
-        String joinedDate = null;
-
-        Scanner sc = new Scanner(System.in);
-        while (!validationUtil.validatesLong(id)) {
-            System.out.println("Enter employee id");
-            id = sc.nextLong();
-        }
-
-        while (!validationUtil.validateString(firstName)) {
-            System.out.println("Enter employee firstname");
-            firstName = sc.next();
-        }
-
-        do {
-            System.out.println("Enter employee lastname");
-            lastName = sc.next();
-
-        } while (!validationUtil.validateString(lastName));
-
-        do {
-            System.out.println("Enter employee join-date");
-            joinedDate = sc.next();
-        } while (joinedDate == null || joinedDate.isEmpty() || !validationUtil.validateDate(joinedDate));
-
-        LocalDate joinDate = LocalDate.parse(joinedDate);
-        EmployeeEntity employee = new EmployeeEntity(id, firstName, lastName, joinDate);
-
+//        Long id = null;
+//        String firstName = null;
+//        String lastName = null;
+//        String joinedDate = null;
+//
+//        Scanner sc = new Scanner(System.in);
+//        while (!validationUtil.validatesLong(id)) {
+//            System.out.println("Enter employee id");
+//            id = sc.nextLong();
+//        }
+//
+//        while (!validationUtil.validateString(firstName)) {
+//            System.out.println("Enter employee firstname");
+//            firstName = sc.next();
+//        }
+//
+//        do {
+//            System.out.println("Enter employee lastname");
+//            lastName = sc.next();
+//
+//        } while (!validationUtil.validateString(lastName));
+//
+//        do {
+//            System.out.println("Enter employee join-date");
+//            joinedDate = sc.next();
+//        } while (joinedDate == null || joinedDate.isEmpty() || !validationUtil.validateDate(joinedDate));
+//
+//        LocalDate joinDate = LocalDate.parse(joinedDate);
+//        Employee employee = new Employee(id, firstName, lastName, joinDate);
+//        employee.setJoinDate(new Date());
         employeeRepository.create(employee);
         System.out.println("Created Successfully!");
 
     }
 
-    public void edit() {
-        Long id = null;
-        String firstName = null;
-        String lastName = null;
-        String joinedDate = null;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter employee id to edit");
-        id = sc.nextLong();
-
-        EmployeeEntity employee = employeeRepository.findById(id);
-        if (employee == null) {
-            System.out.println("Employee with id: " + id + " not found");
-
-        } else {
-            while (firstName == null || firstName.isEmpty()) {
-                System.out.println("Enter employee firstname");
-                firstName = sc.next();
-            }
-
-            do {
-                System.out.println("Enter employee lastname");
-                lastName = sc.next();
-
-            } while (lastName == null || lastName.isEmpty());
-
-            do {
-                System.out.println("Enter employee join-date");
-                joinedDate = sc.next();
-            } while (joinedDate == null || joinedDate.isEmpty() || !validationUtil.validateDate(joinedDate));
-
-            LocalDate joinDate = LocalDate.parse(joinedDate);
-            EmployeeEntity emp = new EmployeeEntity(id, firstName, lastName, joinDate);
-
-            employeeRepository.edit(emp);
-            System.out.println("Edited Successfully!");
-        }
+    public void beforeEdit(Employee emp) {
+        this.employee = employeeRepository.findById(emp.getId());
     }
 
-    public void delete() {
+    public void edit() {
+        employeeRepository.edit(this.employee);
+        System.out.println("Edited Successfully!");
+//        Long id = null;
+//        String firstName = null;
+//        String lastName = null;
+//        String joinedDate = null;
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Enter employee id to edit");
+//        id = sc.nextLong();
+//
+//        Employee employee = employeeRepository.findById(id);
+//        if (employee == null) {
+//            System.out.println("Employee with id: " + id + " not found");
+//
+//        } else {
+//            while (firstName == null || firstName.isEmpty()) {
+//                System.out.println("Enter employee firstname");
+//                firstName = sc.next();
+//            }
+//
+//            do {
+//                System.out.println("Enter employee lastname");
+//                lastName = sc.next();
+//
+//            } while (lastName == null || lastName.isEmpty());
+//
+//            do {
+//                System.out.println("Enter employee join-date");
+//                joinedDate = sc.next();
+//            } while (joinedDate == null || joinedDate.isEmpty() || !validationUtil.validateDate(joinedDate));
+//
+//            LocalDate joinDate = LocalDate.parse(joinedDate);
+//            Employee emp = new Employee(id, firstName, lastName, new Date());
 
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter employee id to delete");
-        Long id = sc.nextLong();
+    }
 
-        EmployeeEntity employee = employeeRepository.findById(id);
-        if (employee == null) {
-            System.out.println("Employee with id: " + id + " not found");
-        } else {
-            employeeRepository.delete(employee);
-            System.out.println("Employee removed");
-        }
+    public void delete(Employee employee) {
 
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Enter employee id to delete");
+//        Long id = sc.nextLong();
+//
+//        Employee employee = employeeRepository.findById(id);
+//        if (employee == null) {
+//            System.out.println("Employee with id: " + id + " not found");
+//        } else {
+//            employeeRepository.delete(employee);
+//            System.out.println("Employee removed");
+//        }
+        employeeRepository.delete(employee);
+        System.out.println("Employee removed");
     }
 
     public void findAll() {
-
-        Iterator<EmployeeEntity> i = employeeRepository.findAll().iterator();
-        while (i.hasNext()) {
-            EmployeeEntity employee = i.next();
-            System.out.println(employee);
-        }
+        employeeRepository.findAll();
+//        Iterator<Employee> i = employeeRepository.findAll().iterator();
+//        while (i.hasNext()) {
+//            Employee employee = i.next();
+//            System.out.println(employee);
+//        }
     }
 
-    public void findById() {
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter employee id to find");
-        Long id = sc.nextLong();
-
-        EmployeeEntity employee = employeeRepository.findById(id);
-        if (employee == null) {
-            System.out.println("Employee with id: " + id + " not found");
-        } else {
-            System.out.println(employee);
-        }
+    public void findById(Long id) {
+        employeeRepository.findById(id);
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Enter employee id to find");
+//        Long id = sc.nextLong();
+//
+//        Employee employee = employeeRepository.findById(id);
+//        if (employee == null) {
+//            System.out.println("Employee with id: " + id + " not found");
+//        } else {
+//            System.out.println(employee);
+//        }
     }
 }

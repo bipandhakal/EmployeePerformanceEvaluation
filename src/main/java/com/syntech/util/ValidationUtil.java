@@ -5,11 +5,13 @@ import com.syntech.model.CalculatedBy;
 import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author bipan
  */
+@RequestScoped
 public class ValidationUtil {
 
     public Boolean validateDate(String joinedDate) {

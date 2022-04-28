@@ -13,6 +13,10 @@ public class CriteriaSelfRepository extends AbstractRepository<CriteriaSelf> {
     @PersistenceContext(name = "EPE")
     private EntityManager em;
 
+    public CriteriaSelfRepository() {
+        super(CriteriaSelf.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
