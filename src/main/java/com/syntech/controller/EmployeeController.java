@@ -2,6 +2,7 @@ package com.syntech.controller;
 
 import com.syntech.model.Employee;
 import com.syntech.repository.EmployeeRepository;
+import com.syntech.util.MessageUtil;
 import com.syntech.util.ValidationUtil;
 import java.io.Serializable;
 import java.util.List;
@@ -28,6 +29,9 @@ public class EmployeeController implements Serializable {
 
     @Inject
     private ValidationUtil validationUtil;
+
+    @Inject
+    private MessageUtil messageUtil;
 
     public Employee getEmployee() {
         return employee;
@@ -133,8 +137,7 @@ public class EmployeeController implements Serializable {
 //        Employee employee = new Employee(id, firstName, lastName, joinDate);
 //        employee.setJoinDate(new Date());
         employeeRepository.create(employee);
-        System.out.println("Created Successfully!");
-
+        messageUtil.showInfo("Employee Created Successfully!");
     }
 
     public void beforeEdit(Employee emp) {
@@ -143,7 +146,7 @@ public class EmployeeController implements Serializable {
 
     public void edit() {
         employeeRepository.edit(this.employee);
-        System.out.println("Edited Successfully!");
+        messageUtil.showInfo("Employee Edited Successfully");
 //        Long id = null;
 //        String firstName = null;
 //        String lastName = null;
@@ -192,7 +195,7 @@ public class EmployeeController implements Serializable {
 //            System.out.println("Employee removed");
 //        }
         employeeRepository.delete(employee);
-        System.out.println("Employee removed");
+        messageUtil.showInfo("Employee removed");
     }
 
     public void findAll() {
