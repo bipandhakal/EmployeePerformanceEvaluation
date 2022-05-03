@@ -54,7 +54,6 @@ public class EmployeeController implements Serializable {
         this.employee = new Employee();
         this.employeeList = employeeRepository.findAll();
         System.out.println(employeeList.size());
-
     }
 
     public void showMenu(EmployeeRepository employeeRepository) {
@@ -137,6 +136,8 @@ public class EmployeeController implements Serializable {
 //        Employee employee = new Employee(id, firstName, lastName, joinDate);
 //        employee.setJoinDate(new Date());
         employeeRepository.create(employee);
+        employee = new Employee();
+        this.employeeList = employeeRepository.findAll();
         messageUtil.showInfo("Employee Created Successfully!");
     }
 
