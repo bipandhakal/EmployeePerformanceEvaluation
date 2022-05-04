@@ -6,99 +6,225 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <h:head>
-        <title>Template</title>
+        <title>Layout</title>
     </h:head>
     <h:body>
-        <div class="card">
-            <div class="p-grid sample-layout">
-                <div class="p-col-12 p-md-2">
-                    Menu
-                </div>
-                <div class="p-col-12 p-md-10 p-col-nogutter">
-                    <div class="p-grid">
-                        <div class="p-col-12 p-col-nogutter">
-                            Top Bar
-                        </div>
-                        <div class="p-col-12">
+
+        <pe:layout id="fullPage" fullPage="true"
+                   widgetVar="LayoutWidget"
+                   options="{'resizable':true, 'closable':true, 'slidable':false, 'spacing':4, 'resizeWithWindow':false, 'resizeWhileDragging':true}">
+
+            <pe:layoutPane position="north" id="lp_north"  closable="false" size="50%">
+                <ui:include src="menu.xhtml" />
+            </pe:layoutPane>
+
+            <pe:layoutPane position="center"  id = "lp_center"
+                           closable="false" resizable="true" size="20" minHeight="60" rendered="true">
+                <h:outputText value="Welcome to Employee Performance Evaluation : A web application"/>
+                <ui:insert name="Content"/>
+            </pe:layoutPane>
+
+            <pe:layoutPane position="west"  id="lp_west" initHidden="true" initClosed="true"
+                           closable="true" resizable="true" size="20" minHeight="60">
+                <ui:insert name="West">
+                    West
+                </ui:insert>    
+            </pe:layoutPane>
+
+            <pe:layoutPane position="east"  id="lp_east" initHidden="true" initClosed="true"
+                           closable="true" resizable="true" size="20" minHeight="60" minWidth="200">
+                East
+            </pe:layoutPane>
+
+            <pe:layoutPane position="south"  id="lp_south"
+                           closable="true" resizable="true" size="20" minHeight="60" minWidth="200">
+                @Copyright, 2022
+            </pe:layoutPane>
+        </pe:layout>
+
+
+
+        <!--                        <p:menubar>
+                                    <p:submenu label="Employee">
+                                        <p:submenu label="Create Employee"/>
+                                    </p:submenu>
+                    
+                                    <p:submenu label="Category">
+                                        <p:menuitem value="Create Category" url="#"/>
+                                    </p:submenu>
+                    
+                                    <p:submenu label="Criteria">
+                                        <p:menuitem value="Create Criteria" url="#"/>
+                                    </p:submenu>
+                    
+                                    <p:submenu label="Criteria Range">
+                                        <p:menuitem value="Create CriteriaRange" url="#"/>
+                                    </p:submenu>
+                    
+                                    <f:facet name="options">
+                                        <p:inputText placeholder="Search" style="margin-left: auto;" />
+                                    </f:facet>
+                                </p:menubar>-->
+
+
+
+        <!--            <div style = "border-width:2px; border-color:green; border-style:solid;">
+                        <ui:insert name = "header" >
+                            <ui:composition> 
+                                <h1>Default Header</h1>
+                            </ui:composition>
+                        </ui:insert> 
+                    </div>
+                    <br/>
+        
+                    <div style = "border-width:2px; border-color:black; border-style:solid;">
+                        <ui:insert name = "content" >
+                            <ui:composition> 
+                                <h1>Default Content</h1>
+                            </ui:composition>
+                        </ui:insert>    
+                    </div>
+                    <br/>
+        
+                    <div style = "border-width:2px; border-color:red; border-style:solid;">
+                        <ui:insert name = "footer" >
+                            <ui:composition> 
+                                <h1>Default Footer</h1>
+                            </ui:composition>
+                        </ui:insert>
+                    </div>-->
+
+
+
+
+
+
+
+        <!--                                    <p:layout fullPage="true">
+                                
+                                                <p:layoutUnit position="north" size="100" header="Top" resizable="true" closable="true" collapsible="true">
+                                                    <h:outputText value="North unit content." />
+                                                    <ui:insert name="North unit content" />
+                                                </p:layoutUnit>
+                                
+                                                <p:layoutUnit position="south" size="100" header="Bottom" resizable="true" closable="true" collapsible="true">
+                                                    <h:outputText value="South unit content." />
+                                                    <ui:insert name="South unit content" />
+                                                </p:layoutUnit>
+                                
+                                                <p:layoutUnit position="west" size="200" header="Left" resizable="true" closable="true" collapsible="true">
+                                                    <h:outputText value="West unit content." />
+                                                    <ui:insert name="West unit content" />
+                                                </p:layoutUnit>
+                                
+                                                <p:layoutUnit position="east" size="200" header="Right" resizable="true" closable="true" collapsible="true" effect="drop">
+                                                    <h:outputText value="Right unit content." />
+                                                    <ui:insert name="Right unit content" />
+                                                </p:layoutUnit>
+                                
+                                                <p:layoutUnit position="center">
+                                                    <ui:insert name="Center unit content" />
+                                                </p:layoutUnit>
+                                
+                                            </p:layout>-->
+
+
+
+        <!--
+                    <div class="card">
+                        <div class="p-grid sample-layout">
+                            <div class="p-col-12 p-md-2">
+                                Menu
+                            </div>
+                            <div class="p-col-12 p-md-10 p-col-nogutter">
+                            <div class="p-grid">
+                            <div class="p-col-12">
                             <div class="p-grid">
                                 <div class="p-col-12 p-md-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet, orci nec dictum convallis,
                                     ligula mauris vestibulum turpis, nec varius tortor quam at diam. Nullam a viverra nibh. In
                                     tincidunt tempor lectus quis vulputate. Pellentesque nec dui aliquam, lobortis est in, lobortis
                                     ante
                                 </div>
-                                <div class="p-col-12 p-md-4">Maecenas vel nisi aliquet, vulputate tortor id, laoreet massa. Maecenas mattis tristique bibendum.
-                                    Suspendisse vel mi dictum, vestibulum lacus quis, pulvinar quam. Proin vulputate, nibh at
-                                    finibus varius, leo eros lacinia elit, nec blandit odio tellus a justo. Donec nec ex auctor,
-                                    tristique nulla nec, rutrum sapien.
-                                </div>
-                                <div class="p-col-12 p-md-4">Proin efficitur in leo eget ornare. Nam vestibulum neque sed velit sagittis sodales. Sed scelerisque
-                                    hendrerit magna a hendrerit. Cras tempor sem at justo pharetra convallis. Curabitur vel sodales
-                                    purus. Vestibulum interdum facilisis nulla imperdiet suscipit. Quisque lectus felis, condimentum
-                                    eget hendrerit sit amet.
-                                </div>
-
-                                <div class="p-col-6 p-md-3">
-                                    <p:graphicImage name="demo/images/nature/nature1.jpg" style="width:100%"/>
-                                </div>
-                                <div class="p-col-6 p-md-3">
-                                    <p:graphicImage name="demo/images/nature/nature2.jpg" style="width:100%"/>
-                                </div>
-                                <div class="p-col-6 p-md-3">
-                                    <p:graphicImage name="demo/images/nature/nature3.jpg" style="width:100%"/>
-                                </div>
-                                <div class="p-col-6 p-md-3">
-                                    <p:graphicImage name="demo/images/nature/nature4.jpg" style="width:100%"/>
-                                </div>
-
-                                <div class="p-col-12 p-md-6">Phasellus faucibus purus volutpat mauris lacinia sodales. Ut sit amet sapien facilisis, commodo
-                                    dui non, fringilla tellus. Quisque tempus facilisis nisi sodales finibus. Pellentesque neque
-                                    orci, ullamcorper vitae ligula quis, dignissim euismod augue.
-                                </div>
-                                <div class="p-col-12 p-md-6">Fusce ullamcorper congue massa, eget ullamcorper nunc lobortis egestas. Lorem ipsum dolor sit
-                                    amet, consectetur adipiscing elit. Quisque ultrices dui eget dolor feugiat dapibus. Aliquam
-                                    pretium leo et egestas luctus. Nunc facilisis gravida tellus.
-                                </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="p-col-12">
+                                Footer
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="p-col-12">
-                    Footer
-                </div>
-            </div>
-        </div>
-        <style type="text/css">
-            .box,
-            .sample-layout > div {
-                background-color: #cce4f7;
-                text-align: center;
-                padding-top: 1em;
-                padding-bottom: 1em;
-                border-radius: 4px;
-                color: #30383c;
-            }
-
-            /*            .box-stretched {
-                            height: 100%;
+                    <style type="text/css">
+                        .box,
+                        .sample-layout > div {
+                            background-color: #cce4f7;
+                            text-align: center;
+                            padding-top: 1em;
+                            padding-bottom: 1em;
+                            /*border-radius: 4px;*/
+                            color: #30383c;
+                        }
+        
+                        /*            .box-stretched {
+                                        height: 100%;
+                                        box-sizing: border-box;
+                                    }
+                        
+                                    .sample-layout {
+                                        margin: 0;
+                                    }*/
+        
+                        *{
+                            margin: 0;
+                            padding: 0;
                             box-sizing: border-box;
                         }
-            
-                        .sample-layout {
-                            margin: 0;
-                        }*/
+        
+                        .sample-layout > div {
+                            border: 1px solid blue;
+                        }
+        
+                    </style>-->
 
-            *{
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
 
-            .sample-layout > div {
-                border: 1px solid blue;
-            }
 
-        </style>
+
+
+        <!--            <div class="header">
+                        <div>Header</div>
+                    </div>
+                    <div class="content">
+                        <div>Content</div>
+                    </div>
+                    <div class="footer">
+                        <div>Footer</div>
+                    </div>
+                    <style>
+                        .header{
+                            background-color: skyblue;
+                            height: 5rem;
+                            text-align: center;
+                            border: 1px solid black;
+                        }
+        
+                        .content{
+                            background-color: skyblue;
+                            height: 32.8rem;
+                            text-align: center;
+                        }
+        
+                        .footer{
+                            background-color: skyblue;
+                            height: 5rem;
+                            text-align: center;
+                            border: 1px solid black;
+                        }
+                    </style>-->
+
+
+
     </h:body>
 </html>
