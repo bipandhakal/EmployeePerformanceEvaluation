@@ -18,6 +18,12 @@
                 z-index:40 !important;
                 overflow:visible !important;
             }
+
+            #lp_south{
+                text-align: center;
+                background-color: #2AEEF5;
+            }
+
         </style>
 
         <pe:layout id="fullPage" fullPage="true" widgetVar="LayoutWidget">
@@ -27,8 +33,7 @@
             </pe:layoutPane>
 
             <pe:layoutPane position="center"  id = "lp_center" closable="false" resizable="true">
-                <h:outputText value="Welcome to Employee Performance Evaluation : A web application"/>
-                <ui:insert name="Content"/>
+                <ui:insert name="Center"/>
             </pe:layoutPane>
 
             <pe:layoutPane position="west"  id="lp_west" closable="true" resizable="true" initClosed="true">
@@ -38,13 +43,14 @@
             </pe:layoutPane>
 
             <pe:layoutPane position="east"  id="lp_east" closable="true" resizable="true" initClosed="true">
-                <ui:insert name="West">
+                <ui:insert name="East">
                     East
                 </ui:insert>   
             </pe:layoutPane>
 
-            <pe:layoutPane position="south"  id="lp_south" closable="false" size="30">
-                <ui:insert name="south">
+            <pe:layoutPane position="south"  id="lp_south" closable="false" size="30"
+                           styleContent="ui-layout-south">
+                <ui:insert name="South">
                     @Copyright, 2022
                 </ui:insert>   
             </pe:layoutPane>

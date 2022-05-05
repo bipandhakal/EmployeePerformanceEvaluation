@@ -10,22 +10,14 @@
         <p:menubar>
             <p:menuitem value="Home" outcome="index.xhtml?faces-redirect=true"/>
             <p:menuitem  value="Employee" outcome="employee.xhtml?faces-redirect=true" />
-            <p:submenu label="Category" id="sm_category"/>
+            <p:menuitem value="Category" outcome="category.xhtml?faces-redirect=true"/>
             <p:submenu label="Criteria">
                 <p:menuitem value="Criteria Range" />
                 <p:menuitem value="Criteria Self"/>
                 <p:menuitem value="Criteria TrueFalse"/>
             </p:submenu>
-
             <p:submenu label="Employee Achievements"/>
             <p:submenu label="Supervisor Evaluation"/>
-
-            <f:facet name="options">
-                <div class="ui-input-icon-left p-mr-2">
-                    <i class="pi pi-fw pi-search" />
-                    <p:inputText placeholder="Search" style="width: 10rem;"/>
-                </div>
-            </f:facet>
         </p:menubar>
     </h:form>
 </ui:composition>

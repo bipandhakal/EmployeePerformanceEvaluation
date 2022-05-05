@@ -1,15 +1,30 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author bipan
  */
+@Entity
+@Table(name = "category")
 public class Category implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "total_marks", nullable = false)
     private Double totalMarks;
 
     public Category() {
@@ -21,6 +36,7 @@ public class Category implements IEntity {
         this.totalMarks = totalMarks;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -33,6 +49,7 @@ public class Category implements IEntity {
         return totalMarks;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

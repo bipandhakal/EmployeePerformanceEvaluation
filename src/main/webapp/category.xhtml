@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml">
+
+    <ui:define name="Center">
+        <p:panel  header="Category Records">
+            <f:facet name="header">
+                <p:panelGrid columns="4" style="float: left;">
+                    <h:outputText value="Category Records"/>
+                </p:panelGrid>
+                <p:panelGrid columns="5" style="float: right;">
+                    <p:commandButton id = "btn_create_ctg" icon="pi pi-plus" oncomplete="PF('sample').show();" 
+                                     title="Add" update="@this :frm_ctg_create_edit" process="@this"/>
+                </p:panelGrid>
+            </f:facet>
+            <h:form id="frm_ctg_table">
+                <p:growl id="growl" showDetail="true" />
+
+                <p:dataTable id = "ctg_table" value="#{categoryController.categoryList}" var="c"   
+                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid"
+                             paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                             selectionMode="single"
+                             rowKey="#{c.id}" sortMode="single"
+                             emptyMessage="No data found">
+
+                    <p:column headerText="S.N" sortBy="#{c.id}" filterBy="#{c.id}">
+                        <h:outputText value="#{rowIndex + 1}"/> 
+                    </p:column>
+
+                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}">
+                        <h:outputText value="#{c.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Total Marks" sortBy="#{c.totalMarks}" filterBy="#{c.totalMarks}">
+                        <h:outputText value="#{c.totalMarks}"/>
+                    </p:column>
+
+                    <p:column headerText="Action" id="action">  
+                        <p:commandButton id = "btn_edit"  actionListener="#{categoryController.beforeEdit(c)}" 
+                                         oncomplete="PF('sample').show();" process="@this" title="Edit"
+                                         update="@this :frm_ctg_create_edit" icon="pi pi-pencil"
+                                         style="margin-right: 10px;">
+                        </p:commandButton>
+
+                        <p:commandButton id = "btn_delete" icon="pi pi-trash" title="Delete"
+                                         actionListener="#{categoryController.delete(c)}"
+                                         process="@this" update="@this :frm_ctg_table:growl">
+                            <p:confirm header="Confirmation" message="Do you want to delete this record?"   />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+            </h:form> 
+            <br/><br/>
+
+            <p:dialog header="Enter Category details" widgetVar="sample" id="dlog_ctg">
+                <h:form id="frm_ctg_create_edit">
+                    <p:outputLabel id="olbl_name" value = "Name"/>
+                    <p:inputText id = "intxt_name" value="#{categoryController.category.name}" 
+                                 label="Name" title="Name" 
+                                 required="true" requiredMessage="Name is required"
+                                 validatorMessage="Name should be string">
+                        <f:validateRegex pattern="^[a-zA-Z ]+$" />
+                        <p:ajax event="blur"  update="@this errmsg_name olbl_name"  process="@this" />
+                    </p:inputText>
+                    <p:watermark for="intxt_name" id="wm_name" value="Task" />
+                    <p:message for="intxt_name" id="errmsg_name"  style="color: red"/>
+                    <br/><br/>
+
+                    <p:outputLabel id="olbl_tmarks" value = "Total Marks"/>
+                    <p:inputNumber id ="inpnm_tmarks" value="#{categoryController.category.totalMarks}"
+                                   label="Total Marks" title="Total Marks" required="true" decimalPlaces="5"
+                                   requiredMessage="Total Marks is required">
+                        <p:ajax event="blur" update="@this errmsg_tmarks olbl_tmarks" process="@this"/>
+                    </p:inputNumber>
+                    <p:watermark for="inpnm_tmarks" id ="wm_tmarks" value="40.0"/>
+                    <p:message for="inpnm_tmarks" id = "errmsg_tmarks" />
+                    <br/><br/>
+
+                    <p:commandButton id = "save" value ="Save" 
+                                     oncomplete="if(!args.validationFailed) {PF('sample').hide();}"
+                                     update="@form :frm_ctg_table:growl" process="@this"
+                                     rendered="#{empty categoryController.category.id}"
+                                     actionListener="#{categoryController.create()}"/>
+
+                    <p:commandButton id = "update" value="Update"  
+                                     oncomplete="if(args &amp; !args.validationFailed) {PF('sample').hide();}"
+                                     actionListener="#{categoryController.edit()}" 
+                                     rendered="#{not empty categoryController.category.id}"
+                                     process="@this" update="@this :frm_ctg_table:growl" >
+                    </p:commandButton>
+                </h:form>
+            </p:dialog>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+
+

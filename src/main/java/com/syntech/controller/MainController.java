@@ -73,11 +73,11 @@ public class MainController {
 
             switch (num) {
                 case "1":
-                    employeeController.showMenu(employeeRepository);
+//                    employeeController.showMenu(employeeRepository);
                     break;
 
                 case "2":
-                    categoryController.showMenu(categoryRepository);
+//                    categoryController.showMenu(categoryRepository);
                     break;
 
                 case "3":
