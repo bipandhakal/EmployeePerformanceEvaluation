@@ -13,218 +13,41 @@
     </h:head>
     <h:body>
 
-        <pe:layout id="fullPage" fullPage="true"
-                   widgetVar="LayoutWidget"
-                   options="{'resizable':true, 'closable':true, 'slidable':false, 'spacing':4, 'resizeWithWindow':false, 'resizeWhileDragging':true}">
+        <style>
+            .ui-layout-north {
+                z-index:40 !important;
+                overflow:visible !important;
+            }
+        </style>
 
-            <pe:layoutPane position="north" id="lp_north"  closable="false" size="50%">
+        <pe:layout id="fullPage" fullPage="true" widgetVar="LayoutWidget">
+
+            <pe:layoutPane position="north" id="lp_north"  closable="false" styleContent="ui-layout-north">
                 <ui:include src="menu.xhtml" />
             </pe:layoutPane>
 
-            <pe:layoutPane position="center"  id = "lp_center"
-                           closable="false" resizable="true" size="20" minHeight="60" rendered="true">
+            <pe:layoutPane position="center"  id = "lp_center" closable="false" resizable="true">
                 <h:outputText value="Welcome to Employee Performance Evaluation : A web application"/>
                 <ui:insert name="Content"/>
             </pe:layoutPane>
 
-            <pe:layoutPane position="west"  id="lp_west" initHidden="true" initClosed="true"
-                           closable="true" resizable="true" size="20" minHeight="60">
+            <pe:layoutPane position="west"  id="lp_west" closable="true" resizable="true" initClosed="true">
                 <ui:insert name="West">
                     West
                 </ui:insert>    
             </pe:layoutPane>
 
-            <pe:layoutPane position="east"  id="lp_east" initHidden="true" initClosed="true"
-                           closable="true" resizable="true" size="20" minHeight="60" minWidth="200">
-                East
+            <pe:layoutPane position="east"  id="lp_east" closable="true" resizable="true" initClosed="true">
+                <ui:insert name="West">
+                    East
+                </ui:insert>   
             </pe:layoutPane>
 
-            <pe:layoutPane position="south"  id="lp_south"
-                           closable="true" resizable="true" size="20" minHeight="60" minWidth="200">
-                @Copyright, 2022
+            <pe:layoutPane position="south"  id="lp_south" closable="false" size="30">
+                <ui:insert name="south">
+                    @Copyright, 2022
+                </ui:insert>   
             </pe:layoutPane>
         </pe:layout>
-
-
-
-        <!--                        <p:menubar>
-                                    <p:submenu label="Employee">
-                                        <p:submenu label="Create Employee"/>
-                                    </p:submenu>
-                    
-                                    <p:submenu label="Category">
-                                        <p:menuitem value="Create Category" url="#"/>
-                                    </p:submenu>
-                    
-                                    <p:submenu label="Criteria">
-                                        <p:menuitem value="Create Criteria" url="#"/>
-                                    </p:submenu>
-                    
-                                    <p:submenu label="Criteria Range">
-                                        <p:menuitem value="Create CriteriaRange" url="#"/>
-                                    </p:submenu>
-                    
-                                    <f:facet name="options">
-                                        <p:inputText placeholder="Search" style="margin-left: auto;" />
-                                    </f:facet>
-                                </p:menubar>-->
-
-
-
-        <!--            <div style = "border-width:2px; border-color:green; border-style:solid;">
-                        <ui:insert name = "header" >
-                            <ui:composition> 
-                                <h1>Default Header</h1>
-                            </ui:composition>
-                        </ui:insert> 
-                    </div>
-                    <br/>
-        
-                    <div style = "border-width:2px; border-color:black; border-style:solid;">
-                        <ui:insert name = "content" >
-                            <ui:composition> 
-                                <h1>Default Content</h1>
-                            </ui:composition>
-                        </ui:insert>    
-                    </div>
-                    <br/>
-        
-                    <div style = "border-width:2px; border-color:red; border-style:solid;">
-                        <ui:insert name = "footer" >
-                            <ui:composition> 
-                                <h1>Default Footer</h1>
-                            </ui:composition>
-                        </ui:insert>
-                    </div>-->
-
-
-
-
-
-
-
-        <!--                                    <p:layout fullPage="true">
-                                
-                                                <p:layoutUnit position="north" size="100" header="Top" resizable="true" closable="true" collapsible="true">
-                                                    <h:outputText value="North unit content." />
-                                                    <ui:insert name="North unit content" />
-                                                </p:layoutUnit>
-                                
-                                                <p:layoutUnit position="south" size="100" header="Bottom" resizable="true" closable="true" collapsible="true">
-                                                    <h:outputText value="South unit content." />
-                                                    <ui:insert name="South unit content" />
-                                                </p:layoutUnit>
-                                
-                                                <p:layoutUnit position="west" size="200" header="Left" resizable="true" closable="true" collapsible="true">
-                                                    <h:outputText value="West unit content." />
-                                                    <ui:insert name="West unit content" />
-                                                </p:layoutUnit>
-                                
-                                                <p:layoutUnit position="east" size="200" header="Right" resizable="true" closable="true" collapsible="true" effect="drop">
-                                                    <h:outputText value="Right unit content." />
-                                                    <ui:insert name="Right unit content" />
-                                                </p:layoutUnit>
-                                
-                                                <p:layoutUnit position="center">
-                                                    <ui:insert name="Center unit content" />
-                                                </p:layoutUnit>
-                                
-                                            </p:layout>-->
-
-
-
-        <!--
-                    <div class="card">
-                        <div class="p-grid sample-layout">
-                            <div class="p-col-12 p-md-2">
-                                Menu
-                            </div>
-                            <div class="p-col-12 p-md-10 p-col-nogutter">
-                            <div class="p-grid">
-                            <div class="p-col-12">
-                            <div class="p-grid">
-                                <div class="p-col-12 p-md-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet, orci nec dictum convallis,
-                                    ligula mauris vestibulum turpis, nec varius tortor quam at diam. Nullam a viverra nibh. In
-                                    tincidunt tempor lectus quis vulputate. Pellentesque nec dui aliquam, lobortis est in, lobortis
-                                    ante
-                                </div>
-                            </div>
-                            </div>
-                            </div>
-                            </div>
-                            <div class="p-col-12">
-                                Footer
-                            </div>
-                        </div>
-                    </div>
-                    <style type="text/css">
-                        .box,
-                        .sample-layout > div {
-                            background-color: #cce4f7;
-                            text-align: center;
-                            padding-top: 1em;
-                            padding-bottom: 1em;
-                            /*border-radius: 4px;*/
-                            color: #30383c;
-                        }
-        
-                        /*            .box-stretched {
-                                        height: 100%;
-                                        box-sizing: border-box;
-                                    }
-                        
-                                    .sample-layout {
-                                        margin: 0;
-                                    }*/
-        
-                        *{
-                            margin: 0;
-                            padding: 0;
-                            box-sizing: border-box;
-                        }
-        
-                        .sample-layout > div {
-                            border: 1px solid blue;
-                        }
-        
-                    </style>-->
-
-
-
-
-
-        <!--            <div class="header">
-                        <div>Header</div>
-                    </div>
-                    <div class="content">
-                        <div>Content</div>
-                    </div>
-                    <div class="footer">
-                        <div>Footer</div>
-                    </div>
-                    <style>
-                        .header{
-                            background-color: skyblue;
-                            height: 5rem;
-                            text-align: center;
-                            border: 1px solid black;
-                        }
-        
-                        .content{
-                            background-color: skyblue;
-                            height: 32.8rem;
-                            text-align: center;
-                        }
-        
-                        .footer{
-                            background-color: skyblue;
-                            height: 5rem;
-                            text-align: center;
-                            border: 1px solid black;
-                        }
-                    </style>-->
-
-
-
     </h:body>
 </html>

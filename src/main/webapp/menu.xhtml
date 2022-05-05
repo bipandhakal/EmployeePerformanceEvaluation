@@ -8,16 +8,14 @@
 
     <h:form id="menu_form">
         <p:menubar>
-
+            <p:menuitem value="Home" outcome="index.xhtml?faces-redirect=true"/>
             <p:menuitem  value="Employee" outcome="employee.xhtml?faces-redirect=true" />
-            <p:submenu label="Category"/>
-            <p:menu overlay="true">
-                <p:submenu label="Criteria">
-                    <p:menuitem value="Criteria Range"/>
-                    <p:menuitem value="Criteria Self"/>
-                    <p:menuitem value="Criteria TrueFalse"/>
-                </p:submenu>
-            </p:menu>
+            <p:submenu label="Category" id="sm_category"/>
+            <p:submenu label="Criteria">
+                <p:menuitem value="Criteria Range" />
+                <p:menuitem value="Criteria Self"/>
+                <p:menuitem value="Criteria TrueFalse"/>
+            </p:submenu>
 
             <p:submenu label="Employee Achievements"/>
             <p:submenu label="Supervisor Evaluation"/>
