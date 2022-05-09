@@ -23,8 +23,6 @@ import javax.inject.Named;
 @Named
 public class CriteriaController implements Serializable {
 
-    private Category ctg;
-
     private Criteria criteria;
 
     private List<Criteria> criteriaList;
@@ -57,14 +55,6 @@ public class CriteriaController implements Serializable {
         this.criteriaList = criteriaList;
     }
 
-    public Category getCtg() {
-        return ctg;
-    }
-
-    public void setCtg(Category ctg) {
-        this.ctg = ctg;
-    }
-
     @PostConstruct
     public void init() {
         this.criteria = new Criteria();
@@ -90,6 +80,7 @@ public class CriteriaController implements Serializable {
 
     public void create() {
         criteriaRepository.create(criteria);
+        this.criteriaList = criteriaRepository.findAll();
         messageUtil.showInfo("Criteria Created Successfully!");
     }
 
@@ -99,6 +90,7 @@ public class CriteriaController implements Serializable {
 
     public void edit() {
         criteriaRepository.edit(this.criteria);
+        this.criteriaList = criteriaRepository.findAll();
         messageUtil.showInfo("Criteria Edited Successfully");
     }
 
@@ -112,6 +104,7 @@ public class CriteriaController implements Serializable {
 
     public void delete(Criteria criteria) {
         criteriaRepository.delete(criteria);
+        this.criteriaList = criteriaRepository.findAll();
         messageUtil.showInfo("Criteria Removed");
     }
 
