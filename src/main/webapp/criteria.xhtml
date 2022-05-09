@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml">
+
+    <ui:define name="Center">
+        <p:panel  header="Criteria Records">
+            <f:facet name="header">
+                <p:panelGrid columns="7" style="float: left;">
+                    <h:outputText value="Criteria Records"/>
+                </p:panelGrid>
+                <p:panelGrid columns="7" style="float: right;">
+                    <p:commandButton id = "btn_create_crt" icon="pi pi-plus" oncomplete="PF('sample').show();" 
+                                     actionListener="#{criteriaController.beforeCreate()}"
+                                     title="Add" update="@this :frm_crt_create_edit" process="@this"/>
+                </p:panelGrid>
+            </f:facet>
+            <h:form id="frm_crt_table">
+                <p:growl id="growl" showDetail="true" />
+
+                <p:dataTable id = "crt_table" value="#{criteriaController.criteriaList}" var="c"   
+                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid"
+                             paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                             selectionMode="single"
+                             rowKey="#{c.id}" sortMode="single"
+                             emptyMessage="No data found">
+
+                    <p:column headerText="S.N" sortBy="#{c.id}" filterBy="#{c.id}">
+                        <h:outputText value="#{rowIndex + 1}"/> 
+                    </p:column>
+
+                    <p:column headerText="Category ID" sortBy="#{c.category}" filterBy="#{c.category}">
+                        <h:outputText value="#{c.category}"/>
+                    </p:column>
+
+                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}">
+                        <h:outputText value="#{c.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Marks" sortBy="#{c.marks}" filterBy="#{c.marks}">
+                        <h:outputText value="#{c.marks}"/>
+                    </p:column>
+
+                    <p:column headerText="Target" sortBy="#{c.target}" filterBy="#{c.target}">
+                        <h:outputText value="#{c.target}"/>
+                    </p:column>
+
+                    <p:column headerText="Calculated By" sortBy="#{c.calculatedBy}" filterBy="#{c.calculatedBy}">
+                        <h:outputText value="#{c.calculatedBy}"/>
+                    </p:column>
+
+                    <p:column headerText="Action" id="action">  
+                        <p:commandButton id = "btn_edit"  actionListener="#{criteriaController.beforeEdit(c)}" 
+                                         oncomplete="PF('sample').show();" process="@this" title="Edit"
+                                         update="@this :frm_crt_create_edit" icon="pi pi-pencil"
+                                         style="margin-right: 10px;">
+                        </p:commandButton>
+
+                        <p:commandButton id = "btn_delete" icon="pi pi-trash" title="Delete"
+                                         actionListener="#{criteriaController.delete(c)}"
+                                         process="@this" update="@this :frm_crt_table:growl">
+                            <p:confirm header="Confirmation" message="Do you want to delete this record?"   />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+            </h:form> 
+
+            <p:dialog header="Enter Criteria details" widgetVar="sample" id="dlog_crt">
+                <h:form id="frm_crt_create_edit">
+                    <h:panelGrid columns="3">
+
+                        <p:outputLabel id="olbl_category" value="Category" for="som_category"/>
+                        <p:selectOneMenu id="som_category" value="#{criteriaController.criteria.category}">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{criteriaController.categoryDetails}" var="v" 
+                                           itemLabel="#{v.name}" itemValue="#{v}"/>
+                            <p:ajax update="@this olbl_category" process="@this"/>
+                        </p:selectOneMenu>
+                        <br></br>
+
+                        <p:outputLabel id="olbl_name" value = "Name"/>
+                        <p:inputText id = "intxt_name" value="#{criteriaController.criteria.name}" 
+                                     label="Name" title="Name" 
+                                     required="true" requiredMessage="Name is required"
+                                     validatorMessage="Name should be string">
+                            <f:validateRegex pattern="^[a-zA-Z ]+$" />
+                            <p:ajax event="blur"  update="@this errmsg_name olbl_name"  process="@this" />
+                            <p:watermark for="intxt_name" id="wm_name" value="Number of completed task" />
+                        </p:inputText>
+                        <p:message for="intxt_name" id="errmsg_name"  style="color:red"/>
+
+                        <p:outputLabel id="olbl_marks" value = "Marks"/>
+                        <p:inputNumber id ="inpnm_marks" value="#{criteriaController.criteria.marks}"
+                                       label="Marks" title="Marks" required="true" decimalPlaces="5"
+                                       requiredMessage="Total Marks is required">
+                            <p:ajax event="blur" update="@this errmsg_marks olbl_marks" process="@this"/>
+                            <p:watermark for="inpnm_marks" id ="wm_marks" value="10"/>
+                        </p:inputNumber>
+                        <p:message for="inpnm_marks" id = "errmsg_marks" />
+
+                        <p:outputLabel id="olbl_target" value = "Target"/>
+                        <p:inputNumber id ="inpnm_target" value="#{criteriaController.criteria.target}"
+                                       label="Target" title="Target" required="true" decimalPlaces="5"
+                                       requiredMessage="Total Marks is required">
+                            <p:ajax event="blur" update="@this errmsg_target olbl_target" process="@this"/>
+                            <p:watermark for="inpnm_target" id ="wm_target" value="10"/>
+                        </p:inputNumber>
+                        <p:message for="inpnm_target" id = "errmsg_target" />
+
+                        <p:outputLabel id="olbl_calcby" value = "Calculated By" for="som_calcby"/>
+                        <p:selectOneMenu id="som_calcby" value="#{criteriaController.criteria.calculatedBy}">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{criteriaController.calculatedByEnumOptions}" var="v" 
+                                           itemLabel="#{v.label}" itemValue="#{v}" />
+                            <p:ajax  update="@this olbl_calcby" process="@this"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:divider/>
+
+                    <p:commandButton id = "save" value ="Save" 
+                                     oncomplete="if(!args.validationFailed) {PF('sample').hide();}"
+                                     update="@form :frm_crt_table:growl" process="@this"
+                                     rendered="#{empty criteriaController.criteria.id}"
+                                     actionListener="#{criteriaController.create()}"/>
+
+                    <p:commandButton id = "update" value="Update"  
+                                     oncomplete="if(args &amp; args.validationFailed) {PF('sample').hide();}"
+                                     actionListener="#{criteriaController.edit()}" 
+                                     rendered="#{not empty criteriaController.criteria.id}"
+                                     process="@this" update="@this :frm_crt_table:growl">
+                    </p:commandButton>
+                </h:form>
+            </p:dialog>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+
+

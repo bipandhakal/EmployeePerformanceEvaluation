@@ -55,55 +55,12 @@ public class EmployeeController implements Serializable {
         System.out.println(employeeList.size());
     }
 
-//    public void showMenu(EmployeeRepository employeeRepository) {
-//        this.employeeRepository = employeeRepository;
-//
-//        Scanner sc = new Scanner(System.in);
-//        String num;
-//        do {
-//            System.out.println("Employee");
-//            System.out.println("Press 1.1 to create employee");
-//            System.out.println("Press 1.2 to edit employee");
-//            System.out.println("Press 1.3 to delete employee");
-//            System.out.println("Press 1.4 to findAll employee");
-//            System.out.println("Press 1.5 to findById employee");
-//            System.out.println("Enter your choice : ");
-//            num = sc.next();
-//
-//            switch (num) {
-//                case "1.1":
-//                    create();
-//                    break;
-//
-//                case "1.2":
-////                    edit();
-//                    break;
-//
-//                case "1.3":
-//                    //  delete(employee);
-//                    break;
-//
-//                case "1.4":
-//                    findAll();
-//                    break;
-//
-//                case "1.5":
-////                    findById();
-//                    break;
-//
-//                case "*":
-//                    MainController.showMenu();
-//                    break;
-//
-//                default:
-//                    System.out.println("Invalid number");
-//                    break;
-//            }
-//        } while (!num.equals("0"));
-//    }
+    public void beforeCreate() {
+        this.employee = new Employee();
+    }
+
     public void create() {
         employeeRepository.create(employee);
-        employee = new Employee();
         this.employeeList = employeeRepository.findAll();
         messageUtil.showInfo("Employee Created Successfully!");
     }
@@ -114,11 +71,13 @@ public class EmployeeController implements Serializable {
 
     public void edit() {
         employeeRepository.edit(this.employee);
+        this.employeeList = employeeRepository.findAll();
         messageUtil.showInfo("Employee Edited Successfully");
     }
 
     public void delete(Employee employee) {
         employeeRepository.delete(employee);
+        this.employeeList = employeeRepository.findAll();
         messageUtil.showInfo("Employee removed");
     }
 

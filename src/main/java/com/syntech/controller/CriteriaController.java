@@ -1,206 +1,118 @@
 package com.syntech.controller;
 
 import com.syntech.model.CalculatedBy;
+import com.syntech.model.Category;
 import com.syntech.model.Criteria;
+import com.syntech.repository.CategoryRepository;
 import com.syntech.repository.CriteriaRepository;
+import com.syntech.util.MessageUtil;
 import com.syntech.util.ValidationUtil;
-import java.math.BigDecimal;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author bipan
  */
-public class CriteriaController {
+@ViewScoped
+@Named
+public class CriteriaController implements Serializable {
 
+    private Category ctg;
+
+    private Criteria criteria;
+
+    private List<Criteria> criteriaList;
+
+    @Inject
     private CriteriaRepository criteriaRepository;
+
+    @Inject
+    private CategoryRepository categoryRepository;
+
+    @Inject
     private ValidationUtil validationUtil;
 
-    public CriteriaController() {
-        validationUtil = new ValidationUtil();
+    @Inject
+    private MessageUtil messageUtil;
+
+    public Criteria getCriteria() {
+        return criteria;
     }
 
-    public void showMenu(CriteriaRepository criteriaRepository) {
-        this.criteriaRepository = criteriaRepository;
+    public void setCriteria(Criteria criteria) {
+        this.criteria = criteria;
+    }
 
-        Scanner sc = new Scanner(System.in);
-        String num;
-        do {
-            System.out.println("Criteria");
-            System.out.println("Press 3.1 to create criteria");
-            System.out.println("Press 3.2 to edit criteria");
-            System.out.println("Press 3.3 to delete criteria");
-            System.out.println("Press 3.4 to findAll criteria");
-            System.out.println("Press 3.5 to findById criteria");
-            System.out.println("Enter your choice : ");
-            num = sc.next();
+    public List<Criteria> getCriteriaList() {
+        return criteriaList;
+    }
 
-            switch (num) {
-                case "3.1":
-                    create();
-                    break;
+    public void setCriteriaList(List<Criteria> criteriaList) {
+        this.criteriaList = criteriaList;
+    }
 
-                case "3.2":
-                    edit();
-                    break;
+    public Category getCtg() {
+        return ctg;
+    }
 
-                case "3.3":
-                    delete();
-                    break;
+    public void setCtg(Category ctg) {
+        this.ctg = ctg;
+    }
 
-                case "3.4":
-                    findAll();
-                    break;
+    @PostConstruct
+    public void init() {
+        this.criteria = new Criteria();
+        this.criteriaList = criteriaRepository.findAll();
+        System.out.println(criteriaList.size());
+    }
 
-                case "3.5":
-                    findById();
-                    break;
+    public SelectItem[] getCalculatedByEnumOptions() {
+        SelectItem[] items = new SelectItem[CalculatedBy.values().length];
+        for (int i = 0; i < CalculatedBy.values().length; i++) {
+            items[i] = new SelectItem(CalculatedBy.values()[i], CalculatedBy.values()[i].name());
+        }
+        return items;
+    }
 
-                case "*":
-                    MainController.showMenu();
-                    break;
+    public List<Category> getCategoryDetails() {
+        return categoryRepository.findAll();
+    }
 
-                default:
-                    System.out.println("Invalid number");
-                    break;
-            }
-        } while (!num.equals("0"));
+    public void beforeCreate() {
+        this.criteria = new Criteria();
     }
 
     public void create() {
-        Long id = null;
-        Long categoryId = null;
-        String name = null;
-        Double marks = null;
-        BigDecimal target = null;
-        String calculatedBy = null;
-
-        Scanner sc = new Scanner(System.in);
-        Scanner scanner = new Scanner(System.in);
-        while (!validationUtil.validatesLong(id)) {
-            System.out.println("Enter Criteria id");
-            id = sc.nextLong();
-        }
-
-        do {
-            System.out.println("Enter Category id for this criteria");
-            categoryId = sc.nextLong();
-        } while (!validationUtil.validatesLong(categoryId));
-
-        while (!validationUtil.validateString(name)) {
-            System.out.println("Enter Criteria Name");
-            name = scanner.nextLine();
-        }
-
-        do {
-            System.out.println("Enter Marks for Criteria");
-            marks = sc.nextDouble();
-        } while (!validationUtil.validatesDouble(marks));
-
-        do {
-            System.out.println("Enter Target for Criteria");
-            target = sc.nextBigDecimal();
-        } while (!validationUtil.validateBigDecimal(target));
-
-        do {
-            System.out.println("Enter Method to calculate Criteria");
-            calculatedBy = sc.next();
-        } while (validationUtil.validateCalculatedBy(calculatedBy) == null);
-
-        CalculatedBy calcBy = CalculatedBy.valueOf(calculatedBy.toUpperCase());
-
-        Criteria criteria = new Criteria(id, categoryId, name, marks, target, calcBy);
-
         criteriaRepository.create(criteria);
-        System.out.println("Created Successfully!");
+        messageUtil.showInfo("Criteria Created Successfully!");
+    }
 
+    public void beforeEdit(Criteria crt) {
+        this.criteria = criteriaRepository.findById(crt.getId());
     }
 
     public void edit() {
-        Long id = null;
-        Long categoryId = null;
-        String name = null;
-        Double marks = null;
-        BigDecimal target = null;
-        String calculatedBy = null;
-
-        Scanner sc = new Scanner(System.in);
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter criteria id to edit");
-        id = sc.nextLong();
-
-        Criteria criteria = criteriaRepository.findById(id);
-        if (criteria == null) {
-            System.out.println("Criteria with id: " + id + " not found");
-
-        } else {
-
-            while (!validationUtil.validatesLong(categoryId)) {
-                System.out.println("Enter Category id for this criteria");
-                categoryId = sc.nextLong();
-            }
-            do {
-                System.out.println("Enter Criteria Name");
-                name = scanner.nextLine();
-            } while (!validationUtil.validateString(name));
-
-            do {
-                System.out.println("Enter Marks for Criteria");
-                marks = sc.nextDouble();
-            } while (!validationUtil.validatesDouble(marks));
-
-            do {
-                System.out.println("Enter Target for Criteria");
-                target = sc.nextBigDecimal();
-            } while (!validationUtil.validateBigDecimal(target));
-
-            do {
-                System.out.println("Enter Method to calculate Criteria");
-                calculatedBy = sc.next();
-            } while (validationUtil.validateCalculatedBy(calculatedBy) == null);
-
-            CalculatedBy calcBy = CalculatedBy.valueOf(calculatedBy.toUpperCase());
-            Criteria crt = new Criteria(id, categoryId, name, marks, target, calcBy);
-
-            criteriaRepository.edit(crt);
-            System.out.println("Edited Successfully!");
-        }
+        criteriaRepository.edit(this.criteria);
+        messageUtil.showInfo("Criteria Edited Successfully");
     }
 
     public void findAll() {
-        Iterator<Criteria> i = criteriaRepository.findAll().iterator();
-        while (i.hasNext()) {
-            Criteria criteria = i.next();
-            System.out.println(criteria);
-        }
+        criteriaRepository.findAll();
     }
 
-    public void findById() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Criteria id to find");
-        Long id = sc.nextLong();
-
-        Criteria criteria = criteriaRepository.findById(id);
-        if (criteria == null) {
-            System.out.println("Criteria with id: " + id + " not found");
-        } else {
-            System.out.println(criteria);
-        }
+    public void findById(Long id) {
+        criteriaRepository.findById(id);
     }
 
-    public void delete() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Criteria id to delete");
-        Long id = sc.nextLong();
-
-        Criteria criteria = criteriaRepository.findById(id);
-        if (criteria == null) {
-            System.out.println("Criteria with id: " + id + " not found");
-        } else {
-            criteriaRepository.delete(criteria);
-            System.out.println("Criteria removed");
-        }
+    public void delete(Criteria criteria) {
+        criteriaRepository.delete(criteria);
+        messageUtil.showInfo("Criteria Removed");
     }
 
 }

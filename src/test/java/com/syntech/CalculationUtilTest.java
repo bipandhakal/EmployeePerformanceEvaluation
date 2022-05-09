@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class CalculationUtilTest {
 
     CalculationUtil calculationUtil = new CalculationUtil();
+    Criteria obj = new Criteria();
 
     @Test
     public void criteriaRangeCalculationTest() {
@@ -55,8 +56,8 @@ public class CalculationUtilTest {
     @Test
     public void criteriaAverageCalculationTest() {
         ArrayList<Criteria> list = new ArrayList<>();
-        Criteria ctr = new Criteria(3L, 2L, "Number of present Days", 10.0, BigDecimal.valueOf(25.0), CalculatedBy.AVERAGE);
-        Criteria ctr1 = new Criteria(3L, 2L, "Number of present Days", 10.0, BigDecimal.valueOf(20.0), CalculatedBy.AVERAGE);
+        Criteria ctr = new Criteria(3L, obj.getCategory(), "Number of present Days", 10.0, BigDecimal.valueOf(25.0), CalculatedBy.AVERAGE);
+        Criteria ctr1 = new Criteria(3L, obj.getCategory(), "Number of present Days", 10.0, BigDecimal.valueOf(20.0), CalculatedBy.AVERAGE);
 
         list.add(ctr);
         list.add(ctr1);
@@ -80,8 +81,8 @@ public class CalculationUtilTest {
         list1.add(ctf);
         list1.add(ctf1);
 
-        Criteria ctr = new Criteria(3L, 2L, "Number of present Days", 10.0, BigDecimal.valueOf(25.0), CalculatedBy.AVERAGE);
-        Criteria ctr1 = new Criteria(3L, 2L, "Number of present Days", 10.0, BigDecimal.valueOf(20.0), CalculatedBy.AVERAGE);
+        Criteria ctr = new Criteria(3L, obj.getCategory(), "Number of present Days", 10.0, BigDecimal.valueOf(25.0), CalculatedBy.AVERAGE);
+        Criteria ctr1 = new Criteria(3L, obj.getCategory(), "Number of present Days", 10.0, BigDecimal.valueOf(20.0), CalculatedBy.AVERAGE);
 
         SupervisorEvaluation sevaluation = new SupervisorEvaluation(1L, 1L, 1L, -3.0);
 

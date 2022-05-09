@@ -55,54 +55,13 @@ public class CategoryController implements Serializable {
         System.out.println(categoryList.size());
     }
 
-//    public void showMenu(CategoryRepository categoryRepository) {
-//        this.categoryRepository = categoryRepository;
-//
-//        Scanner sc = new Scanner(System.in);
-//        String num;
-//        do {
-//            System.out.println("Category");
-//            System.out.println("Press 2.1 to create category");
-//            System.out.println("Press 2.2 to edit category");
-//            System.out.println("Press 2.3 to delete category");
-//            System.out.println("Press 2.4 to findAll category");
-//            System.out.println("Press 2.5 to findById category");
-//            System.out.println("Enter your choice : ");
-//            num = sc.next();
-//
-//            switch (num) {
-//                case "2.1":
-//                    create();
-//                    break;
-//
-//                case "2.2":
-//                    edit();
-//                    break;
-//
-//                case "2.3":
-//                    delete();
-//                    break;
-//
-//                case "2.4":
-//                    findAll();
-//                    break;
-//
-//                case "2.5":
-//                    findById();
-//                    break;
-//
-//                case "*":
-//                    MainController.showMenu();
-//                    break;
-//
-//                default:
-//                    System.out.println("Invalid number");
-//                    break;
-//            }
-//        } while (!num.equals("0"));
-//    }
+    public void beforeCreate() {
+        this.category = new Category();
+    }
+
     public void create() {
         categoryRepository.create(category);
+        this.categoryList = categoryRepository.findAll();
         messageUtil.showInfo("Category Created Successfully!");
     }
 
@@ -112,11 +71,13 @@ public class CategoryController implements Serializable {
 
     public void edit() {
         categoryRepository.edit(this.category);
+        this.categoryList = categoryRepository.findAll();
         messageUtil.showInfo("Category Edited Successfully");
     }
 
     public void delete(Category category) {
         categoryRepository.delete(category);
+        this.categoryList = categoryRepository.findAll();
         messageUtil.showInfo("Category Removed");
     }
 

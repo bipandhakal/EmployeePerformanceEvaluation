@@ -2,26 +2,53 @@ package com.syntech.model;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author bipan
  */
+@Entity
+@Table(name = "criteria")
 public class Criteria implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true)
     private Long id;
-    private Long categoryId;
+
+    @ManyToOne
+    @JoinColumn(name = "category", nullable = false)
+    private Category category;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "marks", nullable = false)
     private Double marks;
+
+    @Column(name = "target", nullable = false)
     private BigDecimal target;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "calculated_by", nullable = false)
     private CalculatedBy calculatedBy;
 
     public Criteria() {
     }
 
-    public Criteria(Long id, Long categoryId, String name, Double marks, BigDecimal target, CalculatedBy calculatedBy) {
+    public Criteria(Long id, Category category, String name, Double marks, BigDecimal target, CalculatedBy calculatedBy) {
         this.id = id;
-        this.categoryId = categoryId;
+        this.category = category;
         this.name = name;
         this.marks = marks;
         this.target = target;
@@ -38,12 +65,12 @@ public class Criteria implements IEntity {
         this.id = id;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getName() {
@@ -80,13 +107,13 @@ public class Criteria implements IEntity {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.categoryId);
-        hash = 97 * hash + Objects.hashCode(this.name);
-        hash = 97 * hash + Objects.hashCode(this.marks);
-        hash = 97 * hash + Objects.hashCode(this.target);
-        hash = 97 * hash + Objects.hashCode(this.calculatedBy);
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.category);
+        hash = 79 * hash + Objects.hashCode(this.name);
+        hash = 79 * hash + Objects.hashCode(this.marks);
+        hash = 79 * hash + Objects.hashCode(this.target);
+        hash = 79 * hash + Objects.hashCode(this.calculatedBy);
         return hash;
     }
 
@@ -108,7 +135,7 @@ public class Criteria implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.categoryId, other.categoryId)) {
+        if (!Objects.equals(this.category, other.category)) {
             return false;
         }
         if (!Objects.equals(this.marks, other.marks)) {
@@ -125,7 +152,6 @@ public class Criteria implements IEntity {
 
     @Override
     public String toString() {
-        return "Criteria{" + "id=" + id + ", categoryId=" + categoryId + ", name=" + name + ", marks=" + marks + ", target=" + target + ", calculatedBy=" + calculatedBy + '}';
+        return "Criteria{" + "id=" + id + ", category=" + category + ", name=" + name + ", marks=" + marks + ", target=" + target + ", calculatedBy=" + calculatedBy + '}';
     }
-
 }

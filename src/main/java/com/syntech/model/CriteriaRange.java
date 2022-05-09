@@ -25,10 +25,12 @@ public class CriteriaRange implements IEntity {
         this.marks = marks;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

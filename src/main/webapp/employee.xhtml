@@ -16,7 +16,8 @@
                 </p:panelGrid>
                 <p:panelGrid columns="5" style="float: right;">
                     <p:commandButton id = "btn_create_emp" icon="pi pi-plus" oncomplete="PF('sample').show();" 
-                                     title="Add" update="@this :frm_emp_create_edit" process="@this"/>
+                                     title="Add" update="@this :frm_emp_create_edit" process="@this"
+                                     actionListener="#{employeeController.beforeCreate()}"/>
                 </p:panelGrid>
             </f:facet>
             <h:form id="frm_emp_table">
