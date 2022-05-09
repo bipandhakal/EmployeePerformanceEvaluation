@@ -23,17 +23,4 @@ public class CriteriaRepository extends AbstractRepository<Criteria> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
-//    @Override
-//    public void edit(Criteria criteria) {
-//
-//        super.findAll().stream().filter(x -> x.getId().equals(criteria.getId()))
-//                .forEach(crt -> {
-//                    crt.setCategoryId(criteria.getCategoryId());
-//                    crt.setName(criteria.getName());
-//                    crt.setMarks(criteria.getMarks());
-//                    crt.setTarget(criteria.getTarget());
-//                    crt.setCalculatedBy(criteria.getCalculatedBy());
-//                });
-//    }
 }

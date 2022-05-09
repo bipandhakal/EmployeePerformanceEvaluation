@@ -29,7 +29,6 @@ public class CriteriaSelfRepository extends AbstractRepository<CriteriaSelf> {
                 .forEach(crts -> {
                     crts.setCriteriaId(criteriaSelf.getCriteriaId());
                     crts.setMarks(criteriaSelf.getMarks());
-
                 });
     }
 }

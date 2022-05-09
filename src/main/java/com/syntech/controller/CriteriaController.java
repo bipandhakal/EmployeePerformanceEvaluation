@@ -107,5 +107,4 @@ public class CriteriaController implements Serializable {
         this.criteriaList = criteriaRepository.findAll();
         messageUtil.showInfo("Criteria Removed");
     }
-
 }

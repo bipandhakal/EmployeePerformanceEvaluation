@@ -1,180 +1,109 @@
 package com.syntech.controller;
 
+import static com.syntech.model.CalculatedBy.RANGE;
+import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaRange;
 import com.syntech.repository.CriteriaRangeRepository;
+import com.syntech.repository.CriteriaRepository;
+import com.syntech.util.MessageUtil;
 import com.syntech.util.ValidationUtil;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author bipan
  */
-public class CriteriaRangeController {
+@ViewScoped
+@Named
+public class CriteriaRangeController implements Serializable {
 
+    private CriteriaRange criteriaRange;
+
+    private List<CriteriaRange> criteriaRangeList;
+
+    @Inject
+    private Criteria criteria;
+
+    @Inject
+    private CriteriaController criteriaController;
+
+    @Inject
     private CriteriaRangeRepository criteriaRangeRepository;
+
+    @Inject
+    private CriteriaRepository criteriaRepository;
+
+    @Inject
     private ValidationUtil validationUtil;
 
-    public CriteriaRangeController() {
-        validationUtil = new ValidationUtil();
+    @Inject
+    private MessageUtil messageUtil;
+
+    public CriteriaRange getCriteriaRange() {
+        return criteriaRange;
     }
 
-    public void showMenu(CriteriaRangeRepository criteriaRangeRepository) {
-        this.criteriaRangeRepository = criteriaRangeRepository;
+    public void setCriteriaRange(CriteriaRange criteriaRange) {
+        this.criteriaRange = criteriaRange;
+    }
 
-        Scanner sc = new Scanner(System.in);
-        String num;
-        do {
-            System.out.println("Criteria Range");
-            System.out.println("Press 4.1 to create criteria range");
-            System.out.println("Press 4.2 to edit criteria range");
-            System.out.println("Press 4.3 to delete criteria range");
-            System.out.println("Press 4.4 to findAll criteria range");
-            System.out.println("Press 4.5 to findById criteria range");
-            System.out.println("Enter your choice : ");
-            num = sc.next();
+    public List<CriteriaRange> getCriteriaRangeList() {
+        return criteriaRangeList;
+    }
 
-            switch (num) {
-                case "4.1":
-                    create();
-                    break;
+    public void setCriteriaRangeList(List<CriteriaRange> criteriaRangeList) {
+        this.criteriaRangeList = criteriaRangeList;
+    }
 
-                case "4.2":
-                    edit();
-                    break;
+    @PostConstruct
+    public void init() {
+        this.criteriaRange = new CriteriaRange();
+        this.criteriaRangeList = criteriaRangeRepository.findAll();
+        System.out.println(criteriaRangeList.size());
+    }
 
-                case "4.3":
-                    delete();
-                    break;
+    public List<Criteria> getCriteriaDetails() {
+        return criteriaRepository.findAll().stream().filter(x -> x.getCalculatedBy().equals(RANGE))
+                .collect(Collectors.toList());
+    }
 
-                case "4.4":
-                    findAll();
-                    break;
-
-                case "4.5":
-                    findById();
-                    break;
-
-                case "*":
-                    MainController.showMenu();
-                    break;
-
-                default:
-                    System.out.println("Invalid number");
-                    break;
-            }
-        } while (!num.equals("0"));
+    public void beforeCreate() {
+        this.criteriaRange = new CriteriaRange();
     }
 
     public void create() {
-        Long id = null;
-        Long criteriaId = null;
-        Long from = null;
-        Long to = null;
-        Double marks = null;
-
-        Scanner sc = new Scanner(System.in);
-        while (!validationUtil.validatesLong(id)) {
-            System.out.println("Enter Criteria Range id");
-            id = sc.nextLong();
-        }
-        while (!validationUtil.validatesLong(criteriaId)) {
-            System.out.println("Enter Criteria id for Criteria Range");
-            criteriaId = sc.nextLong();
-        }
-        do {
-            System.out.println("Enter Criteria Range from");
-            from = sc.nextLong();
-        } while (!validationUtil.validatesLong(from));
-
-        do {
-            System.out.println("Enter Criteria Range to");
-            to = sc.nextLong();
-        } while (!validationUtil.validatesLong(to));
-
-        do {
-            System.out.println("Enter Marks for Criteria Range");
-            marks = sc.nextDouble();
-        } while (!validationUtil.validatesDouble(marks));
-
-        CriteriaRange criteriaRange = new CriteriaRange(id, criteriaId, from, to, marks);
         criteriaRangeRepository.create(criteriaRange);
-        System.out.println("Created Successfully!");
+        this.criteriaRangeList = criteriaRangeRepository.findAll();
+        messageUtil.showInfo("CriteriaRange Created Successfully!");
+    }
+
+    public void beforeEdit(CriteriaRange crtr) {
+        this.criteriaRange = criteriaRangeRepository.findById(crtr.getId());
     }
 
     public void edit() {
-        Long id = null;
-        Long criteriaId = null;
-        Long from = null;
-        Long to = null;
-        Double marks = null;
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter criteria range id to edit");
-        id = sc.nextLong();
-
-        CriteriaRange criteriaRange = criteriaRangeRepository.findById(id);
-        if (criteriaRange == null) {
-            System.out.println("Criteria Range with id: " + id + " not found");
-
-        } else {
-            while (!validationUtil.validatesLong(criteriaId)) {
-                System.out.println("Enter Criteria id for Criteria Range");
-                criteriaId = sc.nextLong();
-            }
-            while (!validationUtil.validatesLong(from)) {
-                System.out.println("Enter Criteria Range from");
-                from = sc.nextLong();
-            }
-
-            do {
-                System.out.println("Enter Criteria Range to");
-                to = sc.nextLong();
-            } while (!validationUtil.validatesLong(to));
-
-            do {
-                System.out.println("Enter Marks for Criteria Range");
-                marks = sc.nextDouble();
-            } while (!validationUtil.validatesDouble(marks));
-
-            CriteriaRange crtR = new CriteriaRange(id, criteriaId, from, to, marks);
-            criteriaRangeRepository.edit(crtR);
-            System.out.println("Edited Successfully!");
-        }
+        criteriaRangeRepository.edit(this.criteriaRange);
+        this.criteriaRangeList = criteriaRangeRepository.findAll();
+        messageUtil.showInfo("CriteriaRange Edited Successfully!");
     }
 
     public void findAll() {
-        Iterator<CriteriaRange> i = criteriaRangeRepository.findAll().iterator();
-        while (i.hasNext()) {
-            CriteriaRange criteriaRange = i.next();
-            System.out.println(criteriaRange);
-        }
+        criteriaRangeRepository.findAll();
     }
 
-    public void findById() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Criteria Range id to find");
-        Long id = sc.nextLong();
-
-        CriteriaRange criteriaRange = criteriaRangeRepository.findById(id);
-        if (criteriaRange == null) {
-            System.out.println("Criteria Range with id: " + id + " not found");
-        } else {
-            System.out.println(criteriaRange);
-        }
+    public void findById(Long id) {
+        criteriaRangeRepository.findById(id);
     }
 
-    public void delete() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Criteria Range id to delete");
-        Long id = sc.nextLong();
-
-        CriteriaRange criteriaRange = criteriaRangeRepository.findById(id);
-        if (criteriaRange == null) {
-            System.out.println("Criteria Range with id: " + id + " not found");
-        } else {
-            criteriaRangeRepository.delete(criteriaRange);
-            System.out.println("Criteria Range deleted Successfully");
-        }
+    public void delete(CriteriaRange criteriaRange) {
+        criteriaRangeRepository.delete(criteriaRange);
+        this.criteriaRangeList = criteriaRangeRepository.findAll();
+        messageUtil.showInfo("Criteria Range Removed");
     }
 }

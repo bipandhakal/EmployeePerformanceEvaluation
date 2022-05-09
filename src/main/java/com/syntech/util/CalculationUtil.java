@@ -15,7 +15,7 @@ public class CalculationUtil {
 
     public Double criteriaRangeCalculation(List<CriteriaRange> criteriaRangeList, Long achievement) {
         for (CriteriaRange cr : criteriaRangeList) {
-            if (achievement.compareTo(cr.getFrom()) >= 0 && achievement.compareTo(cr.getTo()) <= 0) {
+            if (achievement.compareTo(cr.getFromRange()) >= 0 && achievement.compareTo(cr.getToRange()) <= 0) {
                 return cr.getMarks();
             }
         }

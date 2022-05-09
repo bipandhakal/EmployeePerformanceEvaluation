@@ -21,12 +21,13 @@ public class CalculationUtilTest {
 
     CalculationUtil calculationUtil = new CalculationUtil();
     Criteria obj = new Criteria();
+    CriteriaRange criteriaRange = new CriteriaRange();
 
     @Test
     public void criteriaRangeCalculationTest() {
         ArrayList<CriteriaRange> list = new ArrayList<>();
-        CriteriaRange cr = new CriteriaRange(1L, 1L, 1L, 10L, 5.0);
-        CriteriaRange cr1 = new CriteriaRange(2L, 1L, 11L, 20L, 10.0);
+        CriteriaRange cr = new CriteriaRange(1L, criteriaRange.getCriteria(), 1L, 10L, 5.0);
+        CriteriaRange cr1 = new CriteriaRange(2L, criteriaRange.getCriteria(), 11L, 20L, 10.0);
         list.add(cr);
         list.add(cr1);
 
@@ -50,7 +51,6 @@ public class CalculationUtilTest {
         assertEquals(10.0, calculationUtil.criteriaTrueFalseCalculation(list, "Present"));
         assertEquals(1.0, calculationUtil.criteriaTrueFalseCalculation(list, "Absent"));
         assertEquals(0.0, calculationUtil.criteriaTrueFalseCalculation(list, "F"));
-
     }
 
     @Test
@@ -70,8 +70,8 @@ public class CalculationUtilTest {
     @Test
     public void finalMarksTest() {
         ArrayList<CriteriaRange> list = new ArrayList<>();
-        CriteriaRange cr = new CriteriaRange(1L, 1L, 1L, 10L, 5.0);
-        CriteriaRange cr1 = new CriteriaRange(2L, 1L, 11L, 20L, 10.0);
+        CriteriaRange cr = new CriteriaRange(1L, criteriaRange.getCriteria(), 1L, 10L, 5.0);
+        CriteriaRange cr1 = new CriteriaRange(2L, criteriaRange.getCriteria(), 11L, 20L, 10.0);
         list.add(cr);
         list.add(cr1);
 

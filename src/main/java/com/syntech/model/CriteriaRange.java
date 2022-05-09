@@ -1,27 +1,49 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author bipan
  */
+@Entity
+@Table(name = "criteria_range")
 public class CriteriaRange implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true)
     private Long id;
-    private Long criteriaId;
-    private Long from;
-    private Long to;
+
+    @ManyToOne
+    @JoinColumn(name = "criteria", nullable = false)
+    private Criteria criteria;
+
+    @Column(name = "from_range", nullable = false)
+    private Long fromRange;
+
+    @Column(name = "to_range", nullable = false)
+    private Long toRange;
+
+    @Column(name = "marks", nullable = false)
     private Double marks;
 
     public CriteriaRange() {
     }
 
-    public CriteriaRange(Long id, Long criteriaId, Long from, Long to, Double marks) {
+    public CriteriaRange(Long id, Criteria criteria, Long fromRange, Long toRange, Double marks) {
         this.id = id;
-        this.criteriaId = criteriaId;
-        this.from = from;
-        this.to = to;
+        this.criteria = criteria;
+        this.fromRange = fromRange;
+        this.toRange = toRange;
         this.marks = marks;
     }
 
@@ -35,28 +57,28 @@ public class CriteriaRange implements IEntity {
         this.id = id;
     }
 
-    public Long getCriteriaId() {
-        return criteriaId;
+    public Criteria getCriteria() {
+        return criteria;
     }
 
-    public void setCriteriaId(Long criteriaId) {
-        this.criteriaId = criteriaId;
+    public void setCriteria(Criteria criteria) {
+        this.criteria = criteria;
     }
 
-    public Long getFrom() {
-        return from;
+    public Long getFromRange() {
+        return fromRange;
     }
 
-    public void setFrom(Long from) {
-        this.from = from;
+    public void setFromRange(Long fromRange) {
+        this.fromRange = fromRange;
     }
 
-    public Long getTo() {
-        return to;
+    public Long getToRange() {
+        return toRange;
     }
 
-    public void setTo(Long to) {
-        this.to = to;
+    public void setToRange(Long toRange) {
+        this.toRange = toRange;
     }
 
     public Double getMarks() {
@@ -69,12 +91,12 @@ public class CriteriaRange implements IEntity {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + Objects.hashCode(this.id);
-        hash = 59 * hash + Objects.hashCode(this.criteriaId);
-        hash = 59 * hash + Objects.hashCode(this.from);
-        hash = 59 * hash + Objects.hashCode(this.to);
-        hash = 59 * hash + Objects.hashCode(this.marks);
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.criteria);
+        hash = 29 * hash + Objects.hashCode(this.fromRange);
+        hash = 29 * hash + Objects.hashCode(this.toRange);
+        hash = 29 * hash + Objects.hashCode(this.marks);
         return hash;
     }
 
@@ -93,13 +115,13 @@ public class CriteriaRange implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.criteriaId, other.criteriaId)) {
+        if (!Objects.equals(this.criteria, other.criteria)) {
             return false;
         }
-        if (!Objects.equals(this.from, other.from)) {
+        if (!Objects.equals(this.fromRange, other.fromRange)) {
             return false;
         }
-        if (!Objects.equals(this.to, other.to)) {
+        if (!Objects.equals(this.toRange, other.toRange)) {
             return false;
         }
         if (!Objects.equals(this.marks, other.marks)) {
@@ -110,7 +132,6 @@ public class CriteriaRange implements IEntity {
 
     @Override
     public String toString() {
-        return "CriteriaRange{" + "id=" + id + ", criteriaId=" + criteriaId + ", from=" + from + ", to=" + to + ", marks=" + marks + '}';
+        return "CriteriaRange{" + "id=" + id + ", criteria=" + criteria + ", fromRange=" + fromRange + ", toRange=" + toRange + ", marks=" + marks + '}';
     }
-
 }

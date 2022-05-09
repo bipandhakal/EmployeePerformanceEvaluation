@@ -85,7 +85,7 @@ public class MainController {
                     break;
 
                 case "4":
-                    criteriaRangeController.showMenu(criteriaRangeRepository);
+//                    criteriaRangeController.showMenu(criteriaRangeRepository);
                     break;
 
                 case "5":

@@ -45,16 +45,4 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
         getEntityManager().remove(findById(obj.getId()));
         getEntityManager().flush();
     }
-
-//    public Connection establishConnection() {
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            Connection con = DriverManager.getConnection(
-//                    "jdbc:mysql://localhost:3306/EPE", "root", "toor");
-//            return con;
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-//        return null;
-//    }
 }
