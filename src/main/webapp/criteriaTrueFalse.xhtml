@@ -85,9 +85,8 @@
 
                         <p:outputLabel id="olbl_status" value = "Status"/>
                         <p:inputText id = "intxt_status" value="#{criteriaTrueFalseController.criteriaTrueFalse.status}" 
-                                     label="Status" title="Status" 
-                                     required="true" requiredMessage="Status is required"
-                                     validatorMessage="Status should be string">
+                                     label="Status" title="Status" required="true"
+                                     requiredMessage="Status is required" validatorMessage="Status should be string">
                             <f:validateRegex pattern="^[a-zA-Z ]+$" />
                             <p:ajax event="blur"  update="@this errmsg_status olbl_status"  process="@this" />
                             <p:watermark for="intxt_status" id="wm_status" value="Present"/>

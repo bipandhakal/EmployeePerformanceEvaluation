@@ -1,6 +1,7 @@
 package com.syntech.repository;
 
 import com.syntech.model.EmployeeAchievements;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
  *
  * @author bipan
  */
+@Stateless
 public class EmployeeAchievementsRepository extends AbstractRepository<EmployeeAchievements> {
 
     @PersistenceContext(name = "EPE")
@@ -20,16 +22,5 @@ public class EmployeeAchievementsRepository extends AbstractRepository<EmployeeA
     @Override
     protected EntityManager getEntityManager() {
         return em;
-    }
-
-    @Override
-    public void edit(EmployeeAchievements employeeAchievemnts) {
-
-        super.findAll().stream().filter(x -> x.getId().equals(employeeAchievemnts.getId()))
-                .forEach(eart -> {
-                    eart.setEmployeeId(employeeAchievemnts.getEmployeeId());
-                    eart.setCriteriaId(employeeAchievemnts.getCriteriaId());
-                    eart.setAchievement(employeeAchievemnts.getAchievement());
-                });
     }
 }

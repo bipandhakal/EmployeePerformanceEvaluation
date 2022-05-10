@@ -97,7 +97,7 @@ public class MainController {
                     break;
 
                 case "7":
-                    employeeAchievementsController.showMenu(employeeAchievementsRepository);
+//                    employeeAchievementsController.showMenu(employeeAchievementsRepository);
                     break;
 
                 case "8":

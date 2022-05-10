@@ -1,50 +1,73 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author bipan
  */
+@Entity
+@Table(name = "employee_achievements")
 public class EmployeeAchievements implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true)
     private Long id;
-    private Long employeeId;
-    private Long criteriaId;
+
+    @ManyToOne
+    @JoinColumn(name = "employee", nullable = false)
+    private Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "criteria", nullable = false)
+    private Criteria criteria;
+
+    @Column(name = "achievement", nullable = false)
     private String achievement;
 
     public EmployeeAchievements() {
     }
 
-    public EmployeeAchievements(Long id, Long employeeId, Long criteriaId, String achievement) {
+    public EmployeeAchievements(Long id, Employee employee, Criteria criteria, String achievement) {
         this.id = id;
-        this.employeeId = employeeId;
-        this.criteriaId = criteriaId;
+        this.employee = employee;
+        this.criteria = criteria;
         this.achievement = achievement;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public Long getCriteriaId() {
-        return criteriaId;
+    public Criteria getCriteria() {
+        return criteria;
     }
 
-    public void setCriteriaId(Long criteriaId) {
-        this.criteriaId = criteriaId;
+    public void setCriteria(Criteria criteria) {
+        this.criteria = criteria;
     }
 
     public String getAchievement() {
@@ -58,10 +81,10 @@ public class EmployeeAchievements implements IEntity {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.employeeId);
-        hash = 79 * hash + Objects.hashCode(this.criteriaId);
-        hash = 79 * hash + Objects.hashCode(this.achievement);
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.employee);
+        hash = 71 * hash + Objects.hashCode(this.criteria);
+        hash = 71 * hash + Objects.hashCode(this.achievement);
         return hash;
     }
 
@@ -83,10 +106,10 @@ public class EmployeeAchievements implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.employeeId, other.employeeId)) {
+        if (!Objects.equals(this.employee, other.employee)) {
             return false;
         }
-        if (!Objects.equals(this.criteriaId, other.criteriaId)) {
+        if (!Objects.equals(this.criteria, other.criteria)) {
             return false;
         }
         return true;
@@ -94,7 +117,6 @@ public class EmployeeAchievements implements IEntity {
 
     @Override
     public String toString() {
-        return "EmployeeAchievements{" + "id=" + id + ", employeeId=" + employeeId + ", criteriaId=" + criteriaId + ", achievement=" + achievement + '}';
+        return "EmployeeAchievements{" + "id=" + id + ", employee=" + employee + ", criteria=" + criteria + ", achievement=" + achievement + '}';
     }
-
 }

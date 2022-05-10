@@ -12,24 +12,25 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class EmployeeAchievementsRepositoryTest {
 
     EmployeeAchievementsRepository employeeAchievementsRepository = new EmployeeAchievementsRepository();
+    EmployeeAchievements obj = new EmployeeAchievements();
 
     @Test
     public void createTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(1L, 1L, 2L, "10");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), "10");
         employeeAchievementsRepository.create(ea);
         assertEquals(1, employeeAchievementsRepository.findAll().size());
     }
 
     @Test
     public void findAllTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(1L, 1L, 2L, "Present");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), "Present");
         employeeAchievementsRepository.create(ea);
         assertEquals(1, employeeAchievementsRepository.findAll().size());
     }
 
     @Test
     public void deleteTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(1L, 1L, 2L, "20");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), "20");
         employeeAchievementsRepository.create(ea);
         employeeAchievementsRepository.delete(ea);
         assertEquals(0, employeeAchievementsRepository.findAll().size());
@@ -37,7 +38,7 @@ public class EmployeeAchievementsRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(2L, 3L, 2L, "Absent");
+        EmployeeAchievements ea = new EmployeeAchievements(2L, obj.getEmployee(), obj.getCriteria(), "Absent");
         employeeAchievementsRepository.create(ea);
         assertEquals(ea, employeeAchievementsRepository.findById(2l));
         assertNotEquals(ea, employeeAchievementsRepository.findById(3l));
@@ -45,8 +46,7 @@ public class EmployeeAchievementsRepositoryTest {
 
     @Test
     public void editTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(3L, 3L, 2L, "15");
-
+        EmployeeAchievements ea = new EmployeeAchievements(3L, obj.getEmployee(), obj.getCriteria(), "15");
         employeeAchievementsRepository.create(ea);
         ea.setAchievement("Present");
         employeeAchievementsRepository.edit(ea);
