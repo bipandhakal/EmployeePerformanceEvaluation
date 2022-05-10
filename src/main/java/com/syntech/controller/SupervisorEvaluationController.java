@@ -1,169 +1,106 @@
 package com.syntech.controller;
 
+import com.syntech.model.Criteria;
+import com.syntech.model.Employee;
 import com.syntech.model.SupervisorEvaluation;
+import com.syntech.repository.CriteriaRepository;
+import com.syntech.repository.EmployeeRepository;
 import com.syntech.repository.SupervisorEvaluationRepository;
-import com.syntech.util.ValidationUtil;
-import java.util.Iterator;
-import java.util.Scanner;
+import com.syntech.util.MessageUtil;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author bipan
  */
-public class SupervisorEvaluationController {
+@ViewScoped
+@Named
+public class SupervisorEvaluationController implements Serializable {
 
+    private SupervisorEvaluation supervisorEvaluation;
+
+    private List<SupervisorEvaluation> supervisorEvaluationList;
+
+    @Inject
     private SupervisorEvaluationRepository supervisorEvaluationRepository;
-    private ValidationUtil validationUtil;
 
-    public SupervisorEvaluationController() {
-        validationUtil = new ValidationUtil();
+    @Inject
+    private CriteriaRepository criteriaRepository;
+
+    @Inject
+    private EmployeeRepository employeeRepository;
+
+    @Inject
+    private MessageUtil messageUtil;
+
+    public SupervisorEvaluation getSupervisorEvaluation() {
+        return supervisorEvaluation;
     }
 
-    public void showMenu(SupervisorEvaluationRepository supervisorEvaluationRepository) {
-        this.supervisorEvaluationRepository = supervisorEvaluationRepository;
-        Scanner sc = new Scanner(System.in);
-        String num;
-        do {
-            System.out.println("Supervisor Evaluation");
-            System.out.println("Press 8.1 to create Supervisor Evaluation");
-            System.out.println("Press 8.2 to edit Supervisor Evaluation");
-            System.out.println("Press 8.3 to delete Supervisor Evaluation");
-            System.out.println("Press 8.4 to findAll Supervisor Evaluation");
-            System.out.println("Press 8.5 to findById Supervisor Evaluation");
-            System.out.println("Enter your choice : ");
-            num = sc.next();
+    public void setSupervisorEvaluation(SupervisorEvaluation supervisorEvaluation) {
+        this.supervisorEvaluation = supervisorEvaluation;
+    }
 
-            switch (num) {
-                case "8.1":
-                    create();
-                    break;
+    public List<SupervisorEvaluation> getSupervisorEvaluationList() {
+        return supervisorEvaluationList;
+    }
 
-                case "8.2":
-                    edit();
-                    break;
+    public void setSupervisorEvaluationList(List<SupervisorEvaluation> supervisorEvaluationList) {
+        this.supervisorEvaluationList = supervisorEvaluationList;
+    }
 
-                case "8.3":
-                    delete();
-                    break;
+    @PostConstruct
+    public void init() {
+        this.supervisorEvaluation = new SupervisorEvaluation();
+        this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
+        System.out.println(supervisorEvaluationList.size());
+    }
 
-                case "8.4":
-                    findAll();
-                    break;
+    public List<Employee> getEmployeeDetails() {
+        return employeeRepository.findAll();
+    }
 
-                case "8.5":
-                    findById();
-                    break;
+    public List<Criteria> getCriteriaDetails() {
+        return criteriaRepository.findAll();
+    }
 
-                case "*":
-                    MainController.showMenu();
-                    break;
-
-                default:
-                    System.out.println("Invalid number");
-                    break;
-            }
-        } while (!num.equals("0"));
+    public void beforeCreate() {
+        this.supervisorEvaluation = new SupervisorEvaluation();
     }
 
     public void create() {
-        Long id = null;
-        Long employeeId = null;
-        Long criteriaId = null;
-        Double marks = null;
-
-        Scanner sc = new Scanner(System.in);
-        while (!validationUtil.validatesLong(id)) {
-            System.out.println("Enter Supervisor Evaluation id");
-            id = sc.nextLong();
-        }
-
-        while (!validationUtil.validatesLong(employeeId)) {
-            System.out.println("Enter Employee Id for Supervisor Evaluation");
-            employeeId = sc.nextLong();
-        }
-
-        while (!validationUtil.validatesLong(criteriaId)) {
-            System.out.println("Enter Criteria Id for Supervisor Evaluation");
-            criteriaId = sc.nextLong();
-        }
-
-        do {
-            System.out.println("Enter marks given by Supervisor");
-            marks = sc.nextDouble();
-        } while (!validationUtil.validatesDouble(marks));
-
-        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(id, employeeId, criteriaId, marks);
         supervisorEvaluationRepository.create(supervisorEvaluation);
-        System.out.println("Created Successfully!");
+        this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
+        messageUtil.showInfo("Supervisor Evaluation Created Successfully!");
+    }
+
+    public void beforeEdit(SupervisorEvaluation supervisorEvaluation) {
+        this.supervisorEvaluation = supervisorEvaluationRepository.findById(supervisorEvaluation.getId());
     }
 
     public void edit() {
-        Long id = null;
-        Long employeeId = null;
-        Long criteriaId = null;
-        Double marks = null;
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Supervisor evaluation id to edit");
-        id = sc.nextLong();
-
-        SupervisorEvaluation supervisorEvaluation = supervisorEvaluationRepository.findById(id);
-        if (supervisorEvaluation == null) {
-            System.out.println("Supervisor Evaluation with id: " + id + " not found");
-        } else {
-            while (!validationUtil.validatesLong(employeeId)) {
-                System.out.println("Enter Employee Id for Supervisor Evaluation");
-                employeeId = sc.nextLong();
-            }
-
-            while (!validationUtil.validatesLong(criteriaId)) {
-                System.out.println("Enter Criteria Id for Supervisor Evaluation");
-                criteriaId = sc.nextLong();
-            }
-
-            do {
-                System.out.println("Enter marks given by Supervisor");
-                marks = sc.nextDouble();
-            } while (!validationUtil.validatesDouble(marks));
-
-            SupervisorEvaluation sEvaluation = new SupervisorEvaluation(id, employeeId, criteriaId, marks);
-            supervisorEvaluationRepository.edit(sEvaluation);
-            System.out.println("Created Successfully!");
-        }
+        supervisorEvaluationRepository.edit(this.supervisorEvaluation);
+        this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
+        messageUtil.showInfo("Supervisor Evaluation Updated Successfully!");
     }
 
-    public void delete() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Supervisor Evaluation id to delete");
-        Long id = sc.nextLong();
-        SupervisorEvaluation supervisorEvaluation = supervisorEvaluationRepository.findById(id);
-        if (supervisorEvaluation == null) {
-            System.out.println("Supervisor Evaluation with id: " + id + " not found");
-        } else {
-            supervisorEvaluationRepository.delete(supervisorEvaluation);
-            System.out.println("Supervisor Evaluation removed");
-        }
+    public void delete(SupervisorEvaluation supervisorEvaluation) {
+        supervisorEvaluationRepository.delete(supervisorEvaluation);
+        this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
+        messageUtil.showInfo("Supervisor Evaluation Deleted Successfully!");
     }
 
     public void findAll() {
-        Iterator<SupervisorEvaluation> i = supervisorEvaluationRepository.findAll().iterator();
-        while (i.hasNext()) {
-            SupervisorEvaluation supervisorEvaluation = i.next();
-            System.out.println(supervisorEvaluation);
-        }
+        supervisorEvaluationRepository.findAll();
     }
 
-    public void findById() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Supervisor Evaluation id to find");
-        Long id = sc.nextLong();
-
-        SupervisorEvaluation supervisorEvaluation = supervisorEvaluationRepository.findById(id);
-        if (supervisorEvaluation == null) {
-            System.out.println("Supervisor Evaluation with id: " + id + " not found");
-        } else {
-            System.out.println(supervisorEvaluation);
-        }
+    public void findById(Long id) {
+        supervisorEvaluationRepository.findById(id);
     }
 
 }

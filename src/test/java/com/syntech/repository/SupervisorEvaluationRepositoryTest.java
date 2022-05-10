@@ -12,24 +12,25 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class SupervisorEvaluationRepositoryTest {
 
     SupervisorEvaluationRepository supervisorEvaluationRepository = new SupervisorEvaluationRepository();
+    SupervisorEvaluation obj = new SupervisorEvaluation();
 
     @Test
     public void createTest() {
-        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(1L, 2L, 1L, +10.0);
+        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(1L, obj.getEmployee(), obj.getCriteria(), +10.0);
         supervisorEvaluationRepository.create(supervisorEvaluation);
         assertEquals(1, supervisorEvaluationRepository.findAll().size());
     }
 
     @Test
     public void findAllTest() {
-        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(1L, 2L, 1L, -10.0);
+        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(1L, obj.getEmployee(), obj.getCriteria(), -10.0);
         supervisorEvaluationRepository.create(supervisorEvaluation);
         assertEquals(1, supervisorEvaluationRepository.findAll().size());
     }
 
     @Test
     public void deleteTest() {
-        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(2L, 2L, 1L, -10.0);
+        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(2L, obj.getEmployee(), obj.getCriteria(), -10.0);
         supervisorEvaluationRepository.create(supervisorEvaluation);
         supervisorEvaluationRepository.delete(supervisorEvaluation);
         assertEquals(0, supervisorEvaluationRepository.findAll().size());
@@ -37,7 +38,7 @@ public class SupervisorEvaluationRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(3L, 2L, 1L, -2.0);
+        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(3L, obj.getEmployee(), obj.getCriteria(), -2.0);
         supervisorEvaluationRepository.create(supervisorEvaluation);
         assertEquals(supervisorEvaluation, supervisorEvaluationRepository.findById(3L));
         assertNotEquals(supervisorEvaluation, supervisorEvaluationRepository.findById(4l));
@@ -45,7 +46,7 @@ public class SupervisorEvaluationRepositoryTest {
 
     @Test
     public void editTest() {
-        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(4L, 2L, 1L, +2.0);
+        SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation(4L, obj.getEmployee(), obj.getCriteria(), +2.0);
         supervisorEvaluationRepository.create(supervisorEvaluation);
         supervisorEvaluation.setMarks(+16.0);
         supervisorEvaluationRepository.edit(supervisorEvaluation);

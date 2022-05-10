@@ -1,50 +1,73 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author bipan
  */
+@Entity
+@Table(name = "supervisor_evaluation")
 public class SupervisorEvaluation implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true)
     private Long id;
-    private Long employeeId;
-    private Long criteriaId;
+
+    @ManyToOne
+    @JoinColumn(name = "employee", nullable = false)
+    private Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "criteria", nullable = false)
+    private Criteria criteria;
+
+    @Column(name = "marks", nullable = false)
     private Double marks;
 
     public SupervisorEvaluation() {
     }
 
-    public SupervisorEvaluation(Long id, Long employeeId, Long criteriaId, Double marks) {
+    public SupervisorEvaluation(Long id, Employee employee, Criteria criteria, Double marks) {
         this.id = id;
-        this.employeeId = employeeId;
-        this.criteriaId = criteriaId;
+        this.employee = employee;
+        this.criteria = criteria;
         this.marks = marks;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public Long getCriteriaId() {
-        return criteriaId;
+    public Criteria getCriteria() {
+        return criteria;
     }
 
-    public void setCriteriaId(Long criteriaId) {
-        this.criteriaId = criteriaId;
+    public void setCriteria(Criteria criteria) {
+        this.criteria = criteria;
     }
 
     public Double getMarks() {
@@ -57,11 +80,11 @@ public class SupervisorEvaluation implements IEntity {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + Objects.hashCode(this.employeeId);
-        hash = 29 * hash + Objects.hashCode(this.criteriaId);
-        hash = 29 * hash + Objects.hashCode(this.marks);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.employee);
+        hash = 37 * hash + Objects.hashCode(this.criteria);
+        hash = 37 * hash + Objects.hashCode(this.marks);
         return hash;
     }
 
@@ -80,10 +103,10 @@ public class SupervisorEvaluation implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.employeeId, other.employeeId)) {
+        if (!Objects.equals(this.employee, other.employee)) {
             return false;
         }
-        if (!Objects.equals(this.criteriaId, other.criteriaId)) {
+        if (!Objects.equals(this.criteria, other.criteria)) {
             return false;
         }
         if (!Objects.equals(this.marks, other.marks)) {
@@ -94,7 +117,6 @@ public class SupervisorEvaluation implements IEntity {
 
     @Override
     public String toString() {
-        return "SupervisorEvaluation{" + "id=" + id + ", employeeId=" + employeeId + ", criteriaId=" + criteriaId + ", marks=" + marks + '}';
+        return "SupervisorEvaluation{" + "id=" + id + ", employee=" + employee + ", criteria=" + criteria + ", marks=" + marks + '}';
     }
-
 }

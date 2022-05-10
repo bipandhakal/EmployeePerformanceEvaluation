@@ -101,7 +101,7 @@ public class MainController {
                     break;
 
                 case "8":
-                    supervisorEvaluationController.showMenu(supervisorEvaluationRepository);
+//                    supervisorEvaluationController.showMenu(supervisorEvaluationRepository);
                     break;
 
                 default:
