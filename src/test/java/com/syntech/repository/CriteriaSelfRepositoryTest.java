@@ -12,24 +12,25 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class CriteriaSelfRepositoryTest {
 
     CriteriaSelfRepository criteriaSelfRepository = new CriteriaSelfRepository();
+    CriteriaSelf obj = new CriteriaSelf();
 
     @Test
     public void createTest() {
-        CriteriaSelf crs1 = new CriteriaSelf(1L, 1L, 15.0);
+        CriteriaSelf crs1 = new CriteriaSelf(1L, obj.getCriteria(), 15.0);
         criteriaSelfRepository.create(crs1);
         assertEquals(1, criteriaSelfRepository.findAll().size());
     }
 
     @Test
     public void findAllTest() {
-        CriteriaSelf crs1 = new CriteriaSelf(2L, 1L, 10.0);
+        CriteriaSelf crs1 = new CriteriaSelf(2L, obj.getCriteria(), 10.0);
         criteriaSelfRepository.create(crs1);
         assertEquals(1, criteriaSelfRepository.findAll().size());
     }
 
     @Test
     public void deleteTest() {
-        CriteriaSelf crs2 = new CriteriaSelf(2L, 2L, 20.0);
+        CriteriaSelf crs2 = new CriteriaSelf(2L, obj.getCriteria(), 20.0);
         criteriaSelfRepository.create(crs2);
         criteriaSelfRepository.delete(crs2);
         assertEquals(0, criteriaSelfRepository.findAll().size());
@@ -37,7 +38,7 @@ public class CriteriaSelfRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        CriteriaSelf crs3 = new CriteriaSelf(3L, 1L, 20.0);
+        CriteriaSelf crs3 = new CriteriaSelf(3L, obj.getCriteria(), 20.0);
         criteriaSelfRepository.create(crs3);
         assertEquals(crs3, criteriaSelfRepository.findById(3l));
         assertNotEquals(crs3, criteriaSelfRepository.findById(4l));
@@ -45,7 +46,7 @@ public class CriteriaSelfRepositoryTest {
 
     @Test
     public void editTest() {
-        CriteriaSelf crs4 = new CriteriaSelf(4L, 2L, 21.0);
+        CriteriaSelf crs4 = new CriteriaSelf(4L, obj.getCriteria(), 21.0);
         criteriaSelfRepository.create(crs4);
         crs4.setMarks(16.0);
         criteriaSelfRepository.edit(crs4);

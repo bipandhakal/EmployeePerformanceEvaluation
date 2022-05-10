@@ -22,6 +22,7 @@ public class CalculationUtilTest {
     CalculationUtil calculationUtil = new CalculationUtil();
     Criteria obj = new Criteria();
     CriteriaRange criteriaRange = new CriteriaRange();
+    CriteriaSelf criteriaSelf = new CriteriaSelf();
 
     @Test
     public void criteriaRangeCalculationTest() {
@@ -86,7 +87,7 @@ public class CalculationUtilTest {
 
         SupervisorEvaluation sevaluation = new SupervisorEvaluation(1L, 1L, 1L, -3.0);
 
-        CriteriaSelf cself = new CriteriaSelf(1L, 1L, 20.0);
+        CriteriaSelf cself = new CriteriaSelf(1L, criteriaSelf.getCriteria(), 20.0);
 
         assertNotEquals(2.0, calculationUtil.finalMarks(list, 10L, list1, "Present", ctr, 20L, cself, sevaluation));
         assertEquals(40.0, calculationUtil.finalMarks(list, 10L, list1, "Present", ctr, 20L, cself, sevaluation));

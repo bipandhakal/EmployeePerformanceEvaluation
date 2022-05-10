@@ -1,158 +1,99 @@
 package com.syntech.controller;
 
+import static com.syntech.model.CalculatedBy.SELF;
+import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaSelf;
+import com.syntech.repository.CriteriaRepository;
 import com.syntech.repository.CriteriaSelfRepository;
-import com.syntech.util.ValidationUtil;
-import java.util.Iterator;
-import java.util.Scanner;
+import com.syntech.util.MessageUtil;
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author bipan
  */
-public class CriteriaSelfController {
+@ViewScoped
+@Named
+public class CriteriaSelfController implements Serializable {
 
+    private CriteriaSelf criteriaSelf;
+
+    private List<CriteriaSelf> criteriaSelfList;
+
+    @Inject
     private CriteriaSelfRepository criteriaSelfRepository;
-    private ValidationUtil validationUtil;
 
-    public CriteriaSelfController() {
-        validationUtil = new ValidationUtil();
+    @Inject
+    private CriteriaRepository criteriaRepository;
+
+    @Inject
+    private MessageUtil messageUtil;
+
+    public CriteriaSelf getCriteriaSelf() {
+        return criteriaSelf;
     }
 
-    public void showMenu(CriteriaSelfRepository criteriaSelfRepository) {
-        this.criteriaSelfRepository = criteriaSelfRepository;
+    public void setCriteriaSelf(CriteriaSelf criteriaSelf) {
+        this.criteriaSelf = criteriaSelf;
+    }
 
-        Scanner sc = new Scanner(System.in);
-        String num;
-        do {
-            System.out.println("Criteria Self");
-            System.out.println("Press 6.1 to create criteria Self");
-            System.out.println("Press 6.2 to edit criteria Self");
-            System.out.println("Press 6.3 to delete criteria Self");
-            System.out.println("Press 6.4 to findAll criteria Self");
-            System.out.println("Press 6.5 to findById criteria Self");
-            System.out.println("Enter your choice : ");
-            num = sc.next();
+    public List<CriteriaSelf> getCriteriaSelfList() {
+        return criteriaSelfList;
+    }
 
-            switch (num) {
-                case "6.1":
-                    create();
-                    break;
+    public void setCriteriaSelfList(List<CriteriaSelf> criteriaSelfList) {
+        this.criteriaSelfList = criteriaSelfList;
+    }
 
-                case "6.2":
-                    edit();
-                    break;
+    @PostConstruct
+    public void init() {
+        this.criteriaSelf = new CriteriaSelf();
+        this.criteriaSelfList = criteriaSelfRepository.findAll();
+        System.out.println(criteriaSelfList.size());
+    }
 
-                case "6.3":
-                    delete();
-                    break;
+    public List<Criteria> getCriteriaDetails() {
+        return criteriaRepository.findAll().stream().filter(x -> x.getCalculatedBy().equals(SELF))
+                .collect(Collectors.toList());
+    }
 
-                case "6.4":
-                    findAll();
-                    break;
-
-                case "6.5":
-                    findById();
-                    break;
-
-                case "*":
-                    MainController.showMenu();
-                    break;
-
-                default:
-                    System.out.println("Invalid number");
-                    break;
-            }
-        } while (!num.equals("0"));
+    public void beforeCreate() {
+        this.criteriaSelf = new CriteriaSelf();
     }
 
     public void create() {
-        Long id = null;
-        Long criteriaId = null;
-        Double marks = null;
-
-        Scanner sc = new Scanner(System.in);
-        while (!validationUtil.validatesLong(id)) {
-            System.out.println("Enter Criteria Self id");
-            id = sc.nextLong();
-        }
-        while (!validationUtil.validatesLong(criteriaId)) {
-            System.out.println("Enter Criteria id for Criteria Self");
-            criteriaId = sc.nextLong();
-        }
-
-        do {
-            System.out.println("Enter Criteria Self Marks");
-            marks = sc.nextDouble();
-        } while (!validationUtil.validatesDouble(marks));
-
-        CriteriaSelf criteriaSelf = new CriteriaSelf(id, criteriaId, marks);
         criteriaSelfRepository.create(criteriaSelf);
-        System.out.println("Created Successfully!");
+        this.criteriaSelfList = criteriaSelfRepository.findAll();
+        messageUtil.showInfo("CriteriaSelf Created Successfully!");
+    }
+
+    public void beforeEdit(CriteriaSelf crts) {
+        this.criteriaSelf = criteriaSelfRepository.findById(crts.getId());
     }
 
     public void edit() {
-        Long id = null;
-        Long criteriaId = null;
-        Double marks = null;
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter criteria self id to edit");
-        id = sc.nextLong();
-
-        CriteriaSelf criteriaSelf = criteriaSelfRepository.findById(id);
-        if (criteriaSelf == null) {
-            System.out.println("Criteria Self with id: " + id + " not found");
-
-        } else {
-
-            while (!validationUtil.validatesLong(criteriaId)) {
-                System.out.println("Enter Criteria id for Criteria Self");
-                criteriaId = sc.nextLong();
-            }
-
-            do {
-                System.out.println("Enter Criteria Self Marks");
-                marks = sc.nextDouble();
-            } while (!validationUtil.validatesDouble(marks));
-
-            CriteriaSelf crself = new CriteriaSelf(id, criteriaId, marks);
-            criteriaSelfRepository.edit(crself);
-            System.out.println("Edited Successfully!");
-        }
+        criteriaSelfRepository.edit(this.criteriaSelf);
+        this.criteriaSelfList = criteriaSelfRepository.findAll();
+        messageUtil.showInfo("CriteriaSelf Edited Successfully!");
     }
 
     public void findAll() {
-        Iterator<CriteriaSelf> i = criteriaSelfRepository.findAll().iterator();
-        while (i.hasNext()) {
-            CriteriaSelf criteriaSelf = i.next();
-            System.out.println(criteriaSelf);
-        }
+        criteriaSelfRepository.findAll();
     }
 
-    public void findById() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Criteria Self id to find");
-        Long id = sc.nextLong();
-        CriteriaSelf criteriaSelf = criteriaSelfRepository.findById(id);
-        if (criteriaSelf == null) {
-            System.out.println("Criteria Self with id: " + id + " not found");
-        } else {
-            System.out.println(criteriaSelf);
-        }
+    public void findById(Long id) {
+        criteriaSelfRepository.findById(id);
     }
 
-    public void delete() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Criteria Self id to delete");
-        Long id = sc.nextLong();
-        CriteriaSelf criteriaSelf = criteriaSelfRepository.findById(id);
-        if (criteriaSelf == null) {
-            System.out.println("Criteria Self with id: " + id + " not found");
-        } else {
-            criteriaSelfRepository.delete(criteriaSelf);
-            System.out.println("Criteria Self deleted Successfully");
-        }
+    public void delete(CriteriaSelf criteriaSelf) {
+        criteriaSelfRepository.delete(criteriaSelf);
+        this.criteriaSelfList = criteriaSelfRepository.findAll();
+        messageUtil.showInfo("Criteria Self Removed");
     }
-
 }

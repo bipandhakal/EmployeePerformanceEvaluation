@@ -28,12 +28,6 @@ public class CriteriaRangeController implements Serializable {
     private List<CriteriaRange> criteriaRangeList;
 
     @Inject
-    private Criteria criteria;
-
-    @Inject
-    private CriteriaController criteriaController;
-
-    @Inject
     private CriteriaRangeRepository criteriaRangeRepository;
 
     @Inject

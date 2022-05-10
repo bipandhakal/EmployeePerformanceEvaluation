@@ -1,6 +1,7 @@
 package com.syntech.repository;
 
 import com.syntech.model.CriteriaSelf;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
  *
  * @author bipan
  */
+@Stateless
 public class CriteriaSelfRepository extends AbstractRepository<CriteriaSelf> {
 
     @PersistenceContext(name = "EPE")
@@ -20,15 +22,5 @@ public class CriteriaSelfRepository extends AbstractRepository<CriteriaSelf> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
-    }
-
-    @Override
-    public void edit(CriteriaSelf criteriaSelf) {
-
-        super.findAll().stream().filter(x -> x.getId().equals(criteriaSelf.getId()))
-                .forEach(crts -> {
-                    crts.setCriteriaId(criteriaSelf.getCriteriaId());
-                    crts.setMarks(criteriaSelf.getMarks());
-                });
     }
 }

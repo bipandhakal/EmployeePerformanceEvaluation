@@ -93,7 +93,7 @@ public class MainController {
                     break;
 
                 case "6":
-                    criteriaSelfController.showMenu(criteriaSelfRepository);
+//                    criteriaSelfController.showMenu(criteriaSelfRepository);
                     break;
 
                 case "7":
