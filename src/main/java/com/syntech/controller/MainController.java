@@ -89,7 +89,7 @@ public class MainController {
                     break;
 
                 case "5":
-                    criteriaTrueFalseController.showMenu(criteriaTrueFalseRepository);
+//                    criteriaTrueFalseController.showMenu(criteriaTrueFalseRepository);
                     break;
 
                 case "6":

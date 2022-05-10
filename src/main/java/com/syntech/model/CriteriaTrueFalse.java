@@ -1,42 +1,64 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author bipan
  */
+@Entity
+@Table(name = "criteria_true_false")
 public class CriteriaTrueFalse implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true)
     private Long id;
-    private Long criteriaId;
+
+    @ManyToOne
+    @JoinColumn(name = "criteria", nullable = false)
+    private Criteria criteria;
+
+    @Column(name = "status", nullable = false)
     private String status;
+
+    @Column(name = "marks", nullable = false)
     private Double marks;
 
     public CriteriaTrueFalse() {
     }
 
-    public CriteriaTrueFalse(Long id, Long criteriaId, String status, Double marks) {
+    public CriteriaTrueFalse(Long id, Criteria criteria, String status, Double marks) {
         this.id = id;
-        this.criteriaId = criteriaId;
+        this.criteria = criteria;
         this.status = status;
         this.marks = marks;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getCriteriaId() {
-        return criteriaId;
+    public Criteria getCriteria() {
+        return criteria;
     }
 
-    public void setCriteriaId(Long criteriaId) {
-        this.criteriaId = criteriaId;
+    public void setCriteria(Criteria criteria) {
+        this.criteria = criteria;
     }
 
     public String getStatus() {
@@ -58,10 +80,10 @@ public class CriteriaTrueFalse implements IEntity {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.id);
-        hash = 17 * hash + Objects.hashCode(this.criteriaId);
-        hash = 17 * hash + Objects.hashCode(this.status);
-        hash = 17 * hash + Objects.hashCode(this.marks);
+        hash = 31 * hash + Objects.hashCode(this.id);
+        hash = 31 * hash + Objects.hashCode(this.criteria);
+        hash = 31 * hash + Objects.hashCode(this.status);
+        hash = 31 * hash + Objects.hashCode(this.marks);
         return hash;
     }
 
@@ -83,7 +105,7 @@ public class CriteriaTrueFalse implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.criteriaId, other.criteriaId)) {
+        if (!Objects.equals(this.criteria, other.criteria)) {
             return false;
         }
         if (!Objects.equals(this.marks, other.marks)) {
@@ -94,7 +116,6 @@ public class CriteriaTrueFalse implements IEntity {
 
     @Override
     public String toString() {
-        return "CriteriaTrueFalse{" + "id=" + id + ", criteriaId=" + criteriaId + ", status=" + status + ", marks=" + marks + '}';
+        return "CriteriaTrueFalse{" + "id=" + id + ", criteria=" + criteria + ", status=" + status + ", marks=" + marks + '}';
     }
-
 }

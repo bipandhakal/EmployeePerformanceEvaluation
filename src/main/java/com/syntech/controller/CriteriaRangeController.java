@@ -6,7 +6,6 @@ import com.syntech.model.CriteriaRange;
 import com.syntech.repository.CriteriaRangeRepository;
 import com.syntech.repository.CriteriaRepository;
 import com.syntech.util.MessageUtil;
-import com.syntech.util.ValidationUtil;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,9 +31,6 @@ public class CriteriaRangeController implements Serializable {
 
     @Inject
     private CriteriaRepository criteriaRepository;
-
-    @Inject
-    private ValidationUtil validationUtil;
 
     @Inject
     private MessageUtil messageUtil;

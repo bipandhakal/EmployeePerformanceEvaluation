@@ -23,6 +23,7 @@ public class CalculationUtilTest {
     Criteria obj = new Criteria();
     CriteriaRange criteriaRange = new CriteriaRange();
     CriteriaSelf criteriaSelf = new CriteriaSelf();
+    CriteriaTrueFalse criteriaTrueFalse = new CriteriaTrueFalse();
 
     @Test
     public void criteriaRangeCalculationTest() {
@@ -44,8 +45,8 @@ public class CalculationUtilTest {
     @Test
     public void criteriaTrueFalseCalculationTest() {
         ArrayList<CriteriaTrueFalse> list = new ArrayList<>();
-        CriteriaTrueFalse ctf = new CriteriaTrueFalse(1L, 2L, "Present", 10.0);
-        CriteriaTrueFalse ctf1 = new CriteriaTrueFalse(1L, 2L, "Absent", 1.0);
+        CriteriaTrueFalse ctf = new CriteriaTrueFalse(1L, criteriaTrueFalse.getCriteria(), "Present", 10.0);
+        CriteriaTrueFalse ctf1 = new CriteriaTrueFalse(1L, criteriaTrueFalse.getCriteria(), "Absent", 1.0);
         list.add(ctf);
         list.add(ctf1);
 
@@ -77,8 +78,8 @@ public class CalculationUtilTest {
         list.add(cr1);
 
         ArrayList<CriteriaTrueFalse> list1 = new ArrayList<>();
-        CriteriaTrueFalse ctf = new CriteriaTrueFalse(1L, 2L, "Present", 10.0);
-        CriteriaTrueFalse ctf1 = new CriteriaTrueFalse(1L, 2L, "Absent", 1.0);
+        CriteriaTrueFalse ctf = new CriteriaTrueFalse(1L, criteriaTrueFalse.getCriteria(), "Present", 10.0);
+        CriteriaTrueFalse ctf1 = new CriteriaTrueFalse(1L, criteriaTrueFalse.getCriteria(), "Absent", 1.0);
         list1.add(ctf);
         list1.add(ctf1);
 

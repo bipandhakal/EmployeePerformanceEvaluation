@@ -3,7 +3,6 @@ package com.syntech.controller;
 import com.syntech.model.Category;
 import com.syntech.repository.CategoryRepository;
 import com.syntech.util.MessageUtil;
-import com.syntech.util.ValidationUtil;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,9 +24,6 @@ public class CategoryController implements Serializable {
 
     @Inject
     private CategoryRepository categoryRepository;
-
-    @Inject
-    private ValidationUtil validationUtil;
 
     @Inject
     private MessageUtil messageUtil;
