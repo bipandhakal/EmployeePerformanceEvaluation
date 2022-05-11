@@ -1,4 +1,4 @@
-package com.syntech.controller;
+package com.syntech.converter;
 
 import com.syntech.model.Category;
 import com.syntech.repository.CategoryRepository;

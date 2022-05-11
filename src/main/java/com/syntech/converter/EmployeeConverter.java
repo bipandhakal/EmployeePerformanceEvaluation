@@ -1,7 +1,7 @@
-package com.syntech.controller;
+package com.syntech.converter;
 
-import com.syntech.model.Criteria;
-import com.syntech.repository.CriteriaRepository;
+import com.syntech.model.Employee;
+import com.syntech.repository.EmployeeRepository;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -14,18 +14,18 @@ import javax.inject.Inject;
  * @author bipan
  */
 @RequestScoped
-@FacesConverter(value = "criteriaConverter", forClass = Criteria.class)
-public class CriteriaConverter implements Converter {
+@FacesConverter(value = "employeeConverter", forClass = Employee.class)
+public class EmployeeConverter implements Converter {
 
     @Inject
-    CriteriaRepository criteriaRepository;
+    EmployeeRepository employeeRepository;
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value == null || value.isEmpty() || value.length() == 0 || value.equals("")) {
             return null;
         }
-        return criteriaRepository.findById(Long.valueOf(value));
+        return employeeRepository.findById(Long.valueOf(value));
     }
 
     @Override
@@ -33,6 +33,6 @@ public class CriteriaConverter implements Converter {
         if (o == null || o.equals("")) {
             return "";
         }
-        return ((Criteria) o).getId().toString();
+        return ((Employee) o).getId().toString();
     }
 }

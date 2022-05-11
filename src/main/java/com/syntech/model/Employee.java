@@ -80,7 +80,7 @@ public class Employee implements IEntity {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         int hash = 5;
         hash = 23 * hash + Objects.hashCode(this.id);
         hash = 23 * hash + Objects.hashCode(this.firstName);
@@ -90,14 +90,11 @@ public class Employee implements IEntity {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
+    public final boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof Employee)) {
             return false;
         }
         final Employee other = (Employee) obj;
