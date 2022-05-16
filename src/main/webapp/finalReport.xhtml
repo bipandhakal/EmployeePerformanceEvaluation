@@ -11,57 +11,63 @@
     <ui:define name="Center">
         <p:panel  header="Final report Records">
             <f:facet name="header">
-                <p:panelGrid columns="3" style="float: left;">
-
-                    <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"/>
-                    <p:selectOneMenu id="som_employee" value="#{reportController.employee}"
-                                     converter="employeeConverter">
-                        <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
-                        <f:selectItems value="#{employeeController.employeeList}" var="v" 
-                                       itemLabel="#{v.firstName}" itemValue="#{v}"/>
-                        <p:ajax update="@this olbl_employee" />
-                    </p:selectOneMenu>
-
-                    <p:commandButton id = "btn_show_report" value="Show Report"  oncomplete="" update="@this"
-                                     process="@this"/>
-
-                </p:panelGrid>
+                <h:form id="form">
+                    <p:panelGrid columns="3" style="float: left;">
+                        <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"/>
+                        <p:selectOneMenu id="som_employee" value="#{reportController.selectedEmployee}" 
+                                         converter="employeeConverter">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{employeeController.employeeList}" var="v" 
+                                           itemLabel="#{v.firstName}" itemValue="#{v}"/>
+                            <p:ajax update="@this olbl_employee" process="@this"/>
+                        </p:selectOneMenu>
+                        <!--<p:commandButton id = "btn_show_report" value="Show Report" update="@this"/>-->
+                    </p:panelGrid>
+                </h:form>
             </f:facet>
+
             <h:form id="frm_emp_freport">
-                <p:dataTable id = "table_emp_freport" value="" style="border: 1px solid"
-                             rendered="#{empty reportController.employee}"  
+                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r"
+                             rendered="#{ not empty reportController.selectedEmployee}"
+                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid"
+                             paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                             selectionMode="single"
+                             rowKey="#{s.id}" sortMode="single"
                              emptyMessage="No data found">
 
                     <p:column headerText="S.N">
-                        <h:outputText value=""/>
+                        <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
 
                     <p:column headerText="Category">
-                        <h:outputText value=""/>
+                        <h:outputText value="#{r.category.name}"/>
                     </p:column>
 
                     <p:column headerText="Criteria">
-                        <h:outputText value=""/>
+                        <h:outputText value="#{r.criteria.name}"/>
                     </p:column>
 
                     <p:column headerText="Method">
-                        <h:outputText value=""/>
+                        <h:outputText value="#{r.criteria.calculatedBy}"/>
                     </p:column>
 
                     <p:column headerText="Full Marks">
-                        <h:outputText value=""/>
+                        <h:outputText value="#{r.criteria.marks}"/>
                     </p:column>
 
                     <p:column headerText="Target">
-                        <h:outputText value=""/>
+                        <h:outputText value="#{r.criteria.target}"/>
                     </p:column>
 
                     <p:column headerText="Achievements">
-                        <h:outputText value=""/>
+                        <h:outputText value="#{r.employeeAchievements.achievement}"/>
                     </p:column>
 
                     <p:column headerText="Supervisor Marks">
-                        <h:outputText value=""/>
+                        <h:outputText value="#{r.supervisorEvaluation.marks}"/>
                     </p:column>
 
                     <p:column headerText="Obtained Marks">
