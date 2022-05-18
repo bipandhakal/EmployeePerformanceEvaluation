@@ -1,9 +1,13 @@
 package com.syntech.repository;
 
+import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaRange;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -22,5 +26,17 @@ public class CriteriaRangeRepository extends AbstractRepository<CriteriaRange> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+
+    public List<CriteriaRange> findByCriteria(Criteria criteria) {
+        List<CriteriaRange> cr = null;
+        try {
+            Query query = em.createQuery("SELECT cr FROM CriteriaRange cr WHERE cr.criteria=:crt", CriteriaRange.class);
+            query.setParameter("crt", criteria);
+            cr = query.getResultList();
+        } catch (NoResultException e) {
+            cr = null;
+        }
+        return cr;
     }
 }

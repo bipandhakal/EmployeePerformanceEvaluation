@@ -44,7 +44,7 @@ public class Report implements IEntity {
     private SupervisorEvaluation supervisorEvaluation;
 
     @Column(name = "obtained_marks", nullable = false)
-    private Double obtainedMarks;
+    private Double obtainedMarks;   
 
     public Report() {
     }

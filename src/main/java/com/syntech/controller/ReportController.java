@@ -10,8 +10,10 @@ import com.syntech.model.Report;
 import com.syntech.model.SupervisorEvaluation;
 import com.syntech.repository.CriteriaRangeRepository;
 import com.syntech.repository.CriteriaRepository;
+import com.syntech.repository.CriteriaSelfRepository;
 import com.syntech.repository.CriteriaTrueFalseRepository;
-import com.syntech.repository.ReportRepository;
+import com.syntech.repository.EmployeeAchievementsRepository;
+import com.syntech.repository.SupervisorEvaluationRepository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,19 +36,24 @@ public class ReportController implements Serializable {
 
     private List<Report> reportList;
 
-//    private List<Criteria> criteriaList;
     private List<CriteriaRange> criteriaRangeList;
 
     private List<CriteriaTrueFalse> criteriaTrueFalseList;
-
-    @Inject
-    private ReportRepository reportRepository;
 
     @Inject
     private CriteriaRangeRepository criteriaRangeRepository;
 
     @Inject
     private CriteriaRepository criteriaRepository;
+
+    @Inject
+    private EmployeeAchievementsRepository employeeAchievementsRepository;
+
+    @Inject
+    private SupervisorEvaluationRepository supervisorEvaluationRepository;
+
+    @Inject
+    private CriteriaSelfRepository criteriaSelfRepository;
 
     @Inject
     private CriteriaTrueFalseRepository criteriaTrueFalseRepository;
@@ -132,17 +139,37 @@ public class ReportController implements Serializable {
 
     public void prepareReport() {
         List<Criteria> criteriaList = criteriaRepository.findAll();
-        List<EmployeeAchievements> employeeAchievementList = new ArrayList<>(); // find by selected employee
-        List<SupervisorEvaluation> supervisorEvaluationList = new ArrayList<>(); // find by selected employee
+        List<EmployeeAchievements> employeeAchievementList = employeeAchievementsRepository.findBySelectedEmployee(selectedEmployee);
+        List<SupervisorEvaluation> supervisorEvaluationList = supervisorEvaluationRepository.findBySelectedEmployee(selectedEmployee);
+        List<CriteriaSelf> criteriaSelfList = criteriaSelfRepository.findByEmployee(selectedEmployee);
 
         reportList = new ArrayList<>();
         for (Criteria c : criteriaList) {
-            EmployeeAchievements ea = null; // find by employee and criteria
-            SupervisorEvaluation se = null; // find by employee and criteria
 
-            Double om = obtainedMarks(selectedEmployee, c, ea);// find by employee and criteria
+            EmployeeAchievements empachv = null;
+            for (EmployeeAchievements ea : employeeAchievementList) {
+                if (ea.getCriteria().equals(c)) {
+                    empachv = ea;
+                }
+            }
 
-            Report report = new Report(null, selectedEmployee, c.getCategory(), c, ea, se, om);
+            SupervisorEvaluation seval = null;
+            for (SupervisorEvaluation se : supervisorEvaluationList) {
+                if (se.getCriteria().equals(c)) {
+                    seval = se;
+                }
+            }
+
+            CriteriaSelf cself = null;
+            for (CriteriaSelf cs : criteriaSelfList) {
+                if (cs.getCriteria().equals(c)) {
+                    cself = cs;
+                }
+            }
+
+            Double obtmarks = obtainedMarks(c, empachv.getAchievement(), cself);
+
+            Report report = new Report(null, selectedEmployee, c.getCategory(), c, empachv, seval, obtmarks);
             reportList.add(report);
             System.out.println(c);
         }
