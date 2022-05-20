@@ -1,6 +1,7 @@
 package com.syntech.controller;
 
 import com.syntech.model.CalculatedBy;
+import com.syntech.model.Category;
 import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaRange;
 import com.syntech.model.CriteriaSelf;
@@ -116,6 +117,7 @@ public class ReportController implements Serializable {
         this.criteriaTrueFalseList = criteriaTrueFalseRepository.findAll();
         this.criteriaSelfList = criteriaSelfRepository.findAll();
         this.selectedEmployee = new Employee();
+        this.reportList = new ArrayList<>();
     }
 
     public Double criteriaRangeMarks(Criteria criteria, String employeeAchievementMarks) {
@@ -200,6 +202,23 @@ public class ReportController implements Serializable {
             }
         }
         return 0.0;
+    }
+
+//    public double calculateTotalMarks(Category category) {
+//        Double totalMarks = 0.0;
+//        for (Report r : reportList) {
+//            if (r.getCriteria().getCategory().equals(category)) {
+//                totalMarks = totalMarks + r.getFinalMarks();
+//            }
+//        }
+//        return totalMarks;
+//    }
+    public double calculateTotalMarks() {
+        Double totalMarks = 0.0;
+        for (Report r : reportList) {
+            totalMarks = totalMarks + r.getFinalMarks();
+        }
+        return Double.parseDouble(String.format("%.2f", totalMarks));
     }
 
     public void prepareReport() {
