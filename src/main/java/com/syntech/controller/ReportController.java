@@ -1,5 +1,6 @@
 package com.syntech.controller;
 
+import com.syntech.model.CalculatedBy;
 import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaRange;
 import com.syntech.model.CriteriaSelf;
@@ -39,6 +40,8 @@ public class ReportController implements Serializable {
     private List<CriteriaRange> criteriaRangeList;
 
     private List<CriteriaTrueFalse> criteriaTrueFalseList;
+
+    private List<CriteriaSelf> criteriaSelfList;
 
     @Inject
     private CriteriaRangeRepository criteriaRangeRepository;
@@ -90,15 +93,35 @@ public class ReportController implements Serializable {
         this.criteriaRangeList = criteriaRangeList;
     }
 
+    public List<CriteriaTrueFalse> getCriteriaTrueFalseList() {
+        return criteriaTrueFalseList;
+    }
+
+    public void setCriteriaTrueFalseList(List<CriteriaTrueFalse> criteriaTrueFalseList) {
+        this.criteriaTrueFalseList = criteriaTrueFalseList;
+    }
+
+    public List<CriteriaSelf> getCriteriaSelfList() {
+        return criteriaSelfList;
+    }
+
+    public void setCriteriaSelfList(List<CriteriaSelf> criteriaSelfList) {
+        this.criteriaSelfList = criteriaSelfList;
+    }
+
     @PostConstruct
     public void init() {
         this.report = new Report();
         this.criteriaRangeList = criteriaRangeRepository.findAll();
         this.criteriaTrueFalseList = criteriaTrueFalseRepository.findAll();
+        this.criteriaSelfList = criteriaSelfRepository.findAll();
         this.selectedEmployee = new Employee();
     }
 
     public Double criteriaRangeMarks(Criteria criteria, String employeeAchievementMarks) {
+        if (!criteria.getCalculatedBy().equals(CalculatedBy.RANGE)) {
+            return 0.0;
+        }
         for (CriteriaRange cr : criteriaRangeList) {
             if (cr.getCriteria().equals(criteria)) {
                 Long achv = Long.parseLong(employeeAchievementMarks);
@@ -111,6 +134,9 @@ public class ReportController implements Serializable {
     }
 
     public Double criteriaTrueFalseMarks(Criteria criteria, String employeeAchievements) {
+        if (!criteria.getCalculatedBy().equals(CalculatedBy.TRUEORFALSE)) {
+            return 0.0;
+        }
         for (CriteriaTrueFalse ctf : criteriaTrueFalseList) {
             if (ctf.getCriteria().equals(criteria)) {
                 if (employeeAchievements.equals(ctf.getStatus())) {
@@ -122,54 +148,72 @@ public class ReportController implements Serializable {
     }
 
     public Double criteriaAverageMarks(Criteria criteria, String employeeAchievements) {
+        if (!criteria.getCalculatedBy().equals(CalculatedBy.AVERAGE)) {
+            return 0.0;
+        }
         Double d = Double.parseDouble(employeeAchievements);
         return (criteria.getMarks() * d) / (criteria.getTarget().doubleValue());
     }
 
-    public Double obtainedMarks(Criteria criteria, String employeeAchievementMarks, CriteriaSelf criteriaSelfMarks) {
-        return criteriaRangeMarks(criteria, employeeAchievementMarks)
-                + criteriaTrueFalseMarks(criteria, employeeAchievementMarks)
-                + criteriaAverageMarks(criteria, employeeAchievementMarks)
-                + criteriaSelfMarks.getMarks();
+    public Double obtainedMarks(Criteria criteria, EmployeeAchievements ea) {
+        Double d = 0.0;
+        if (ea != null) {
+            d = criteriaRangeMarks(criteria, ea.getAchievement())
+                    + criteriaTrueFalseMarks(criteria, ea.getAchievement())
+                    + criteriaAverageMarks(criteria, ea.getAchievement());
+        }
+        d = d + criteriaSelfMarks(criteria);
+        return Double.parseDouble(String.format("%.2f", d));
     }
 
-    public Double finalMarks(Criteria criteria, String employeeAchievementsMarks, CriteriaSelf criteriaSelfMarks, SupervisorEvaluation sevaluation) {
-        return obtainedMarks(criteria, employeeAchievementsMarks, criteriaSelfMarks) + sevaluation.getMarks();
+    public Double finalMarks(Double obtainedMarks, Double sevaluation) {
+        return obtainedMarks + sevaluation;
+    }
+
+    public Double criteriaSelfMarks(Criteria criteria) {
+        if (!criteria.getCalculatedBy().equals(CalculatedBy.SELF)) {
+            return 0.0;
+        }
+        for (CriteriaSelf cs : criteriaSelfList) {
+            if (cs.getCriteria().equals(criteria)) {
+                return cs.getMarks();
+            }
+        }
+        return 0.0;
+    }
+
+    public EmployeeAchievements employeeAchievementsDetails(Criteria criteria) {
+        List<EmployeeAchievements> employeeAchievementList = employeeAchievementsRepository.findBySelectedEmployee(selectedEmployee);
+        for (EmployeeAchievements ea : employeeAchievementList) {
+            if (ea.getCriteria().equals(criteria)) {
+                return ea;
+            }
+        }
+        return null;
+    }
+
+    public double supervisorEvaluationMarks(Criteria criteria) {
+        List<SupervisorEvaluation> supervisorEvaluationList = supervisorEvaluationRepository.findBySelectedEmployee(selectedEmployee);
+        for (SupervisorEvaluation se : supervisorEvaluationList) {
+            if (se.getCriteria().equals(criteria)) {
+                return se.getMarks();
+            }
+        }
+        return 0.0;
     }
 
     public void prepareReport() {
         List<Criteria> criteriaList = criteriaRepository.findAll();
-        List<EmployeeAchievements> employeeAchievementList = employeeAchievementsRepository.findBySelectedEmployee(selectedEmployee);
-        List<SupervisorEvaluation> supervisorEvaluationList = supervisorEvaluationRepository.findBySelectedEmployee(selectedEmployee);
-        List<CriteriaSelf> criteriaSelfList = criteriaSelfRepository.findByEmployee(selectedEmployee);
-
         reportList = new ArrayList<>();
         for (Criteria c : criteriaList) {
 
-            EmployeeAchievements empachv = null;
-            for (EmployeeAchievements ea : employeeAchievementList) {
-                if (ea.getCriteria().equals(c)) {
-                    empachv = ea;
-                }
-            }
+            EmployeeAchievements empachv = employeeAchievementsDetails(c);
+            Double sevalMarks = supervisorEvaluationMarks(c);
 
-            SupervisorEvaluation seval = null;
-            for (SupervisorEvaluation se : supervisorEvaluationList) {
-                if (se.getCriteria().equals(c)) {
-                    seval = se;
-                }
-            }
+            Double obtmarks = obtainedMarks(c, empachv);
+            Double finalMarks = finalMarks(obtmarks, sevalMarks);
 
-            CriteriaSelf cself = null;
-            for (CriteriaSelf cs : criteriaSelfList) {
-                if (cs.getCriteria().equals(c)) {
-                    cself = cs;
-                }
-            }
-
-            Double obtmarks = obtainedMarks(c, empachv.getAchievement(), cself);
-
-            Report report = new Report(null, selectedEmployee, c.getCategory(), c, empachv, seval, obtmarks);
+            Report report = new Report(null, selectedEmployee, c.getCategory(), c, empachv == null ? null : empachv.getAchievement(), sevalMarks, obtmarks, finalMarks);
             reportList.add(report);
             System.out.println(c);
         }

@@ -52,5 +52,4 @@ public class EmployeeAchievementsRepository extends AbstractRepository<EmployeeA
         }
         return ea;
     }
-
 }

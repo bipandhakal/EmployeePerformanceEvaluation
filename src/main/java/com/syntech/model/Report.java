@@ -35,21 +35,22 @@ public class Report implements IEntity {
     @JoinColumn(name = "criteria", nullable = false)
     private Criteria criteria;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_achievements", nullable = false)
-    private EmployeeAchievements employeeAchievements;
+    @Column(name = "employee_achievements", nullable = false)
+    private String employeeAchievements;
 
-    @ManyToOne
-    @JoinColumn(name = "supervisor_evaluation", nullable = false)
-    private SupervisorEvaluation supervisorEvaluation;
+    @Column(name = "supervisor_evaluation", nullable = false)
+    private Double supervisorEvaluation;
 
     @Column(name = "obtained_marks", nullable = false)
-    private Double obtainedMarks;   
+    private Double obtainedMarks;
+
+    @Column(name = "final_marks", nullable = false)
+    private Double finalMarks;
 
     public Report() {
     }
 
-    public Report(Long id, Employee employee, Category category, Criteria criteria, EmployeeAchievements employeeAchievements, SupervisorEvaluation supervisorEvaluation, Double obtainedMarks) {
+    public Report(Long id, Employee employee, Category category, Criteria criteria, String employeeAchievements, Double supervisorEvaluation, Double obtainedMarks, Double finalMarks) {
         this.id = id;
         this.employee = employee;
         this.category = category;
@@ -57,6 +58,7 @@ public class Report implements IEntity {
         this.employeeAchievements = employeeAchievements;
         this.supervisorEvaluation = supervisorEvaluation;
         this.obtainedMarks = obtainedMarks;
+        this.finalMarks = finalMarks;
     }
 
     @Override
@@ -93,19 +95,19 @@ public class Report implements IEntity {
         this.criteria = criteria;
     }
 
-    public EmployeeAchievements getEmployeeAchievements() {
+    public String getEmployeeAchievements() {
         return employeeAchievements;
     }
 
-    public void setEmployeeAchievements(EmployeeAchievements employeeAchievements) {
+    public void setEmployeeAchievements(String employeeAchievements) {
         this.employeeAchievements = employeeAchievements;
     }
 
-    public SupervisorEvaluation getSupervisorEvaluation() {
+    public Double getSupervisorEvaluation() {
         return supervisorEvaluation;
     }
 
-    public void setSupervisorEvaluation(SupervisorEvaluation supervisorEvaluation) {
+    public void setSupervisorEvaluation(Double supervisorEvaluation) {
         this.supervisorEvaluation = supervisorEvaluation;
     }
 
@@ -117,16 +119,25 @@ public class Report implements IEntity {
         this.obtainedMarks = obtainedMarks;
     }
 
+    public Double getFinalMarks() {
+        return finalMarks;
+    }
+
+    public void setFinalMarks(Double finalMarks) {
+        this.finalMarks = finalMarks;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + Objects.hashCode(this.employee);
-        hash = 89 * hash + Objects.hashCode(this.category);
-        hash = 89 * hash + Objects.hashCode(this.criteria);
-        hash = 89 * hash + Objects.hashCode(this.employeeAchievements);
-        hash = 89 * hash + Objects.hashCode(this.supervisorEvaluation);
-        hash = 89 * hash + Objects.hashCode(this.obtainedMarks);
+        int hash = 7;
+        hash = 73 * hash + Objects.hashCode(this.id);
+        hash = 73 * hash + Objects.hashCode(this.employee);
+        hash = 73 * hash + Objects.hashCode(this.category);
+        hash = 73 * hash + Objects.hashCode(this.criteria);
+        hash = 73 * hash + Objects.hashCode(this.employeeAchievements);
+        hash = 73 * hash + Objects.hashCode(this.supervisorEvaluation);
+        hash = 73 * hash + Objects.hashCode(this.obtainedMarks);
+        hash = 73 * hash + Objects.hashCode(this.finalMarks);
         return hash;
     }
 
@@ -142,6 +153,9 @@ public class Report implements IEntity {
             return false;
         }
         final Report other = (Report) obj;
+        if (!Objects.equals(this.employeeAchievements, other.employeeAchievements)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -154,13 +168,13 @@ public class Report implements IEntity {
         if (!Objects.equals(this.criteria, other.criteria)) {
             return false;
         }
-        if (!Objects.equals(this.employeeAchievements, other.employeeAchievements)) {
-            return false;
-        }
         if (!Objects.equals(this.supervisorEvaluation, other.supervisorEvaluation)) {
             return false;
         }
         if (!Objects.equals(this.obtainedMarks, other.obtainedMarks)) {
+            return false;
+        }
+        if (!Objects.equals(this.finalMarks, other.finalMarks)) {
             return false;
         }
         return true;
@@ -168,6 +182,6 @@ public class Report implements IEntity {
 
     @Override
     public String toString() {
-        return "Report{" + "id=" + id + ", employee=" + employee + ", category=" + category + ", criteria=" + criteria + ", employeeAchievements=" + employeeAchievements + ", supervisorEvaluation=" + supervisorEvaluation + ", obtainedMarks=" + obtainedMarks + '}';
+        return "Report{" + "id=" + id + ", employee=" + employee + ", category=" + category + ", criteria=" + criteria + ", employeeAchievements=" + employeeAchievements + ", supervisorEvaluation=" + supervisorEvaluation + ", obtainedMarks=" + obtainedMarks + ", finalMarks=" + finalMarks + '}';
     }
 }

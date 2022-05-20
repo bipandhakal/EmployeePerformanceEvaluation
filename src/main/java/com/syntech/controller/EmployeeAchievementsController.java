@@ -1,5 +1,9 @@
 package com.syntech.controller;
 
+import static com.syntech.model.CalculatedBy.AVERAGE;
+import static com.syntech.model.CalculatedBy.RANGE;
+import static com.syntech.model.CalculatedBy.SELF;
+import static com.syntech.model.CalculatedBy.TRUEORFALSE;
 import com.syntech.model.Criteria;
 import com.syntech.model.Employee;
 import com.syntech.model.EmployeeAchievements;
@@ -9,6 +13,7 @@ import com.syntech.repository.EmployeeRepository;
 import com.syntech.util.MessageUtil;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -66,7 +71,9 @@ public class EmployeeAchievementsController implements Serializable {
     }
 
     public List<Criteria> getCriteriaDetails() {
-        return criteriaRepository.findAll();
+        return criteriaRepository.findAll().stream()
+                .filter(x -> !x.getCalculatedBy().equals(SELF))
+                .collect(Collectors.toList());
     }
 
     public void beforeCreate() {

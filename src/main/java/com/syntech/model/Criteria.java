@@ -106,9 +106,8 @@ public class Criteria implements IEntity {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.id);
         hash = 79 * hash + Objects.hashCode(this.category);
         hash = 79 * hash + Objects.hashCode(this.name);
         hash = 79 * hash + Objects.hashCode(this.marks);
@@ -118,23 +117,18 @@ public class Criteria implements IEntity {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
+    public final boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof Criteria)) {
             return false;
         }
         final Criteria other = (Criteria) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
+
         if (!Objects.equals(this.category, other.category)) {
             return false;
         }

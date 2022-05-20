@@ -21,7 +21,8 @@
                                            itemLabel="#{v.firstName}" itemValue="#{v}"/>
                             <p:ajax update="@this olbl_employee" process="@this"/>
                         </p:selectOneMenu>
-                        <!--<p:commandButton id = "btn_show_report" value="Show Report" update="@this"/>-->
+                        <p:commandButton id = "btn_show_report" value="Show Report" update="@this frm_emp_freport" 
+                                         actionListener="#{reportController.prepareReport()}"/>
                     </p:panelGrid>
                 </h:form>
             </f:facet>
@@ -63,15 +64,19 @@
                     </p:column>
 
                     <p:column headerText="Achievements">
-                        <h:outputText value="#{r.employeeAchievements.achievement}"/>
-                    </p:column>
-
-                    <p:column headerText="Supervisor Marks">
-                        <h:outputText value="#{r.supervisorEvaluation.marks}"/>
+                        <h:outputText value="#{r.employeeAchievements}"/>
                     </p:column>
 
                     <p:column headerText="Obtained Marks">
                         <h:outputText value="#{r.obtainedMarks}"/>
+                    </p:column>
+
+                    <p:column headerText="Supervisor Marks">
+                        <h:outputText value="#{r.supervisorEvaluation}"/>
+                    </p:column>
+
+                    <p:column headerText="Final Marks">
+                        <h:outputText value="#{r.finalMarks}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
