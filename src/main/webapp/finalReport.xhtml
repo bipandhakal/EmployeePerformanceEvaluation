@@ -28,16 +28,13 @@
             </f:facet>
 
             <h:form id="frm_emp_freport">
-                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r"
+                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r" rowKey="#{s.id}" 
                              rendered="#{ not empty reportController.selectedEmployee}" sortBy="#{r.category.name}"
-                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid" 
-                             paginator="true" paginatorPosition="bottom" allowUnsorting="true"
+                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid" sortMode="single"
+                             paginator="true" paginatorPosition="bottom" allowUnsorting="true" selectionMode="single"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
-                             selectionMode="single"
-                             rowKey="#{s.id}" sortMode="single"
-                             emptyMessage="No data found">
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found">
 
                     <p:column headerText="S.N" sortBy="#{r.id}">
                         <h:outputText value="#{rowIndex + 1}"/>

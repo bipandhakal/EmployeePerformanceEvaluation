@@ -24,14 +24,11 @@
                 <p:growl id="growl" showDetail="true" />
 
                 <p:dataTable id = "crtf_table" value="#{criteriaTrueFalseController.criteriaTrueFalseList}" var="c"   
-                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid"
-                             paginator="true" paginatorPosition="bottom"
+                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid" sortMode="single" rowKey="#{c.id}" 
+                             paginator="true" paginatorPosition="bottom" allowUnsorting="true" selectionMode="single"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
-                             selectionMode="single"
-                             rowKey="#{c.id}" sortMode="single"
-                             emptyMessage="No data found">
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found">
 
                     <p:column headerText="S.N" sortBy="#{c.id}" filterBy="#{c.id}">
                         <h:outputText value="#{rowIndex + 1}"/> 

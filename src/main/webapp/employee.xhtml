@@ -23,15 +23,12 @@
             <h:form id="frm_emp_table">
                 <p:growl id="growl" showDetail="true" />
 
-                <p:dataTable id = "emp_table" value="#{employeeController.employeeList}" var="e"   
-                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid"
-                             paginator="true" paginatorPosition="bottom"
+                <p:dataTable id = "emp_table" value="#{employeeController.employeeList}" var="e" rowKey="#{e.id}"  
+                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid" selectionMode="single"
+                             paginator="true" paginatorPosition="bottom" allowUnsorting="true" sortMode="single"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
-                             selectionMode="single"
-                             rowKey="#{e.id}" sortMode="single"
-                             emptyMessage="No data found">
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found">
 
                     <p:column headerText="S.N" sortBy="#{e.id}" filterBy="#{e.id}">
                         <h:outputText value="#{rowIndex + 1}"/> 
