@@ -23,4 +23,5 @@ public class EmployeeRepository extends AbstractRepository<Employee> {
     protected EntityManager getEntityManager() {
         return em;
     }
+    
 }

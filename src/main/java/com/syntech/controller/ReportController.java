@@ -1,7 +1,6 @@
 package com.syntech.controller;
 
 import com.syntech.model.CalculatedBy;
-import com.syntech.model.Category;
 import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaRange;
 import com.syntech.model.CriteriaSelf;

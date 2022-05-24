@@ -31,48 +31,48 @@
                 <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r" rowKey="#{s.id}" 
                              rendered="#{ not empty reportController.selectedEmployee}" sortBy="#{r.category.name}"
                              rowIndexVar="rowIndex" rows="5" style="border: 1px solid" sortMode="single"
-                             paginator="true" paginatorPosition="bottom" allowUnsorting="true" selectionMode="single"
+                             paginator="true"  allowUnsorting="true" selectionMode="single" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                              rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found">
 
-                    <p:column headerText="S.N" sortBy="#{r.id}">
+                    <p:column headerText="S.N" sortBy="#{r.id}" filterBy="#{r.id}">
                         <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
 
-                    <p:column headerText="Category" sortBy="#{r.category.name}">
+                    <p:column headerText="Category" sortBy="#{r.category.name}" filterBy="#{r.category.name}">
                         <h:outputText value="#{r.category.name}"/>
                     </p:column>
 
-                    <p:column headerText="Criteria" sortBy="#{r.criteria.name}">
+                    <p:column headerText="Criteria" sortBy="#{r.criteria.name}" filterBy="#{r.criteria.name}">
                         <h:outputText value="#{r.criteria.name}"/>
                     </p:column>
 
-                    <p:column headerText="Method" sortBy="#{r.criteria.calculatedBy}">
+                    <p:column headerText="Method" sortBy="#{r.criteria.calculatedBy}" filterBy="#{r.criteria.calculatedBy}">
                         <h:outputText value="#{r.criteria.calculatedBy}"/>
                     </p:column>
 
-                    <p:column headerText="Full Marks" sortBy="#{r.criteria.marks}">
+                    <p:column headerText="Full Marks" sortBy="#{r.criteria.marks}" filterBy="#{r.criteria.marks}">
                         <h:outputText value="#{r.criteria.marks}"/>
                     </p:column>
 
-                    <p:column headerText="Target" sortBy="#{r.criteria.target}">
+                    <p:column headerText="Target" sortBy="#{r.criteria.target}" filterBy="#{r.criteria.target}">
                         <h:outputText value="#{r.criteria.target}"/>
                     </p:column>
 
-                    <p:column headerText="Achievements" sortBy="#{r.employeeAchievements}">
+                    <p:column headerText="Achievements" sortBy="#{r.employeeAchievements}" filterBy="#{r.employeeAchievements}">
                         <h:outputText value="#{r.employeeAchievements}"/>
                     </p:column>
 
-                    <p:column headerText="Obtained Marks" sortBy="#{r.obtainedMarks}">
+                    <p:column headerText="Obtained Marks" sortBy="#{r.obtainedMarks}" filterBy="#{r.obtainedMarks}">
                         <h:outputText value="#{r.obtainedMarks}"/>
                     </p:column>
 
-                    <p:column headerText="Supervisor Marks" sortBy="#{r.supervisorEvaluation}">
+                    <p:column headerText="Supervisor Marks" sortBy="#{r.supervisorEvaluation}" filterBy="#{r.supervisorEvaluation}">
                         <h:outputText value="#{r.supervisorEvaluation}"/>
                     </p:column>
 
-                    <p:column headerText="Final Marks" sortBy="#{r.finalMarks}">
+                    <p:column headerText="Final Marks" sortBy="#{r.finalMarks}" filterBy="#{r.finalMarks}">
                         <h:outputText value="#{r.finalMarks}"/>
                     </p:column>
 
@@ -85,7 +85,7 @@
                 </p:dataTable>
                 <p:panelGrid columns="1" style="display: flex; justify-content: center;">
                     <h:commandLink>
-                        <p:commandButton value="Download report" ajax="false" />
+                        <p:commandButton value="Download report" ajax="false" icon="pi pi-arrow-down"/>
                         <p:dataExporter type="xls" target="table_emp_freport" fileName="EmployeeReport.xls" />
                     </h:commandLink>
                 </p:panelGrid>
