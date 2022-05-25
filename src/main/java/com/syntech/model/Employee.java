@@ -33,6 +33,7 @@ public class Employee implements IEntity {
     @Temporal(value = TemporalType.DATE)
     @Column(name = "join_date", nullable = false)
     private Date joinDate;
+    
 
     public Employee() {
 

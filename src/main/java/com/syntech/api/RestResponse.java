@@ -2,6 +2,7 @@ package com.syntech.api;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.ws.rs.core.Response;
 
 /**
@@ -62,7 +63,7 @@ public class RestResponse {
                 .add("success", success)
                 .add("code", code)
                 .add("message", message)
-                .add("result", result).build();
+                .add("result", result == null ? "" : result).build();
 
         return Response.status(Response.Status.OK).entity(json).build();
     }

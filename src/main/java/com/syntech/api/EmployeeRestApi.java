@@ -30,29 +30,18 @@ public class EmployeeRestApi {
     private EmployeeRepository employeeRepository;
 
     @POST
-    @Path("create")
     public Response createEmployee(Employee employee) throws JsonProcessingException {
+        if (employee.getFirstName() == null || employee.getLastName() == null || employee.getJoinDate() == null) {
+            return RestResponse.responseBuilder("false", "400", " Employee fields should not be null", null);
+        }
         employeeRepository.create(employee);
 
         ObjectMapper mapper = new ObjectMapper();
         String str = mapper.writeValueAsString(employee);
 
         return RestResponse.responseBuilder("true", "201", "employee created successfully", str);
-
-//
-//        JsonObject json = Json.createObjectBuilder()
-//                .add("success", "true")
-//                .add("code", "201")
-//                .add("message", "employee created successfully")
-//                .add("result", str).build();
-//
-//        return Response.status(Response.Status.OK).entity(json).build();
     }
 
-//    @GET
-//    public List<Employee> getAllEmployees() {
-//        return employeeRepository.findAll();
-//    }
     @GET
     public Response getAllEmployees() throws JsonProcessingException {
         List<Employee> employeeList = employeeRepository.findAll();
@@ -60,24 +49,21 @@ public class EmployeeRestApi {
         ObjectMapper mapper = new ObjectMapper();
         String str = mapper.writeValueAsString(employeeList);
 
-        return RestResponse.responseBuilder("true", "200", "List of employee", str);
+        return RestResponse.responseBuilder("true", "200", "List of employees", str);
     }
 
-//    @GET
-//    @Path("{id}")
-//    public Employee getEmployeeById(@PathParam("id") Long id) {
-//        return employeeRepository.findById(id);
-//    }
     @GET
     @Path("{id}")
     public Response getEmployeeById(@PathParam("id") Long id) throws JsonProcessingException {
-        
+
         Employee emp = employeeRepository.findById(id);
+        if (emp == null) {
+            return RestResponse.responseBuilder("false", "404", " Employee with id " + id + " not found", null);
+        }
 
         ObjectMapper mapper = new ObjectMapper();
         String str = mapper.writeValueAsString(emp);
-
-        return RestResponse.responseBuilder("true", "200", "Get Employee by Id", str);
+        return RestResponse.responseBuilder("true", "200", "Employee with id " + id + " found", str);
     }
 
     @PUT
@@ -95,6 +81,6 @@ public class EmployeeRestApi {
     @Path("{id}")
     public Response deleteEmployee(@PathParam("id") Long id) throws JsonProcessingException {
         employeeRepository.deleteById(id);
-        return RestResponse.responseBuilder("true", "200", "Employee deleted successfully", "null");
+        return RestResponse.responseBuilder("true", "200", "Employee with id " + id + " deleted successfully", null);
     }
 }
