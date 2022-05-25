@@ -23,5 +23,12 @@ public class EmployeeRepository extends AbstractRepository<Employee> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
+    public void deleteById(Long id) {
+        em.remove(findById(id));
+//        Employee employee = em.find(Employee.class, id);
+//        em.remove(employee);
+        em.flush();
+    }
+
 }
