@@ -17,21 +17,21 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void createTest() {
-        Employee e1 = new Employee(1L, "Bipan", "Dhakal", new Date(2020, 1, 8));
+        Employee e1 = new Employee(1L, "Bipan", "Dhakal", new Date(2020, 1, 8), "9845676438", "abc@gmail.com");
         employeeRepository.create(e1);
         assertEquals(1, employeeRepository.findAll().size());
     }
 
     @Test
     public void findAllTest() {
-        Employee e2 = new Employee(2L, "Sanjeev", "Shrestha", new Date(2020, 2, 8));
+        Employee e2 = new Employee(2L, "Sanjeev", "Shrestha", new Date(2020, 2, 8), "9845676438", "abc@gmail.com");
         employeeRepository.create(e2);
         assertEquals(1, employeeRepository.findAll().size());
     }
 
     @Test
     public void deleteTest() {
-        Employee e3 = new Employee(3L, "Ram", "Shrestha", new Date(2022, 3, 8));
+        Employee e3 = new Employee(3L, "Ram", "Shrestha", new Date(2022, 3, 8), "9845676438", "abc@gmail.com");
         employeeRepository.create(e3);
         employeeRepository.delete(e3);
         assertEquals(0, employeeRepository.findAll().size());
@@ -39,7 +39,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        Employee e4 = new Employee(4L, "Shyam", "Shrestha", new Date(2019, 3, 8));
+        Employee e4 = new Employee(4L, "Shyam", "Shrestha", new Date(2019, 3, 8), "9845676438", "abc@gmail.com");
         employeeRepository.create(e4);
         assertEquals(e4, employeeRepository.findById(4l));
         assertNotEquals(e4, employeeRepository.findById(3l));
@@ -47,7 +47,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void editTest() {
-        Employee e5 = new Employee(5L, "Shyam", "Sharma", new Date(2018, 3, 8));
+        Employee e5 = new Employee(5L, "Shyam", "Sharma", new Date(2018, 3, 8), "9845676438", "abc@gmail.com");
         employeeRepository.create(e5);
         e5.setFirstName("Bipan");
         employeeRepository.edit(e5);

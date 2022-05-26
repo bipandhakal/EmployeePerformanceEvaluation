@@ -6,6 +6,7 @@ import com.syntech.model.Employee;
 import com.syntech.repository.EmployeeRepository;
 import java.util.List;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -30,10 +31,10 @@ public class EmployeeRestApi {
     private EmployeeRepository employeeRepository;
 
     @POST
-    public Response createEmployee(Employee employee) throws JsonProcessingException {
-        if (employee.getFirstName() == null || employee.getLastName() == null || employee.getJoinDate() == null) {
-            return RestResponse.responseBuilder("false", "400", " Employee fields should not be null", null);
-        }
+    public Response createEmployee(@Valid Employee employee) throws JsonProcessingException {
+//        if (employee.getFirstName() == null || employee.getLastName() == null || employee.getJoinDate() == null) {
+//            return RestResponse.responseBuilder("false", "400", " Employee fields should not be null", null);
+//        }
         employeeRepository.create(employee);
 
         ObjectMapper mapper = new ObjectMapper();

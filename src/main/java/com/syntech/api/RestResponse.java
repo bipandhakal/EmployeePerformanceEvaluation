@@ -2,7 +2,6 @@ package com.syntech.api;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import javax.ws.rs.core.Response;
 
 /**

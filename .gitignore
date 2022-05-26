@@ -4,7 +4,7 @@ target/
 build/
 
 user.properties
-
+/rebel.xml
 ### STS ###
 .apt_generated
 .classpath
