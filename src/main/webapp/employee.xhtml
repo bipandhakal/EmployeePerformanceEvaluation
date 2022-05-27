@@ -83,9 +83,7 @@
                         <p:outputLabel id="olbl_fname" value = "First Name"/>
                         <p:inputText id = "intxt_first_name" value="#{employeeController.employee.firstName}" 
                                      label="First Name" title="First Name" 
-                                     required="true" requiredMessage="first name is required"
-                                     validatorMessage="First Name should be string">
-                            <f:validateRegex pattern="^[a-zA-Z ]+$" />
+                                     required="true" requiredMessage="first name is required">
                             <p:ajax event="blur"  update="@this errmsg_fname olbl_fname"  process="@this" />
                             <p:watermark for="intxt_first_name" id="wm_fname" value="Bipan" />
                         </p:inputText>
@@ -94,9 +92,7 @@
                         <p:outputLabel id="olbl_lname" value = "Last Name"/>
                         <p:inputText id = "intxt_last_name" value="#{employeeController.employee.lastName}" 
                                      label="Last Name" title="Last Name" 
-                                     required="true" requiredMessage="last name is required"
-                                     validatorMessage="Last Name should be string">
-                            <f:validateRegex pattern="^[a-zA-Z ]+$" />
+                                     required="true" requiredMessage="last name is required">
                             <p:ajax event="blur"  update="@this errmsg_lname olbl_lname"  process="@this" />
                             <p:watermark for="intxt_last_name" id="wm_lname" value="Dhakal" />
                         </p:inputText>

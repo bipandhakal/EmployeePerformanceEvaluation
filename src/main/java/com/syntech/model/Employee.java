@@ -29,28 +29,31 @@ public class Employee implements IEntity {
     private Long id;
 
     @NotNull(message = "FirstName should not be null")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "First Name should be string")
     @Size(min = 3, message = "FirstName should be minimum 3 characters")
     @Column(name = "first_name")
     private String firstName;
 
     @NotNull(message = "LastName should not be null")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Last Name should be string")
     @Size(min = 3, message = "LastName should be minimum 3 characters")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @NotNull(message = "Joined Date should not be null")
     @Temporal(value = TemporalType.DATE)
     @Column(name = "join_date", nullable = false)
     private Date joinDate;
 
-//    @NotNull(message = "Phone number is required")
+    @NotNull(message = "Phone number should not be null")
     @Size(max = 10)
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number should be 10 digits number")
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-//    @NotNull(message = "Email is required")
+    @NotNull(message = "Email should not be null")
     @Email
-    @Pattern(regexp = "^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z]+$", message = "Email should be valid email")
+    @Pattern(regexp = "^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$", message = "Email should be valid email")
     @Column(name = "email", nullable = false)
     private String email;
 
