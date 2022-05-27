@@ -35,18 +35,6 @@ public class MyExceptionMapper implements ExceptionMapper<ConstraintViolationExc
         return RestResponse.responseBuilder("false", "404", msg, null);
     }
 
-//    private String prepareMessage(ConstraintViolationException exception) {
-//
-//        String msg = "";
-////        final StringBuilder strBuilder = new StringBuilder();
-//
-//        for (ConstraintViolation<?> cv : exception.getConstraintViolations()) {
-////            msg += cv.getMessage();
-////            strBuilder.append(cv.getMessage());
-//            msg = msg + cv.getMessage();
-//        }
-//        return msg;
-//    }
     private JsonObject jsonFromString(String jsonObjectStr, ConstraintViolationException ex) {
         JsonObject object = null;
         try {

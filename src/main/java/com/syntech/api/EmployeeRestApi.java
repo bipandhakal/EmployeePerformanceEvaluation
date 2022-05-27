@@ -31,9 +31,6 @@ public class EmployeeRestApi {
 
     @POST
     public Response createEmployee(Employee employee) throws JsonProcessingException {
-//        if (employee.getFirstName() == null || employee.getLastName() == null || employee.getJoinDate() == null) {
-//            return RestResponse.responseBuilder("false", "400", " Employee fields should not be null", null);
-//        }
         employeeRepository.create(employee);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -55,7 +52,6 @@ public class EmployeeRestApi {
     @GET
     @Path("{id}")
     public Response getEmployeeById(@PathParam("id") Long id) throws JsonProcessingException {
-
         Employee emp = employeeRepository.findById(id);
         if (emp == null) {
             return RestResponse.responseBuilder("false", "404", " Employee with id " + id + " not found", null);
@@ -67,9 +63,15 @@ public class EmployeeRestApi {
     }
 
     @PUT
-//    @Path("{id}")
-    public Response updateEmployee(Employee employee) throws JsonProcessingException {
-//        employeeRepository.findById(id);
+    @Path("{id}")
+    public Response updateEmployee(@PathParam("id") Long id, Employee employee) throws JsonProcessingException {
+        Employee emp = employeeRepository.findById(id);
+        if (emp == null) {
+            return RestResponse.responseBuilder("false", "404", " Employee with id " + id + " not found", null);
+        }
+        if (!employee.getId().equals(emp.getId())) {
+            return RestResponse.responseBuilder("false", "404", " Employee id mismatch", null);
+        }
         employeeRepository.edit(employee);
         ObjectMapper mapper = new ObjectMapper();
         String str = mapper.writeValueAsString(employee);
@@ -80,6 +82,10 @@ public class EmployeeRestApi {
     @DELETE
     @Path("{id}")
     public Response deleteEmployee(@PathParam("id") Long id) throws JsonProcessingException {
+        Employee emp = employeeRepository.findById(id);
+        if (emp == null) {
+            return RestResponse.responseBuilder("false", "404", " Employee with id " + id + " not found", null);
+        }
         employeeRepository.deleteById(id);
         return RestResponse.responseBuilder("true", "200", "Employee with id " + id + " deleted successfully", null);
     }
