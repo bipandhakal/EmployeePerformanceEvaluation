@@ -22,19 +22,18 @@
                             <p:ajax update="@this olbl_employee" process="@this"/>
                         </p:selectOneMenu>
                         <p:commandButton id = "btn_show_report" value="Show Report" update="@this frm_emp_freport" 
-                                         actionListener="#{reportController.prepareReport()}"/>
+                                         actionListener="#{reportController.generateReport()}"/>
                     </p:panelGrid>
                 </h:form>
             </f:facet>
 
             <h:form id="frm_emp_freport">
                 <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r" rowKey="#{s.id}" 
-                             rendered="#{ not empty reportController.selectedEmployee}" sortBy="#{r.category.name}"
-                             rowIndexVar="rowIndex" rows="5" style="border: 1px solid" sortMode="single"
-                             paginator="true"  allowUnsorting="true" selectionMode="single" paginatorPosition="bottom"
+                             sortBy="#{r.category.name}" rows="5" style="border: 1px solid" sortMode="single"
+                             rowIndexVar="rowIndex" allowUnsorting="true" selectionMode="single" paginatorPosition="bottom"
+                             paginator="true" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found">
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
 
                     <p:column headerText="S.N" sortBy="#{r.id}" filterBy="#{r.id}">
                         <h:outputText value="#{rowIndex + 1}"/>
@@ -77,7 +76,6 @@
                     </p:column>
 
                     <f:facet name="footer">
-                        <!--<p:column colspan="9" style="text-align:right" footerText="Totals:"/>-->
                         <p:column>
                             <h:outputText style="float: right;" value="Total Marks : #{reportController.calculateTotalMarks()}"/>
                         </p:column>
