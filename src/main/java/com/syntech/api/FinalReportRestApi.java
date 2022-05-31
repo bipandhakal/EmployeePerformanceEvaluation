@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.json.JSONObject;
 
 /**
  *
@@ -43,9 +44,11 @@ public class FinalReportRestApi {
 
         ObjectMapper mapper = new ObjectMapper();
         String str = mapper.writeValueAsString(reportList);
+
 //        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 //        String str = gson.toJson(reportList);
-
+//        JSONObject object = new JSONObject(reportList);
+//        String str = object.toString();
         return RestResponse.responseBuilder("true", "200", "The final report of employee with id " + id + " is:", str);
     }
 }
