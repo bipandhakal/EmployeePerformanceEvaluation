@@ -39,4 +39,9 @@ public class CriteriaTrueFalseRepository extends AbstractRepository<CriteriaTrue
         }
         return crtf;
     }
+
+    public void deleteById(Long id) {
+        em.remove(findById(id));
+        em.flush();
+    }
 }

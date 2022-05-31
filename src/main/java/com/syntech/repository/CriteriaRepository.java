@@ -52,4 +52,9 @@ public class CriteriaRepository extends AbstractRepository<Criteria> {
         }
         return criteriaList;
     }
+
+    public void deleteById(Long id) {
+        em.remove(findById(id));
+        em.flush();
+    }
 }

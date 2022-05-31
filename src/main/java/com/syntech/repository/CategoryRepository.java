@@ -23,4 +23,9 @@ public class CategoryRepository extends AbstractRepository<Category> {
     protected EntityManager getEntityManager() {
         return em;
     }
+
+    public void deleteById(Long id) {
+        em.remove(findById(id));
+        em.flush();
+    }
 }

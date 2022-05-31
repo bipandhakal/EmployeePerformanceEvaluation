@@ -28,8 +28,8 @@ public class SupervisorEvaluationRepository extends AbstractRepository<Superviso
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-        public List<SupervisorEvaluation> findBySelectedEmployee(Employee employee) {
+
+    public List<SupervisorEvaluation> findBySelectedEmployee(Employee employee) {
         List<SupervisorEvaluation> ea = null;
         try {
             Query query = em.createQuery("SELECT ea FROM SupervisorEvaluation ea WHERE ea.employee=:e", SupervisorEvaluation.class);
@@ -51,5 +51,10 @@ public class SupervisorEvaluationRepository extends AbstractRepository<Superviso
             se = null;
         }
         return se;
+    }
+
+    public void deleteById(Long id) {
+        em.remove(findById(id));
+        em.flush();
     }
 }

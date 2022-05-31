@@ -8,7 +8,6 @@ import com.syntech.model.Report;
 import com.syntech.repository.EmployeeRepository;
 import java.util.List;
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -44,6 +43,9 @@ public class FinalReportRestApi {
 
         ObjectMapper mapper = new ObjectMapper();
         String str = mapper.writeValueAsString(reportList);
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        String str = gson.toJson(reportList);
+
         return RestResponse.responseBuilder("true", "200", "The final report of employee with id " + id + " is:", str);
     }
 }

@@ -40,16 +40,9 @@ public class CriteriaSelfRepository extends AbstractRepository<CriteriaSelf> {
         }
         return cs;
     }
-    
-       public List<CriteriaSelf> findByEmployee(Employee employee) {
-        List<CriteriaSelf> criteriaSelfList = null;
-        try {
-            Query query = em.createQuery("SELECT criteriaSelfList FROM CriteriaSelf criteriaSelfList WHERE criteriaSelfList.employee=:emp", CriteriaSelf.class);
-            query.setParameter("emp", employee);
-            criteriaSelfList = query.getResultList();
-        } catch (NoResultException e) {
-            criteriaSelfList = null;
-        }
-        return criteriaSelfList;
+
+    public void deleteById(Long id) {
+        em.remove(findById(id));
+        em.flush();
     }
 }

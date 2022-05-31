@@ -39,4 +39,9 @@ public class CriteriaRangeRepository extends AbstractRepository<CriteriaRange> {
         }
         return cr;
     }
+
+    public void deleteById(Long id) {
+        em.remove(findById(id));
+        em.flush();
+    }
 }

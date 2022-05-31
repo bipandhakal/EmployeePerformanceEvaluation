@@ -52,4 +52,9 @@ public class EmployeeAchievementsRepository extends AbstractRepository<EmployeeA
         }
         return ea;
     }
+
+    public void deleteById(Long id) {
+        em.remove(findById(id));
+        em.flush();
+    }
 }
