@@ -39,11 +39,11 @@ public class UserController implements Serializable {
         userRepository.create(user);
     }
 
-    public String validateUser() {
+    public String validateLogin() {
 
         User userinfo = userRepository.findByUserNameNPassword(user.getUsername(), user.getPassword());
         if (userinfo == null) {
-          return "/loginUserForm.xhtml?faces-redirect=true";
+            return "/login.xhtml?faces-redirect=true";
         }
         return "/faces/index.xhtml?faces-redirect=true";
     }

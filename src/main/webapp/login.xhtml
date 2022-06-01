@@ -10,9 +10,22 @@
     <h:head>
         <title>login</title>
     </h:head>
-    <body>
+    <h:body>
+        <style>
+            body{
+                position: absolute;
+                top: 250px;
+                left: 500px;
+                border: 2px solid;
+                padding: 13px;
+                background: activecaption;
+            }
+
+        </style>
         <h:form id="register_form">
-            <h:panelGrid columns ="3">
+            <h:outputText value="Login form" style=" display: flex; justify-content: center; font-weight: bold;"/>
+            <br></br>
+            <h:panelGrid columns ="3" styleClass="ui-panelgrid">
                 <p:outputLabel id="olbl_uname" value = "UserName"/>
                 <p:inputText id = "intxt_uname" value="#{userController.user.username}" 
                              label="UserName" title="UserName" 
@@ -31,9 +44,10 @@
                 <p:message for="inp_pass" id="errmsg_pass"  style="color: red"/>
             </h:panelGrid>
             <p:divider/>
-
-            <p:commandButton id = "crt_usr" value ="Login" ajax="false"
-                             action="#{userController.validateUser()}" />
+            <h:panelGrid columns="1">
+                <p:commandButton id = "crt_usr" value ="Login" ajax="false" action="#{userController.validateLogin()}"
+                                 styleClass="ui-btn"/>
+            </h:panelGrid>
         </h:form>
-    </body>
+    </h:body>
 </html>

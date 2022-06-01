@@ -22,6 +22,16 @@
             <p:menuitem  value="Employee Achievements" outcome="employeeAchievements.xhtml?faces-redirect=true" />
             <p:menuitem  value="Supervisor Evaluation" outcome="supervisorEvaluation.xhtml?faces-redirect=true" />
             <p:menuitem value="Final Report" outcome="finalReport.xhtml?faces-redirect=true"/>
+            <f:facet name="options">
+                <p:commandButton id ="btn_logout" action="login.xhtml?faces-redirect=true" style="float: right;"
+                                 icon="pi pi-sign-out" title="Log Out">
+                    <p:confirm header="Confirmation" message="Are you sure you want to log out?"/>
+                </p:commandButton>
+            </f:facet>
         </p:menubar>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+        </p:confirmDialog>
     </h:form>
 </ui:composition>
