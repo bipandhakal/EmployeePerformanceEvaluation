@@ -37,4 +37,34 @@ public class UserRepository extends AbstractRepository<User> {
         }
         return u;
     }
+
+    public String checkUserName(String uname) {
+//        User u = new User();
+        User u;
+        try {
+            Query query = em.createQuery("SELECT s FROM User s WHERE s.username=:u", User.class);
+            query.setParameter("u", uname);
+            u = (User) query.getSingleResult();
+            if (u !=null) {
+                return u.getUsername();
+            }
+        } catch (NoResultException e) {
+            u = null;
+        }
+        return "";
+    }
+
+    public String getPassword(String uname) {
+        User u;
+        try {
+            Query query = em.createQuery("SELECT s FROM User s WHERE s.username=:u", User.class);
+            query.setParameter("u", uname);
+            u = (User) query.getSingleResult();
+            return u.getPassword();
+
+        } catch (NoResultException e) {
+
+        }
+        return "";
+    }
 }

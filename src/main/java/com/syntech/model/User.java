@@ -1,5 +1,6 @@
 package com.syntech.model;
 
+import com.syntech.controller.UserController;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
