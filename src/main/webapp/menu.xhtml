@@ -23,7 +23,7 @@
             <p:menuitem  value="Supervisor Evaluation" outcome="supervisorEvaluation.xhtml?faces-redirect=true" />
             <p:menuitem value="Final Report" outcome="finalReport.xhtml?faces-redirect=true"/>
             <f:facet name="options">
-                <p:commandButton id ="btn_logout" action="login.xhtml?faces-redirect=true" style="float: right;"
+                <p:commandButton id ="btn_logout" action="#{userController.logout()}" style="float: right;"
                                  icon="pi pi-sign-out" title="Log Out">
                     <p:confirm header="Confirmation" message="Are you sure you want to log out?"/>
                 </p:commandButton>

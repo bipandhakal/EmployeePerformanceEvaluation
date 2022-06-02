@@ -11,6 +11,8 @@
         <title>login</title>
     </h:head>
     <h:body style="background: #9BC6EA;">
+        <f:event type="preRenderView"
+		listener="#{userController.forwardToDashboard}" />
         <center style="margin-top: 14%;">
             <p:panel style=" height: 250px; width: 400px;">
                 <f:facet name="header">
