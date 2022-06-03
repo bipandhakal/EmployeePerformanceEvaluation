@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -21,9 +23,12 @@ public class Category implements IEntity {
     @Column(name = "id", unique = true)
     private Long id;
 
+    @NotNull(message = "Category name should not be null")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Category Name should be string")
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull(message = "Category total marks should not be null")
     @Column(name = "total_marks", nullable = false)
     private Double totalMarks;
 

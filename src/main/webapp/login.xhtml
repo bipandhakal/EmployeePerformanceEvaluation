@@ -12,21 +12,19 @@
     </h:head>
     <h:body style="background: #9BC6EA;">
         <f:event type="preRenderView"
-		listener="#{userController.forwardToDashboard}" />
+                 listener="#{userController.forwardToDashboard}" />
         <center style="margin-top: 14%;">
             <p:panel style=" height: 250px; width: 400px;">
                 <f:facet name="header">
                     <h:outputText value="Login form" style=" font-weight: bold;"/>
                 </f:facet>
-                <h:form id="register_form">
-
+                <h:form id="login_form">
                     <h:panelGrid columns ="3" styleClass="ui-panelgrid">
                         <p:outputLabel id="olbl_uname" value = "UserName"/>
                         <p:inputText id = "intxt_uname" value="#{userController.user.username}" 
                                      label="UserName" title="UserName" 
                                      required="true" requiredMessage="UserName is required">
                             <p:ajax event="blur"  update="@this errmsg_uname olbl_uname"  process="@this" />
-                            <!--<p:watermark for="intxt_uname" id="wm_uname" value="username" />-->
                         </p:inputText>
                         <p:message for="intxt_uname" id="errmsg_uname"  style="color: red"/>
 
@@ -34,13 +32,12 @@
                         <p:password id="inp_pass" value="#{userController.user.password}" toggleMask="true" redisplay="true"
                                     required="true" requiredMessage="Password is required" label="Password" title="Password">
                             <p:ajax event="blur"  update="@this errmsg_pass olbl_pass"  process="@this" />
-                            <!--<p:watermark for="inp_pass" id="wm_pass" value="password" />-->
                         </p:password>
                         <p:message for="inp_pass" id="errmsg_pass"  style="color: red"/>
                     </h:panelGrid>
                     <p:divider/>
-                    <h:panelGrid columns="1">
-                        <p:commandButton id = "crt_usr" value ="Login" ajax="false"
+                    <h:panelGrid columns="2">
+                        <p:commandButton id = "login_usr" value ="Login" ajax="false" 
                                          action="#{userController.validateLogin()}" styleClass="ui-btn"/>
                     </h:panelGrid>
                 </h:form>

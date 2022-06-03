@@ -19,9 +19,16 @@
                     <p:menuitem value="Criteria TrueFalse" outcome="criteriaTrueFalse.xhtml?faces-redirect=true"/>
                 </p:submenu>
             </p:submenu>
-            <p:menuitem  value="Employee Achievements" outcome="employeeAchievements.xhtml?faces-redirect=true" />
+            <p:menuitem  value="Employee Achievements" outcome="employeeAchievements.xhtml?faces-redirect=true"
+                         />
             <p:menuitem  value="Supervisor Evaluation" outcome="supervisorEvaluation.xhtml?faces-redirect=true" />
             <p:menuitem value="Final Report" outcome="finalReport.xhtml?faces-redirect=true"/>
+            <p:menuitem value="Register" oncomplete="PF('sample').show();" update="@this :frm_user_create"
+                        process="@this"/>
+            <f:facet name="options">
+                <p:outputLabel value="Welcome, #{userBean.user.username}" rendered="#{userBean.loggedIn}" 
+                               style="position: relative; right: 20px; top: 10px;"/>
+            </f:facet>
             <f:facet name="options">
                 <p:commandButton id ="btn_logout" action="#{userController.logout()}" style="float: right;"
                                  icon="pi pi-sign-out" title="Log Out">
@@ -34,4 +41,39 @@
             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
         </p:confirmDialog>
     </h:form>
+
+    <p:dialog header="Enter user details" widgetVar="sample" id="dlog_emp">
+        <h:form id="frm_user_create">
+            <h:panelGrid columns ="3" styleClass="ui-panelgrid">
+
+                <p:outputLabel id="olbl_role" value = "Role"/>
+                <p:selectOneMenu id="som_role" value="#{userController.user.role}">
+                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                    <f:selectItem itemLabel="admin" itemValue="admin"/>
+                    <f:selectItem itemLabel="employee" itemValue="employee"/>
+                </p:selectOneMenu>
+                <br></br>
+                
+                <p:outputLabel id="olbl_uname" value = "UserName"/>
+                <p:inputText id = "intxt_uname" value="#{userController.user.username}" 
+                             label="UserName" title="UserName" 
+                             required="true" requiredMessage="UserName is required">
+                    <p:ajax event="blur"  update="@this errmsg_uname olbl_uname"  process="@this" />
+                </p:inputText>
+                <p:message for="intxt_uname" id="errmsg_uname"  style="color: red"/>
+
+                <p:outputLabel id="olbl_pass" value = "Password"/>
+                <p:password id="inp_pass" value="#{userController.user.password}" toggleMask="true" redisplay="true"
+                            required="true" requiredMessage="Password is required" label="Password" title="Password">
+                    <p:ajax event="blur"  update="@this errmsg_pass olbl_pass"  process="@this" />
+                </p:password>
+                <p:message for="inp_pass" id="errmsg_pass"  style="color: red"/>
+            </h:panelGrid>
+            <p:divider/>
+            <h:panelGrid columns="1">
+                <p:commandButton id = "register_usr" value ="Register" ajax="false" 
+                                 action="#{userController.create()}" styleClass="ui-btn"/>
+            </h:panelGrid>
+        </h:form>
+    </p:dialog>
 </ui:composition>

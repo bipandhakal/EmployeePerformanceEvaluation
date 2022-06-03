@@ -44,6 +44,7 @@ public class UserController implements Serializable {
     }
 
     public void create() {
+        user.setPassword(hashString(user.getPassword()));
         userRepository.create(user);
     }
 

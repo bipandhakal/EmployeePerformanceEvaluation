@@ -1,6 +1,6 @@
 package com.syntech.util;
 
-import com.syntech.exception.CustomeMessageException;
+import com.syntech.exception.CustomMessageException;
 import com.syntech.model.CalculatedBy;
 import java.math.BigDecimal;
 import java.util.regex.Matcher;
@@ -36,7 +36,7 @@ public class ValidationUtil {
         try {
             return Long.parseLong(num);
         } catch (Exception e) {
-            throw new CustomeMessageException("Invalid input");
+            throw new CustomMessageException("Invalid input");
         }
     }
 

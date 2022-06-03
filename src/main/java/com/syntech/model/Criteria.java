@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -30,15 +32,20 @@ public class Criteria implements IEntity {
     @JoinColumn(name = "category", nullable = false)
     private Category category;
 
+    @NotNull(message = "Criteria name should not be null")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Criteria Name should be string")
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull(message = "Criteria marks should not be null")
     @Column(name = "marks", nullable = false)
     private Double marks;
 
+    @NotNull(message = "Criteria target should not be null")
     @Column(name = "target", nullable = false)
     private BigDecimal target;
 
+    @NotNull(message = "Criteria CalculatedBy should not be null")
     @Enumerated(EnumType.STRING)
     @Column(name = "calculated_by", nullable = false)
     private CalculatedBy calculatedBy;

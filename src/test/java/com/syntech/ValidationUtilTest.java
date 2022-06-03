@@ -1,6 +1,6 @@
 package com.syntech;
 
-import com.syntech.exception.CustomeMessageException;
+import com.syntech.exception.CustomMessageException;
 import static com.syntech.model.CalculatedBy.AVERAGE;
 import static com.syntech.model.CalculatedBy.RANGE;
 import static com.syntech.model.CalculatedBy.SELF;
@@ -54,7 +54,7 @@ public class ValidationUtilTest {
 
     @Test
     public void test1() throws Exception {
-        thrown.expect(CustomeMessageException.class);
+        thrown.expect(CustomMessageException.class);
         thrown.expectMessage("Invalid input");
         v.validateLong("jk");
     }

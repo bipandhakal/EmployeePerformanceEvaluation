@@ -21,17 +21,21 @@ public class User implements IEntity {
     @Column(name = "id", unique = true)
     private Long id;
 
+    @Column(name = "roles", nullable = false)
+    private String role;
+
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false, unique = true)
+    @Column(name = "password", nullable = false)
     private String password;
 
     public User() {
     }
 
-    public User(Long id, String username, String password) {
+    public User(Long id, String role, String username, String password) {
         this.id = id;
+        this.role = role;
         this.username = username;
         this.password = password;
     }
@@ -44,6 +48,14 @@ public class User implements IEntity {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getUsername() {
@@ -64,10 +76,11 @@ public class User implements IEntity {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + Objects.hashCode(this.username);
-        hash = 53 * hash + Objects.hashCode(this.password);
+        int hash = 3;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.role);
+        hash = 89 * hash + Objects.hashCode(this.username);
+        hash = 89 * hash + Objects.hashCode(this.password);
         return hash;
     }
 
@@ -83,6 +96,9 @@ public class User implements IEntity {
             return false;
         }
         final User other = (User) obj;
+        if (!Objects.equals(this.role, other.role)) {
+            return false;
+        }
         if (!Objects.equals(this.username, other.username)) {
             return false;
         }
@@ -97,6 +113,6 @@ public class User implements IEntity {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", username=" + username + ", password=" + password + '}';
+        return "User{" + "id=" + id + ", role=" + role + ", username=" + username + ", password=" + password + '}';
     }
 }

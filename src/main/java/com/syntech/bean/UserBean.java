@@ -23,4 +23,7 @@ public class UserBean implements Serializable {
         this.user = user;
     }
 
+    public boolean isLoggedIn() {
+        return user.getId() != null;
+    }
 }
