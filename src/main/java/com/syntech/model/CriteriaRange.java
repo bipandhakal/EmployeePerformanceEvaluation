@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -27,12 +28,15 @@ public class CriteriaRange implements IEntity {
     @JoinColumn(name = "criteria", nullable = false)
     private Criteria criteria;
 
+    @NotNull(message = "CriteriaRange from should not be null")
     @Column(name = "from_range", nullable = false)
     private Long fromRange;
 
+    @NotNull(message = "CriteriaRange to should not be null")
     @Column(name = "to_range", nullable = false)
     private Long toRange;
 
+    @NotNull(message = "CriteriaRange marks should not be null")
     @Column(name = "marks", nullable = false)
     private Double marks;
 

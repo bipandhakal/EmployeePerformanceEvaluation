@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -31,6 +32,7 @@ public class SupervisorEvaluation implements IEntity {
     @JoinColumn(name = "criteria", nullable = false)
     private Criteria criteria;
 
+    @NotNull(message = "Supervisor Evaluation marks should not be null")
     @Column(name = "marks", nullable = false)
     private Double marks;
 

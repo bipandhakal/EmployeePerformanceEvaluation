@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -27,9 +29,12 @@ public class CriteriaTrueFalse implements IEntity {
     @JoinColumn(name = "criteria", nullable = false)
     private Criteria criteria;
 
+    @NotNull(message = "CriteriaTrueFalse status should not be null")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "CriteriaTrueFalse status should be string")
     @Column(name = "status", nullable = false)
     private String status;
 
+    @NotNull(message = "CriteriaTrueFalse marks should not be null")
     @Column(name = "marks", nullable = false)
     private Double marks;
 

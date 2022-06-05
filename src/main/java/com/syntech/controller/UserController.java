@@ -53,7 +53,6 @@ public class UserController implements Serializable {
         if (u == null) {
             return "/login.xhtml?faces-redirect=true";
         }
-
         String hashedPassword = u.getPassword();
         String inPass = user.getPassword();
         if (isHashingMatched(inPass, hashedPassword)) {

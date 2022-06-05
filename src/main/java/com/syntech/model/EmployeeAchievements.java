@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -31,6 +32,7 @@ public class EmployeeAchievements implements IEntity {
     @JoinColumn(name = "criteria", nullable = false)
     private Criteria criteria;
 
+    @NotNull(message = "Employee Achievements should not be null")
     @Column(name = "achievement", nullable = false)
     private String achievement;
 
