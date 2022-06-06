@@ -25,6 +25,10 @@ public class SupervisorEvaluation implements IEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "months", nullable = false)
+    private Months months;
+
+    @ManyToOne
     @JoinColumn(name = "employee", nullable = false)
     private Employee employee;
 
@@ -39,8 +43,9 @@ public class SupervisorEvaluation implements IEntity {
     public SupervisorEvaluation() {
     }
 
-    public SupervisorEvaluation(Long id, Employee employee, Criteria criteria, Double marks) {
+    public SupervisorEvaluation(Long id, Months months, Employee employee, Criteria criteria, Double marks) {
         this.id = id;
+        this.months = months;
         this.employee = employee;
         this.criteria = criteria;
         this.marks = marks;
@@ -54,6 +59,14 @@ public class SupervisorEvaluation implements IEntity {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Months getMonths() {
+        return months;
+    }
+
+    public void setMonths(Months months) {
+        this.months = months;
     }
 
     public Employee getEmployee() {
@@ -82,11 +95,12 @@ public class SupervisorEvaluation implements IEntity {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.employee);
-        hash = 37 * hash + Objects.hashCode(this.criteria);
-        hash = 37 * hash + Objects.hashCode(this.marks);
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.months);
+        hash = 83 * hash + Objects.hashCode(this.employee);
+        hash = 83 * hash + Objects.hashCode(this.criteria);
+        hash = 83 * hash + Objects.hashCode(this.marks);
         return hash;
     }
 
@@ -105,6 +119,9 @@ public class SupervisorEvaluation implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.months, other.months)) {
+            return false;
+        }
         if (!Objects.equals(this.employee, other.employee)) {
             return false;
         }
@@ -119,6 +136,6 @@ public class SupervisorEvaluation implements IEntity {
 
     @Override
     public String toString() {
-        return "SupervisorEvaluation{" + "id=" + id + ", employee=" + employee + ", criteria=" + criteria + ", marks=" + marks + '}';
+        return "SupervisorEvaluation{" + "id=" + id + ", months=" + months + ", employee=" + employee + ", criteria=" + criteria + ", marks=" + marks + '}';
     }
 }

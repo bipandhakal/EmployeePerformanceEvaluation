@@ -2,9 +2,11 @@ package com.syntech.controller;
 
 import com.syntech.model.Criteria;
 import com.syntech.model.Employee;
+import com.syntech.model.Months;
 import com.syntech.model.SupervisorEvaluation;
 import com.syntech.repository.CriteriaRepository;
 import com.syntech.repository.EmployeeRepository;
+import com.syntech.repository.MonthsRepository;
 import com.syntech.repository.SupervisorEvaluationRepository;
 import com.syntech.util.MessageUtil;
 import java.io.Serializable;
@@ -34,6 +36,9 @@ public class SupervisorEvaluationController implements Serializable {
 
     @Inject
     private EmployeeRepository employeeRepository;
+
+    @Inject
+    private MonthsRepository monthsRepository;
 
     @Inject
     private MessageUtil messageUtil;
@@ -67,6 +72,10 @@ public class SupervisorEvaluationController implements Serializable {
 
     public List<Criteria> getCriteriaDetails() {
         return criteriaRepository.findAll();
+    }
+
+    public List<Months> getMonthsDetails() {
+        return monthsRepository.findAll();
     }
 
     public void beforeCreate() {

@@ -7,9 +7,11 @@ import static com.syntech.model.CalculatedBy.TRUEORFALSE;
 import com.syntech.model.Criteria;
 import com.syntech.model.Employee;
 import com.syntech.model.EmployeeAchievements;
+import com.syntech.model.Months;
 import com.syntech.repository.CriteriaRepository;
 import com.syntech.repository.EmployeeAchievementsRepository;
 import com.syntech.repository.EmployeeRepository;
+import com.syntech.repository.MonthsRepository;
 import com.syntech.util.MessageUtil;
 import java.io.Serializable;
 import java.util.List;
@@ -41,6 +43,9 @@ public class EmployeeAchievementsController implements Serializable {
     private EmployeeRepository employeeRepository;
 
     @Inject
+    private MonthsRepository monthsRepository;
+
+    @Inject
     private MessageUtil messageUtil;
 
     public EmployeeAchievements getEmployeeAchievements() {
@@ -68,6 +73,10 @@ public class EmployeeAchievementsController implements Serializable {
 
     public List<Employee> getEmployeeDetails() {
         return employeeRepository.findAll();
+    }
+
+    public List<Months> getMonthsDetails() {
+        return monthsRepository.findAll();
     }
 
     public List<Criteria> getCriteriaDetails() {

@@ -87,7 +87,7 @@ public class CalculationUtilTest {
         Criteria ctr = new Criteria(3L, obj.getCategory(), "Number of present Days", 10.0, BigDecimal.valueOf(25.0), CalculatedBy.AVERAGE);
         Criteria ctr1 = new Criteria(3L, obj.getCategory(), "Number of present Days", 10.0, BigDecimal.valueOf(20.0), CalculatedBy.AVERAGE);
 
-        SupervisorEvaluation sevaluation = new SupervisorEvaluation(1L, supervisorEvaluation.getEmployee(), supervisorEvaluation.getCriteria(), -3.0);
+        SupervisorEvaluation sevaluation = new SupervisorEvaluation(1L, supervisorEvaluation.getMonths(), supervisorEvaluation.getEmployee(), supervisorEvaluation.getCriteria(), -3.0);
 
         CriteriaSelf cself = new CriteriaSelf(1L, criteriaSelf.getCriteria(), 20.0);
 

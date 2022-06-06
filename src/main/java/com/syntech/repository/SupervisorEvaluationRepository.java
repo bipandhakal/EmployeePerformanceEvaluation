@@ -2,6 +2,7 @@ package com.syntech.repository;
 
 import com.syntech.model.Criteria;
 import com.syntech.model.Employee;
+import com.syntech.model.Months;
 import com.syntech.model.SupervisorEvaluation;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -47,6 +48,18 @@ public class SupervisorEvaluationRepository extends AbstractRepository<Superviso
             Query query = em.createQuery("SELECT se FROM SupervisorEvaluation se WHERE se.criteria=:c AND se.employee=:e", SupervisorEvaluation.class);
             query.setParameter("c", criteria).setParameter("e", employee);
             se = (SupervisorEvaluation) query.getSingleResult();
+        } catch (NoResultException e) {
+            se = null;
+        }
+        return se;
+    }
+
+    public List<SupervisorEvaluation> findByEmployeeNMonths(Employee employee, Months months) {
+        List<SupervisorEvaluation> se = null;
+        try {
+            Query query = em.createQuery("SELECT se FROM SupervisorEvaluation se WHERE se.months=:m AND se.employee=:e", SupervisorEvaluation.class);
+            query.setParameter("m", months).setParameter("e", employee);
+            se = query.getResultList();
         } catch (NoResultException e) {
             se = null;
         }

@@ -3,6 +3,7 @@ package com.syntech.repository;
 import com.syntech.model.Criteria;
 import com.syntech.model.Employee;
 import com.syntech.model.EmployeeAchievements;
+import com.syntech.model.Months;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -34,6 +35,18 @@ public class EmployeeAchievementsRepository extends AbstractRepository<EmployeeA
         try {
             Query query = em.createQuery("SELECT ea FROM EmployeeAchievements ea WHERE ea.employee=:e", EmployeeAchievements.class);
             query.setParameter("e", employee);
+            ea = query.getResultList();
+        } catch (NoResultException e) {
+            ea = null;
+        }
+        return ea;
+    }
+
+    public List<EmployeeAchievements> findByEmployeeNMonths(Employee employee, Months months) {
+        List<EmployeeAchievements> ea = null;
+        try {
+            Query query = em.createQuery("SELECT ea FROM EmployeeAchievements ea WHERE ea.months=:m AND ea.employee=:e", EmployeeAchievements.class);
+            query.setParameter("m", months).setParameter("e", employee);
             ea = query.getResultList();
         } catch (NoResultException e) {
             ea = null;

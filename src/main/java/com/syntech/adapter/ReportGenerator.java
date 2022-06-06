@@ -7,6 +7,7 @@ import com.syntech.model.CriteriaSelf;
 import com.syntech.model.CriteriaTrueFalse;
 import com.syntech.model.Employee;
 import com.syntech.model.EmployeeAchievements;
+import com.syntech.model.Months;
 import com.syntech.model.Report;
 import com.syntech.model.SupervisorEvaluation;
 import com.syntech.repository.CriteriaRangeRepository;
@@ -123,8 +124,17 @@ public class ReportGenerator {
         return 0.0;
     }
 
-    public EmployeeAchievements employeeAchievementsDetails(Criteria criteria, Employee selectedEmployee) {
-        List<EmployeeAchievements> employeeAchievementList = employeeAchievementsRepository.findBySelectedEmployee(selectedEmployee);
+//    public EmployeeAchievements employeeAchievementsDetails(Criteria criteria, Employee selectedEmployee) {
+//        List<EmployeeAchievements> employeeAchievementList = employeeAchievementsRepository.findBySelectedEmployee(selectedEmployee);
+//        for (EmployeeAchievements ea : employeeAchievementList) {
+//            if (ea.getCriteria().equals(criteria)) {
+//                return ea;
+//            }
+//        }
+//        return null;
+//    }
+    public EmployeeAchievements employeeAchievementsDetails(Criteria criteria, Employee selectedEmployee, Months selectedMonths) {
+        List<EmployeeAchievements> employeeAchievementList = employeeAchievementsRepository.findByEmployeeNMonths(selectedEmployee, selectedMonths);
         for (EmployeeAchievements ea : employeeAchievementList) {
             if (ea.getCriteria().equals(criteria)) {
                 return ea;
@@ -133,8 +143,17 @@ public class ReportGenerator {
         return null;
     }
 
-    public double supervisorEvaluationMarks(Criteria criteria, Employee selectedEmployee) {
-        List<SupervisorEvaluation> supervisorEvaluationList = supervisorEvaluationRepository.findBySelectedEmployee(selectedEmployee);
+//    public double supervisorEvaluationMarks(Criteria criteria, Employee selectedEmployee) {
+//        List<SupervisorEvaluation> supervisorEvaluationList = supervisorEvaluationRepository.findBySelectedEmployee(selectedEmployee);
+//        for (SupervisorEvaluation se : supervisorEvaluationList) {
+//            if (se.getCriteria().equals(criteria)) {
+//                return se.getMarks();
+//            }
+//        }
+//        return 0.0;
+//    }
+    public double supervisorEvaluationMarks(Criteria criteria, Employee selectedEmployee, Months selectedMonths) {
+        List<SupervisorEvaluation> supervisorEvaluationList = supervisorEvaluationRepository.findByEmployeeNMonths(selectedEmployee, selectedMonths);
         for (SupervisorEvaluation se : supervisorEvaluationList) {
             if (se.getCriteria().equals(criteria)) {
                 return se.getMarks();
@@ -143,13 +162,13 @@ public class ReportGenerator {
         return 0.0;
     }
 
-    public List<Report> prepareReport(Employee selectedEmployee) {
+    public List<Report> prepareReport(Employee selectedEmployee, Months selectedMonths) {
         List<Criteria> criteriaList = criteriaRepository.findAll();
         List<Report> reportList = new ArrayList<>();
         for (Criteria c : criteriaList) {
 
-            EmployeeAchievements empachv = employeeAchievementsDetails(c, selectedEmployee);
-            Double sevalMarks = supervisorEvaluationMarks(c, selectedEmployee);
+            EmployeeAchievements empachv = employeeAchievementsDetails(c, selectedEmployee, selectedMonths);
+            Double sevalMarks = supervisorEvaluationMarks(c, selectedEmployee, selectedMonths);
 
             Double obtmarks = obtainedMarks(c, empachv);
             Double finalMarks = finalMarks(obtmarks, sevalMarks);

@@ -34,12 +34,16 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
-                    <p:column headerText="Employee" sortBy="#{e.employee}" filterBy="#{e.employee}">
+                    <p:column headerText="Employee" sortBy="#{e.employee}" filterBy="#{e.employee}" filterMatchMode="contains">
                         <h:outputText value="#{e.employee.firstName}"/>
                     </p:column>
 
                     <p:column headerText="Criteria" sortBy="#{e.criteria}" filterBy="#{e.criteria}">
                         <h:outputText value="#{e.criteria.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Month" sortBy="#{e.months}" filterBy="#{e.months}">
+                        <h:outputText value="#{e.months.name}"/>
                     </p:column>
 
                     <p:column headerText="Achievement" sortBy="#{e.achievement}" filterBy="#{e.achievement}">
@@ -87,6 +91,16 @@
                             <f:selectItems value="#{employeeAchievementsController.criteriaDetails}" var="v" 
                                            itemLabel="#{v.name}" itemValue="#{v}"/>
                             <p:ajax update="@this olbl_criteria" process="@this"/>
+                        </p:selectOneMenu>
+                        <br></br>
+
+                        <p:outputLabel id="olbl_months" value="Months" for="som_months"/>
+                        <p:selectOneMenu id="som_months" value="#{employeeAchievementsController.employeeAchievements.months}" 
+                                         converter="monthsConverter">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{employeeAchievementsController.monthsDetails}" var="v" 
+                                           itemLabel="#{v.name}" itemValue="#{v}"/>
+                            <p:ajax update="@this olbl_months" process="@this"/>
                         </p:selectOneMenu>
                         <br></br>
 

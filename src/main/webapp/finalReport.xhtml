@@ -12,7 +12,7 @@
         <p:panel  header="Final report Records">
             <f:facet name="header">
                 <h:form id="form">
-                    <p:panelGrid columns="3" style="float: left;">
+                    <p:panelGrid columns="5" style="float: left;">
                         <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"/>
                         <p:selectOneMenu id="som_employee" value="#{reportController.selectedEmployee}" 
                                          converter="employeeConverter">
@@ -21,8 +21,23 @@
                                            itemLabel="#{v.firstName}" itemValue="#{v}"/>
                             <p:ajax update="@this olbl_employee" process="@this"/>
                         </p:selectOneMenu>
+
+                        <p:outputLabel id="olbl_months" value=" Choose Months" for="som_months"/>
+                        <p:selectOneMenu id="som_months" value="#{reportController.selectedMonths}" 
+                                         converter="monthsConverter">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{monthsController.monthsList}" var="v" 
+                                           itemLabel="#{v.name}" itemValue="#{v}"/>
+                            <p:ajax update="@this olbl_months" process="@this"/>
+                        </p:selectOneMenu>
+
                         <p:commandButton id = "btn_show_report" value="Show Report" update="@this frm_emp_freport" 
                                          actionListener="#{reportController.generateReport()}"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="1" style="float: right;">
+                        <p:commandButton id = "btn_save_report" value="Save Report"  update="@this :frm_emp_freport"
+                                         title="Save"  process="@this" actionListener="#{reportController.save()}"/>
                     </p:panelGrid>
                 </h:form>
             </f:facet>

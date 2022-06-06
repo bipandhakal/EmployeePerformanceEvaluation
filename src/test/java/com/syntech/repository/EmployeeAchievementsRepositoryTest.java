@@ -16,21 +16,21 @@ public class EmployeeAchievementsRepositoryTest {
 
     @Test
     public void createTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), "10");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "10");
         employeeAchievementsRepository.create(ea);
         assertEquals(1, employeeAchievementsRepository.findAll().size());
     }
 
     @Test
     public void findAllTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), "Present");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "Present");
         employeeAchievementsRepository.create(ea);
         assertEquals(1, employeeAchievementsRepository.findAll().size());
     }
 
     @Test
     public void deleteTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), "20");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "20");
         employeeAchievementsRepository.create(ea);
         employeeAchievementsRepository.delete(ea);
         assertEquals(0, employeeAchievementsRepository.findAll().size());
@@ -38,7 +38,7 @@ public class EmployeeAchievementsRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(2L, obj.getEmployee(), obj.getCriteria(), "Absent");
+        EmployeeAchievements ea = new EmployeeAchievements(2L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "Absent");
         employeeAchievementsRepository.create(ea);
         assertEquals(ea, employeeAchievementsRepository.findById(2l));
         assertNotEquals(ea, employeeAchievementsRepository.findById(3l));
@@ -46,7 +46,7 @@ public class EmployeeAchievementsRepositoryTest {
 
     @Test
     public void editTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(3L, obj.getEmployee(), obj.getCriteria(), "15");
+        EmployeeAchievements ea = new EmployeeAchievements(3L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "15");
         employeeAchievementsRepository.create(ea);
         ea.setAchievement("Present");
         employeeAchievementsRepository.edit(ea);

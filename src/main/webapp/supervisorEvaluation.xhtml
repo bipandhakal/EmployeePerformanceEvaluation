@@ -34,6 +34,10 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
+                    <p:column headerText="Month" sortBy="#{s.months}" filterBy="#{s.months}">
+                        <h:outputText value="#{s.months.name}"/>
+                    </p:column>
+
                     <p:column headerText="Employee" sortBy="#{s.employee}" filterBy="#{s.employee}">
                         <h:outputText value="#{s.employee.firstName}"/>
                     </p:column>
@@ -69,6 +73,16 @@
             <p:dialog header="Enter Supervisor Evaluation Details" widgetVar="sample" id="dlog_sup_eval">
                 <h:form id="frm_sup_eval_create_edit">
                     <h:panelGrid columns="3">
+
+                        <p:outputLabel id="olbl_months" value="Months" for="som_months"/>
+                        <p:selectOneMenu id="som_months" value="#{supervisorEvaluationController.supervisorEvaluation.months}" 
+                                         converter="monthsConverter">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{supervisorEvaluationController.monthsDetails}" var="v" 
+                                           itemLabel="#{v.name}" itemValue="#{v}"/>
+                            <p:ajax update="@this olbl_months" process="@this"/>
+                        </p:selectOneMenu>
+                        <br></br>
 
                         <p:outputLabel id="olbl_employee" value="Employee" for="som_employee"/>
                         <p:selectOneMenu id="som_employee" value="#{supervisorEvaluationController.supervisorEvaluation.employee}" 

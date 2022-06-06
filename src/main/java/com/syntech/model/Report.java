@@ -35,7 +35,7 @@ public class Report implements IEntity {
     @JoinColumn(name = "criteria", nullable = false)
     private Criteria criteria;
 
-    @Column(name = "employee_achievements", nullable = false)
+    @Column(name = "employee_achievements", nullable = true)
     private String employeeAchievements;
 
     @Column(name = "supervisor_evaluation", nullable = false)

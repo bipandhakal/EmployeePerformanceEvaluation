@@ -32,23 +32,19 @@ public class FinalReportRestApi {
     @Inject
     private ReportGenerator reportGenerator;
 
-    @GET
-    @Path("{id}")
-    public Response getFinalReportById(@PathParam("id") Long id) throws JsonProcessingException {
-        Employee emp = employeeRepository.findById(id);
-        if (emp == null) {
-            return RestResponse.responseBuilder("false", "404", " Employee with id " + id + " not found", null);
-        }
-
-        List<Report> reportList = reportGenerator.prepareReport(emp);
-
-        ObjectMapper mapper = new ObjectMapper();
-        String str = mapper.writeValueAsString(reportList);
-
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        String str = gson.toJson(reportList);
-//        JSONObject object = new JSONObject(reportList);
-//        String str = object.toString();
-        return RestResponse.responseBuilder("true", "200", "The final report of employee with id " + id + " is:", str);
-    }
+//    @GET
+//    @Path("{id}")
+//    public Response getFinalReportById(@PathParam("id") Long id) throws JsonProcessingException {
+//        Employee emp = employeeRepository.findById(id);
+//        if (emp == null) {
+//            return RestResponse.responseBuilder("false", "404", " Employee with id " + id + " not found", null);
+//        }
+//
+//        List<Report> reportList = reportGenerator.prepareReport(emp);
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        String str = mapper.writeValueAsString(reportList);
+//
+//        return RestResponse.responseBuilder("true", "200", "The final report of employee with id " + id + " is:", str);
+//    }
 }

@@ -32,6 +32,10 @@ public class EmployeeAchievements implements IEntity {
     @JoinColumn(name = "criteria", nullable = false)
     private Criteria criteria;
 
+    @ManyToOne
+    @JoinColumn(name = "months", nullable = false)
+    private Months months;
+
     @NotNull(message = "Employee Achievements should not be null")
     @Column(name = "achievement", nullable = false)
     private String achievement;
@@ -39,10 +43,11 @@ public class EmployeeAchievements implements IEntity {
     public EmployeeAchievements() {
     }
 
-    public EmployeeAchievements(Long id, Employee employee, Criteria criteria, String achievement) {
+    public EmployeeAchievements(Long id, Employee employee, Criteria criteria, Months months, String achievement) {
         this.id = id;
         this.employee = employee;
         this.criteria = criteria;
+        this.months = months;
         this.achievement = achievement;
     }
 
@@ -72,6 +77,14 @@ public class EmployeeAchievements implements IEntity {
         this.criteria = criteria;
     }
 
+    public Months getMonths() {
+        return months;
+    }
+
+    public void setMonths(Months months) {
+        this.months = months;
+    }
+
     public String getAchievement() {
         return achievement;
     }
@@ -82,11 +95,12 @@ public class EmployeeAchievements implements IEntity {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.employee);
-        hash = 71 * hash + Objects.hashCode(this.criteria);
-        hash = 71 * hash + Objects.hashCode(this.achievement);
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.employee);
+        hash = 83 * hash + Objects.hashCode(this.criteria);
+        hash = 83 * hash + Objects.hashCode(this.months);
+        hash = 83 * hash + Objects.hashCode(this.achievement);
         return hash;
     }
 
@@ -114,11 +128,14 @@ public class EmployeeAchievements implements IEntity {
         if (!Objects.equals(this.criteria, other.criteria)) {
             return false;
         }
+        if (!Objects.equals(this.months, other.months)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "EmployeeAchievements{" + "id=" + id + ", employee=" + employee + ", criteria=" + criteria + ", achievement=" + achievement + '}';
+        return "EmployeeAchievements{" + "id=" + id + ", employee=" + employee + ", criteria=" + criteria + ", months=" + months + ", achievement=" + achievement + '}';
     }
 }
