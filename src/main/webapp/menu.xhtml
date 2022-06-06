@@ -9,28 +9,27 @@
     <h:form id="menu_form">
         <p:menubar style="background-color: #9BC6EA;">
             <p:menuitem value="EPE" icon="pi pi-home" outcome="index.xhtml?faces-redirect=true"/>
-            <p:menuitem  value="Employee" outcome="employee.xhtml?faces-redirect=true" rendered="#{userBean.user.role == admin}"
-                         update="@this"/>
-            <p:menuitem value="Category" outcome="category.xhtml?faces-redirect=true" rendered="#{userBean.user.role == admin}"/>
+            <p:menuitem  value="Employee" outcome="employee.xhtml?faces-redirect=true" rendered="#{userBean.user.role eq 'admin'}"/>
+            <p:menuitem value="Category" outcome="category.xhtml?faces-redirect=true" rendered="#{userBean.user.role eq 'admin'}"/>
             <p:submenu label ="Criteria">
                 <p:menuitem value="Create Criteria" outcome="criteria.xhtml?faces-redirect=true"
-                            rendered="#{userBean.user.role == admin}"/>
+                            rendered="#{userBean.user.role eq 'admin'}"/>
                 <p:submenu label="Calculated By">
                     <p:menuitem value="Criteria Range" outcome="criteriaRange.xhtml?faces-redirect=true"
-                                rendered="#{userBean.user.role == admin}"/>
+                                rendered="#{userBean.user.role eq 'admin'}"/>
                     <p:menuitem value="Criteria Self" outcome="criteriaSelf.xhtml?faces-redirect=true"
-                                rendered="#{userBean.user.role == employee}"/>
+                                rendered="#{userBean.user.role eq 'employee'}"/>
                     <p:menuitem value="Criteria TrueFalse" outcome="criteriaTrueFalse.xhtml?faces-redirect=true"
-                                rendered="#{userBean.user.role == admin}"/>
+                                rendered="#{userBean.user.role eq 'admin'}"/>
                 </p:submenu>
             </p:submenu>
             <p:menuitem  value="Employee Achievements" outcome="employeeAchievements.xhtml?faces-redirect=true"
-                         rendered="#{userBean.user.role == employee}"/>
+                         rendered="#{userBean.user.role eq 'employee'}" />
             <p:menuitem  value="Supervisor Evaluation" outcome="supervisorEvaluation.xhtml?faces-redirect=true"
-                         rendered="#{userBean.user.role == admin}"/>
+                         rendered="#{userBean.user.role eq 'admin'}"/>
             <p:menuitem value="Final Report" outcome="finalReport.xhtml?faces-redirect=true"/>
             <p:menuitem value="Register" oncomplete="PF('sample').show();" update="@this :frm_user_create" process="@this"
-                        icon="pi pi-user" style="position: relative; left: 25rem;" rendered="#{userBean.user.role == admin}"/>
+                        icon="pi pi-user" style="position: relative; left: 25rem;" rendered="#{userBean.user.role eq 'admin'}"/>
             <f:facet name="options">
                 <p:outputLabel value="Welcome, #{userBean.user.username}" rendered="#{userBean.loggedIn}" 
                                style="position: relative; right: 20px; top: 10px;"/>
