@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml">
+
+    <ui:define name="Center">
+        <p:panel  header="Annual report Records">
+            <f:facet name="header">
+                <h:form id="form">
+                    <p:panelGrid columns="5" style="float: left;">
+                        <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"/>
+                        <p:selectOneMenu id="som_employee" value="#{reportController.selectedEmployee}" 
+                                         converter="employeeConverter">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{employeeController.employeeList}" var="v" 
+                                           itemLabel="#{v.firstName}" itemValue="#{v}"/>
+                            <p:ajax update="@this olbl_employee" process="@this"/>
+                        </p:selectOneMenu>
+
+                        <p:commandButton id = "btn_show_report" value="Show Report" update="@this frm_emp_freport" 
+                                         actionListener="#{reportController.generatAnnualReport()}"/>
+                    </p:panelGrid>
+                </h:form>
+            </f:facet>
+
+            <h:form id="frm_emp_freport">
+                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r" rowKey="#{s.id}" 
+                             sortBy="#{r.category.name}" rows="5" style="border: 1px solid" sortMode="single"
+                             rowIndexVar="rowIndex" allowUnsorting="true" selectionMode="single" paginatorPosition="bottom"
+                             paginator="true" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+
+                    <p:column headerText="S.N" sortBy="#{r.id}" filterBy="#{r.id}">
+                        <h:outputText value="#{rowIndex + 1}"/>
+                    </p:column>
+
+                    <p:column headerText="Category" sortBy="#{r.category.name}" filterBy="#{r.category.name}">
+                        <h:outputText value="#{r.category.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Criteria" sortBy="#{r.criteria.name}" filterBy="#{r.criteria.name}">
+                        <h:outputText value="#{r.criteria.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Method" sortBy="#{r.criteria.calculatedBy}" filterBy="#{r.criteria.calculatedBy}">
+                        <h:outputText value="#{r.criteria.calculatedBy}"/>
+                    </p:column>
+
+                    <p:column headerText="Full Marks" sortBy="#{r.criteria.marks}" filterBy="#{r.criteria.marks}">
+                        <h:outputText value="#{r.criteria.marks}"/>
+                    </p:column>
+
+                    <p:column headerText="Target" sortBy="#{r.criteria.target}" filterBy="#{r.criteria.target}">
+                        <h:outputText value="#{r.criteria.target}"/>
+                    </p:column>
+
+                    <p:column headerText="Achievements" sortBy="#{r.employeeAchievements}" filterBy="#{r.employeeAchievements}">
+                        <h:outputText value="#{r.employeeAchievements}"/>
+                    </p:column>
+
+                    <p:column headerText="Obtained Marks" sortBy="#{r.obtainedMarks}" filterBy="#{r.obtainedMarks}">
+                        <h:outputText value="#{r.obtainedMarks}"/>
+                    </p:column>
+
+                    <p:column headerText="Supervisor Marks" sortBy="#{r.supervisorEvaluation}" filterBy="#{r.supervisorEvaluation}">
+                        <h:outputText value="#{r.supervisorEvaluation}"/>
+                    </p:column>
+
+                    <p:column headerText="Final Marks" sortBy="#{r.finalMarks}" filterBy="#{r.finalMarks}">
+                        <h:outputText value="#{r.finalMarks}"/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:column>
+                            <h:outputText style="float: right;" value="Total Marks : #{reportController.calculateTotalMarks()}"/>
+                        </p:column>
+                    </f:facet>
+                </p:dataTable>
+                <p:panelGrid columns="1" style="display: flex; justify-content: center;">
+                    <h:commandLink>
+                        <p:commandButton value="Download report" ajax="false" icon="pi pi-arrow-down"/>
+                        <p:dataExporter type="xls" target="table_emp_freport" fileName="EmployeeReport.xls" />
+                    </h:commandLink>
+                </p:panelGrid>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+
+

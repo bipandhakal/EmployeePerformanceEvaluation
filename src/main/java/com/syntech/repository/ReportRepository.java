@@ -3,6 +3,7 @@ package com.syntech.repository;
 import com.syntech.model.Employee;
 import com.syntech.model.Months;
 import com.syntech.model.Report;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,13 +31,25 @@ public class ReportRepository extends AbstractRepository<Report> {
     }
 
     public List<Report> findByEmployeeNMonths(Employee employee, Months months) {
-        List<Report> r = null;
+        List<Report> r = new ArrayList<>();
         try {
             Query query = em.createQuery("SELECT r FROM Report r WHERE r.months=:m AND r.employee=:e", Report.class);
             query.setParameter("m", months).setParameter("e", employee);
             r = query.getResultList();
         } catch (NoResultException e) {
-            r = null;
+            r = new ArrayList<>();
+        }
+        return r;
+    }
+
+    public List<Report> findByEmployee(Employee employee) {
+        List<Report> r = new ArrayList<>();
+        try {
+            Query query = em.createQuery("SELECT r FROM Report r WHERE  r.employee=:e", Report.class);
+            query.setParameter("e", employee);
+            r = query.getResultList();
+        } catch (NoResultException e) {
+            r = new ArrayList<>();
         }
         return r;
     }

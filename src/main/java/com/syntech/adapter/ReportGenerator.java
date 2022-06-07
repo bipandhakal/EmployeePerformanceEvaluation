@@ -187,4 +187,8 @@ public class ReportGenerator {
         }
         return reportList;
     }
+
+    public List<Report> prepareAnnualReport(Employee selectedEmployee) {
+        return reportRepository.findByEmployee(selectedEmployee);
+    }
 }

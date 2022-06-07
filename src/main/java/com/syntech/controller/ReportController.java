@@ -82,6 +82,10 @@ public class ReportController implements Serializable {
         reportList = reportGenerator.prepareReport(selectedEmployee, selectedMonths);
     }
 
+    public void generatAnnualReport() {
+        reportList = reportGenerator.prepareAnnualReport(selectedEmployee);
+    }
+
     public double calculateTotalMarks() {
         Double totalMarks = 0.0;
         for (Report r : reportList) {
