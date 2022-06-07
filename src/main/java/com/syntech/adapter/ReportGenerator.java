@@ -15,6 +15,7 @@ import com.syntech.repository.CriteriaRepository;
 import com.syntech.repository.CriteriaSelfRepository;
 import com.syntech.repository.CriteriaTrueFalseRepository;
 import com.syntech.repository.EmployeeAchievementsRepository;
+import com.syntech.repository.ReportRepository;
 import com.syntech.repository.SupervisorEvaluationRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,9 @@ public class ReportGenerator {
 
     @Inject
     private SupervisorEvaluationRepository supervisorEvaluationRepository;
+
+    @Inject
+    private ReportRepository reportRepository;
 
     @PostConstruct
     public void init() {
@@ -163,6 +167,10 @@ public class ReportGenerator {
     }
 
     public List<Report> prepareReport(Employee selectedEmployee, Months selectedMonths) {
+        List<Report> r = reportRepository.findByEmployeeNMonths(selectedEmployee, selectedMonths);
+        if (!r.isEmpty()) {
+            return r;
+        }
         List<Criteria> criteriaList = criteriaRepository.findAll();
         List<Report> reportList = new ArrayList<>();
         for (Criteria c : criteriaList) {
@@ -173,7 +181,7 @@ public class ReportGenerator {
             Double obtmarks = obtainedMarks(c, empachv);
             Double finalMarks = finalMarks(obtmarks, sevalMarks);
 
-            Report report = new Report(null, selectedEmployee, c.getCategory(), c, empachv == null ? null : empachv.getAchievement(), sevalMarks, obtmarks, finalMarks);
+            Report report = new Report(null, selectedMonths, selectedEmployee, c.getCategory(), c, empachv == null ? null : empachv.getAchievement(), sevalMarks, obtmarks, finalMarks);
             reportList.add(report);
             System.out.println(c);
         }

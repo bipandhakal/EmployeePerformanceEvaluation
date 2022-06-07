@@ -24,6 +24,10 @@ public class Report implements IEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "months", nullable = false)
+    private Months months;
+
+    @ManyToOne
     @JoinColumn(name = "employee", nullable = false)
     private Employee employee;
 
@@ -50,8 +54,9 @@ public class Report implements IEntity {
     public Report() {
     }
 
-    public Report(Long id, Employee employee, Category category, Criteria criteria, String employeeAchievements, Double supervisorEvaluation, Double obtainedMarks, Double finalMarks) {
+    public Report(Long id, Months months, Employee employee, Category category, Criteria criteria, String employeeAchievements, Double supervisorEvaluation, Double obtainedMarks, Double finalMarks) {
         this.id = id;
+        this.months = months;
         this.employee = employee;
         this.category = category;
         this.criteria = criteria;
@@ -69,6 +74,14 @@ public class Report implements IEntity {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Months getMonths() {
+        return months;
+    }
+
+    public void setMonths(Months months) {
+        this.months = months;
     }
 
     public Employee getEmployee() {
@@ -129,15 +142,16 @@ public class Report implements IEntity {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 73 * hash + Objects.hashCode(this.id);
-        hash = 73 * hash + Objects.hashCode(this.employee);
-        hash = 73 * hash + Objects.hashCode(this.category);
-        hash = 73 * hash + Objects.hashCode(this.criteria);
-        hash = 73 * hash + Objects.hashCode(this.employeeAchievements);
-        hash = 73 * hash + Objects.hashCode(this.supervisorEvaluation);
-        hash = 73 * hash + Objects.hashCode(this.obtainedMarks);
-        hash = 73 * hash + Objects.hashCode(this.finalMarks);
+        int hash = 3;
+        hash = 19 * hash + Objects.hashCode(this.id);
+        hash = 19 * hash + Objects.hashCode(this.months);
+        hash = 19 * hash + Objects.hashCode(this.employee);
+        hash = 19 * hash + Objects.hashCode(this.category);
+        hash = 19 * hash + Objects.hashCode(this.criteria);
+        hash = 19 * hash + Objects.hashCode(this.employeeAchievements);
+        hash = 19 * hash + Objects.hashCode(this.supervisorEvaluation);
+        hash = 19 * hash + Objects.hashCode(this.obtainedMarks);
+        hash = 19 * hash + Objects.hashCode(this.finalMarks);
         return hash;
     }
 
@@ -157,6 +171,9 @@ public class Report implements IEntity {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.months, other.months)) {
             return false;
         }
         if (!Objects.equals(this.employee, other.employee)) {
@@ -182,6 +199,6 @@ public class Report implements IEntity {
 
     @Override
     public String toString() {
-        return "Report{" + "id=" + id + ", employee=" + employee + ", category=" + category + ", criteria=" + criteria + ", employeeAchievements=" + employeeAchievements + ", supervisorEvaluation=" + supervisorEvaluation + ", obtainedMarks=" + obtainedMarks + ", finalMarks=" + finalMarks + '}';
+        return "Report{" + "id=" + id + ", months=" + months + ", employee=" + employee + ", category=" + category + ", criteria=" + criteria + ", employeeAchievements=" + employeeAchievements + ", supervisorEvaluation=" + supervisorEvaluation + ", obtainedMarks=" + obtainedMarks + ", finalMarks=" + finalMarks + '}';
     }
 }
