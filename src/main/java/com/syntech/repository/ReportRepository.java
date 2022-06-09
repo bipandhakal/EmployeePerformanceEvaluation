@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -36,7 +35,7 @@ public class ReportRepository extends AbstractRepository<Report> {
             Query query = em.createQuery("SELECT r FROM Report r WHERE r.months=:m AND r.employee=:e", Report.class);
             query.setParameter("m", months).setParameter("e", employee);
             r = query.getResultList();
-        } catch (NoResultException e) {
+        } catch (Exception e) {
             r = new ArrayList<>();
         }
         return r;
@@ -48,7 +47,7 @@ public class ReportRepository extends AbstractRepository<Report> {
             Query query = em.createQuery("SELECT r FROM Report r WHERE  r.employee=:e", Report.class);
             query.setParameter("e", employee);
             r = query.getResultList();
-        } catch (NoResultException e) {
+        } catch (Exception e) {
             r = new ArrayList<>();
         }
         return r;

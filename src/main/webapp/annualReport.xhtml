@@ -23,21 +23,24 @@
                         </p:selectOneMenu>
 
                         <p:commandButton id = "btn_show_report" value="Show Report" update="@this frm_emp_freport" 
-                                         actionListener="#{reportController.generatAnnualReport()}"/>
+                                         actionListener="#{reportController.generateAnnualReport()}"/>
                     </p:panelGrid>
                 </h:form>
             </f:facet>
 
             <h:form id="frm_emp_freport">
-                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r" rowKey="#{s.id}" 
-                             sortBy="#{r.category.name}" rows="5" style="border: 1px solid" sortMode="single"
+                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r" rowKey="#{r.id}"
                              rowIndexVar="rowIndex" allowUnsorting="true" selectionMode="single" paginatorPosition="bottom"
-                             paginator="true" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"
+                             paginator="false" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" >
 
-                    <p:column headerText="S.N" sortBy="#{r.id}" filterBy="#{r.id}">
-                        <h:outputText value="#{rowIndex + 1}"/>
+                    <f:facet name="header">
+                        <p:outputLabel value="Annual Report"/>
+                    </f:facet>
+
+                    <p:column  headerText="Month" groupRow="true" sortBy="#{r.months.order}" >
+                        <h:outputText value="#{r.months.name}"/>
                     </p:column>
 
                     <p:column headerText="Category" sortBy="#{r.category.name}" filterBy="#{r.category.name}">
@@ -74,13 +77,24 @@
 
                     <p:column headerText="Final Marks" sortBy="#{r.finalMarks}" filterBy="#{r.finalMarks}">
                         <h:outputText value="#{r.finalMarks}"/>
+
                     </p:column>
 
                     <f:facet name="footer">
                         <p:column>
-                            <h:outputText style="float: right;" value="Total Marks : #{reportController.calculateTotalMarks()}"/>
+                            <h:outputText style="float: right; margin-right: 5%;" value="Average Annual Marks : #{reportController.calculateAverageAnnualMarks(r.months)}"/>
                         </p:column>
                     </f:facet>
+
+                    <p:summaryRow>
+                        <p:column colspan="9" style="text-align:right">
+                            <h:outputText value="Total Marks:"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{reportController.calculateMonthMarks(r.months)}"/>
+                        </p:column>
+                    </p:summaryRow>
+
                 </p:dataTable>
                 <p:panelGrid columns="1" style="display: flex; justify-content: center;">
                     <h:commandLink>

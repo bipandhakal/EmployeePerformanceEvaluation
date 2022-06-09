@@ -44,10 +44,10 @@
             </f:facet>
 
             <h:form id="frm_emp_freport">
-                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r" rowKey="#{s.id}" 
-                             sortBy="#{r.category.name}" rows="5" style="border: 1px solid" sortMode="single"
+                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r" rowKey="#{r.id}" 
+                             sortBy="#{r.category.name}"  style="border: 1px solid" sortMode="single"
                              rowIndexVar="rowIndex" allowUnsorting="true" selectionMode="single" paginatorPosition="bottom"
-                             paginator="true" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"
+                             paginator="false" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
 

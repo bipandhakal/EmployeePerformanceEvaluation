@@ -30,12 +30,17 @@ public class Months implements IEntity {
     @Column(name = "name")
     private String name;
 
+    @NotNull(message = "Order should not be null")
+    @Column(name = "m_order")
+    private Integer order;
+
     public Months() {
     }
 
-    public Months(Long id, String name) {
+    public Months(Long id, String name, Integer order) {
         this.id = id;
         this.name = name;
+        this.order = order;
     }
 
     @Override
@@ -56,11 +61,20 @@ public class Months implements IEntity {
         this.name = name;
     }
 
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 17 * hash + Objects.hashCode(this.id);
-        hash = 17 * hash + Objects.hashCode(this.name);
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + Objects.hashCode(this.order);
         return hash;
     }
 
@@ -82,11 +96,14 @@ public class Months implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.order, other.order)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Months{" + "id=" + id + ", name=" + name + '}';
+        return "Months{" + "id=" + id + ", name=" + name + ", order=" + order + '}';
     }
 }
