@@ -7,9 +7,9 @@ import com.syntech.model.Report;
 import com.syntech.repository.ReportRepository;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -27,6 +27,7 @@ public class ReportController implements Serializable {
     private Employee selectedEmployee;
     private Months selectedMonths;
     private List<Report> reportList;
+    private Map<Months, List<Report>> reportMap;
 
     @Inject
     private ReportGenerator reportGenerator;
@@ -58,12 +59,21 @@ public class ReportController implements Serializable {
         this.selectedMonths = selectedMonths;
     }
 
+    public Map<Months, List<Report>> getReportMap() {
+        return reportMap;
+    }
+
+    public void setReportMap(Map<Months, List<Report>> reportMap) {
+        this.reportMap = reportMap;
+    }
+
     @PostConstruct
     public void init() {
         this.report = new Report();
         this.selectedEmployee = new Employee();
         this.selectedMonths = new Months();
         this.reportList = new ArrayList<>();
+        this.reportMap = new HashMap<>();
     }
 
     public List<Report> getReportList() {
@@ -87,8 +97,20 @@ public class ReportController implements Serializable {
     public void generateAnnualReport() {
         try {
             reportList = reportGenerator.prepareAnnualReport(selectedEmployee);
-            //   Collections.sort(reportList, Comparator.comparing(x -> x.getMonths().getOrder(), (a, b) -> a.compareTo(b)));
             reportList.stream().forEach(x -> System.out.println(x.getMonths().getName()));
+            reportMap = new HashMap<>();
+            for (Report r : reportList) {
+                if (reportMap.containsKey(r.getMonths())) {
+                    List<Report> re = reportMap.get(r.getMonths());
+                    re.add(r);
+                } else {
+                    List<Report> re = new ArrayList<>();
+                    re.add(r);
+                    reportMap.put(r.getMonths(), re);
+                }
+            }
+
+//            reportMap = reportList.stream().collect(Collectors.groupingBy(Report::getMonths, Collectors.toList()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,7 +124,7 @@ public class ReportController implements Serializable {
         return Double.parseDouble(String.format("%.2f", totalMarks));
     }
 
-    public Double calculateAverageAnnualMarks(Months months) {
+    public Double calculateAverageAnnualMarks() {
         if (this.reportList == null || this.reportList.isEmpty()) {
             return 0.0;
         }

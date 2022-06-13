@@ -1,6 +1,7 @@
 package com.syntech.repository;
 
 import com.syntech.model.CalculatedBy;
+import com.syntech.model.Category;
 import com.syntech.model.Criteria;
 import java.math.BigDecimal;
 import org.junit.Test;
@@ -14,25 +15,25 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class CriteriaRepositoryTest {
 
     CriteriaRepository criteriaRepository = new CriteriaRepository();
-    Criteria obj = new Criteria();
+    Category category = new Category(1L, "Task", 40.0);
 
     @Test
     public void createTest() {
-        Criteria c1 = new Criteria(1L, obj.getCategory(), "Number of completed tasks", 10.0, BigDecimal.valueOf(10.0), CalculatedBy.RANGE);
+        Criteria c1 = new Criteria(1L, category, "Number of completed tasks", 10.0, BigDecimal.valueOf(10.0), CalculatedBy.RANGE);
         criteriaRepository.create(c1);
         assertEquals(1, criteriaRepository.findAll().size());
     }
 
     @Test
     public void findAllTest() {
-        Criteria c2 = new Criteria(2L, obj.getCategory(), "Date of submission", 20.0, BigDecimal.valueOf(15.0), CalculatedBy.RANGE);
+        Criteria c2 = new Criteria(2L, category, "Date of submission", 20.0, BigDecimal.valueOf(15.0), CalculatedBy.RANGE);
         criteriaRepository.create(c2);
         assertEquals(1, criteriaRepository.findAll().size());
     }
 
     @Test
     public void deleteTest() {
-        Criteria c3 = new Criteria(3L, obj.getCategory(), "Date of submission", 20.0, BigDecimal.valueOf(15.0), CalculatedBy.RANGE);
+        Criteria c3 = new Criteria(3L, category, "Date of submission", 20.0, BigDecimal.valueOf(15.0), CalculatedBy.RANGE);
         criteriaRepository.create(c3);
         criteriaRepository.delete(c3);
         assertEquals(0, criteriaRepository.findAll().size());
@@ -40,7 +41,7 @@ public class CriteriaRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        Criteria c4 = new Criteria(4L, obj.getCategory(), "Fully completed or not", 20.0, BigDecimal.valueOf(15.0), CalculatedBy.RANGE);
+        Criteria c4 = new Criteria(4L, category, "Fully completed or not", 20.0, BigDecimal.valueOf(15.0), CalculatedBy.RANGE);
         criteriaRepository.create(c4);
         assertEquals(c4, criteriaRepository.findById(4l));
         assertNotEquals(c4, criteriaRepository.findById(3l));
@@ -48,7 +49,7 @@ public class CriteriaRepositoryTest {
 
     @Test
     public void editTest() {
-        Criteria c4 = new Criteria(4L, obj.getCategory(), "Fully completed or not", 20.0, BigDecimal.valueOf(20.0), CalculatedBy.RANGE);
+        Criteria c4 = new Criteria(4L, category, "Fully completed or not", 20.0, BigDecimal.valueOf(20.0), CalculatedBy.RANGE);
         criteriaRepository.create(c4);
         c4.setName("Remaining task to complete");
         criteriaRepository.edit(c4);

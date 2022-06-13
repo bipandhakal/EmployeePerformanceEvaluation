@@ -1,6 +1,10 @@
 package com.syntech.repository;
 
+import com.syntech.model.CalculatedBy;
+import com.syntech.model.Category;
+import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaRange;
+import java.math.BigDecimal;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -12,25 +16,26 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class CriteriaRangeRepositoryTest {
 
     CriteriaRangeRepository criteriaRangeRepository = new CriteriaRangeRepository();
-    CriteriaRange obj = new CriteriaRange();
+    Category category = new Category(1L, "Task", 40.0);
+    Criteria criteria = new Criteria(1L, category, "Number of completed tasks", 20.0, BigDecimal.valueOf(20.0), CalculatedBy.RANGE);
 
     @Test
     public void createTest() {
-        CriteriaRange cr1 = new CriteriaRange(1L, obj.getCriteria(), 10L, 20L, 15.0);
+        CriteriaRange cr1 = new CriteriaRange(1L, criteria, 10L, 20L, 15.0);
         criteriaRangeRepository.create(cr1);
         assertEquals(1, criteriaRangeRepository.findAll().size());
     }
 
     @Test
     public void findAllTest() {
-        CriteriaRange cr2 = new CriteriaRange(2L, obj.getCriteria(), 10L, 20L, 15.0);
+        CriteriaRange cr2 = new CriteriaRange(2L, criteria, 10L, 20L, 15.0);
         criteriaRangeRepository.create(cr2);
         assertEquals(1, criteriaRangeRepository.findAll().size());
     }
 
     @Test
     public void deleteTest() {
-        CriteriaRange cr3 = new CriteriaRange(3L, obj.getCriteria(), 10L, 20L, 18.0);
+        CriteriaRange cr3 = new CriteriaRange(3L, criteria, 10L, 20L, 18.0);
         criteriaRangeRepository.create(cr3);
         criteriaRangeRepository.delete(cr3);
         assertEquals(0, criteriaRangeRepository.findAll().size());
@@ -38,7 +43,7 @@ public class CriteriaRangeRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        CriteriaRange cr4 = new CriteriaRange(4L, obj.getCriteria(), 11L, 20L, 18.0);
+        CriteriaRange cr4 = new CriteriaRange(4L, criteria, 11L, 20L, 18.0);
         criteriaRangeRepository.create(cr4);
         assertEquals(cr4, criteriaRangeRepository.findById(4l));
         assertNotEquals(cr4, criteriaRangeRepository.findById(3l));
@@ -46,7 +51,7 @@ public class CriteriaRangeRepositoryTest {
 
     @Test
     public void editTest() {
-        CriteriaRange cr5 = new CriteriaRange(5L, obj.getCriteria(), 15L, 20L, 15.0);
+        CriteriaRange cr5 = new CriteriaRange(5L, criteria, 15L, 20L, 15.0);
         criteriaRangeRepository.create(cr5);
         cr5.setFromRange(10L);
         criteriaRangeRepository.edit(cr5);

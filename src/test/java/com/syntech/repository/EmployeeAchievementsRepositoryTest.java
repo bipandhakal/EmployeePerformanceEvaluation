@@ -1,6 +1,13 @@
 package com.syntech.repository;
 
+import com.syntech.model.CalculatedBy;
+import com.syntech.model.Category;
+import com.syntech.model.Criteria;
+import com.syntech.model.Employee;
 import com.syntech.model.EmployeeAchievements;
+import com.syntech.model.Months;
+import java.math.BigDecimal;
+import java.util.Date;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -12,25 +19,30 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class EmployeeAchievementsRepositoryTest {
 
     EmployeeAchievementsRepository employeeAchievementsRepository = new EmployeeAchievementsRepository();
-    EmployeeAchievements obj = new EmployeeAchievements();
+    Category category = new Category(1L, "Task", 35d);
+    Months months = new Months(1L, "January", 1);
+    Employee employee = new Employee(1L, "Bipan", "Dhakal", new Date(2022 - 04 - 02), "9845676438", "bipan.dhakal@syntechnepal.com");
+    Criteria criteria = new Criteria(1L, category, "Number of completed task", 25d, BigDecimal.valueOf(20.0), CalculatedBy.RANGE);
 
     @Test
     public void createTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "10");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, employee, criteria, months, "10");
         employeeAchievementsRepository.create(ea);
         assertEquals(1, employeeAchievementsRepository.findAll().size());
     }
 
     @Test
     public void findAllTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "Present");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, employee, criteria, months, "10");
+
         employeeAchievementsRepository.create(ea);
         assertEquals(1, employeeAchievementsRepository.findAll().size());
     }
 
     @Test
     public void deleteTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(1L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "20");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, employee, criteria, months, "10");
+
         employeeAchievementsRepository.create(ea);
         employeeAchievementsRepository.delete(ea);
         assertEquals(0, employeeAchievementsRepository.findAll().size());
@@ -38,19 +50,20 @@ public class EmployeeAchievementsRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(2L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "Absent");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, employee, criteria, months, "10");
+
         employeeAchievementsRepository.create(ea);
-        assertEquals(ea, employeeAchievementsRepository.findById(2l));
+        assertEquals(ea, employeeAchievementsRepository.findById(1l));
         assertNotEquals(ea, employeeAchievementsRepository.findById(3l));
     }
 
     @Test
     public void editTest() {
-        EmployeeAchievements ea = new EmployeeAchievements(3L, obj.getEmployee(), obj.getCriteria(), obj.getMonths(), "15");
+        EmployeeAchievements ea = new EmployeeAchievements(1L, employee, criteria, months, "10");
         employeeAchievementsRepository.create(ea);
-        ea.setAchievement("Present");
+        ea.setAchievement("15");
         employeeAchievementsRepository.edit(ea);
-        EmployeeAchievements ea1 = employeeAchievementsRepository.findById(3L);
-        assertEquals("Present", ea1.getAchievement());
+        EmployeeAchievements ea1 = employeeAchievementsRepository.findById(1L);
+        assertEquals("15", ea1.getAchievement());
     }
 }
