@@ -29,107 +29,65 @@
             </f:facet>
 
             <h:form id="frm_emp_freport">
-                <p:dataTable id = "table_emp_freport" value="#{reportController.reportMap}" var ="e" rowKey="#{e.key.name}"
-                             rowIndexVar="rowIndex" allowUnsorting="true" selectionMode="single" paginatorPosition="bottom"
+                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r"
+                             rowKey="#{r.id}" sortBy="#{r.months.order}" paginatorPosition="bottom"
+                             rowIndexVar="rowIndex" allowUnsorting="true" selectionMode="single" 
                              paginator="false" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" >
 
-                    <!--                    <p:headerRow field="e.months.name"
-                                                     expandable="true"
-                                                     >
-                                            <p:column colspan="9">
-                                                <h:outputText styleClass="p-ml-2" value="{r.months.name}"/>
-                                            </p:column>
-                                        </p:headerRow>-->
+                    <f:facet name="header">
+                        <h:outputText value="Annual Report of an employee" />
+                    </f:facet>
 
+                    <p:column headerText="Months" groupRow="true" sortBy="#{r.months.name}" filterBy="#{r.months.name}">
+                        <h:outputText value="#{r.months.name}"/>
+                    </p:column>
 
+                    <p:column headerText="Category" sortBy="#{r.category.name}" filterBy="#{r.category.name}">
+                        <h:outputText value="#{r.category.name}"/>
+                    </p:column>
 
-                    <!--<p:column headerText="Month" />-->
-                    <p:column headerText="Category" />
-                    <p:column headerText="Criteria" />
-                    <p:column headerText="Method" />
-                    <p:column headerText="Full Marks" />
-                    <p:column headerText="Target" />
-                    <p:column headerText="Achievements" />
-                    <p:column headerText="Obtained Marks" />
-                    <p:column headerText="Supervisor Marks" />
-                    <p:column headerText="Final Marks" />
+                    <p:column headerText="Criteria" sortBy="#{r.criteria.name}" filterBy="#{r.criteria.name}">
+                        <h:outputText value="#{r.criteria.name}"/>
+                    </p:column>
 
-                    <p:subTable value = "#{e.value}" var="r">
+                    <p:column headerText="Method" sortBy="#{r.criteria.calculatedBy}" filterBy="#{r.criteria.calculatedBy}">
+                        <h:outputText value="#{r.criteria.calculatedBy}"/>
+                    </p:column>
 
-                        <f:facet name="header">
-                            <h:outputText value="#{r.months.name}" />
-                        </f:facet>
+                    <p:column headerText="Full Marks" sortBy="#{r.criteria.marks}" filterBy="#{r.criteria.marks}">
+                        <h:outputText value="#{r.criteria.marks}"/>
+                    </p:column>
 
-                        <!--                    <f:facet name="header">
-                                                <p:columnGroup type="header" >
-                                                    <p:row>
-                                                        <p:column colspan="9">
-                                                            <h:outputText value="{r.months.name}" />    
-                                                        </p:column>
-                                                    </p:row>
-                                                </p:columnGroup> 
-                                            </f:facet>-->
+                    <p:column headerText="Target" sortBy="#{r.criteria.target}" filterBy="#{r.criteria.target}">
+                        <h:outputText value="#{r.criteria.target}"/>
+                    </p:column>
 
-                        <!--                        <p:column headerText="Month" >
-                                                    <h:outputText value="{r.months.name}"/>
-                                                </p:column>-->
+                    <p:column headerText="Achievements" sortBy="#{r.employeeAchievements}" filterBy="#{r.employeeAchievements}">
+                        <h:outputText value="#{r.employeeAchievements}"/>
+                    </p:column>
 
+                    <p:column headerText="Obtained Marks" sortBy="#{r.obtainedMarks}" filterBy="#{r.obtainedMarks}">
+                        <h:outputText value="#{r.obtainedMarks}"/>
+                    </p:column>
 
-                        <p:column headerText="Category" sortBy="#{r.category.name}" filterBy="#{r.category.name}">
-                            <h:outputText value="#{r.category.name}"/>
+                    <p:column headerText="Supervisor Marks" sortBy="#{r.supervisorEvaluation}" filterBy="#{r.supervisorEvaluation}">
+                        <h:outputText value="#{r.supervisorEvaluation}"/>
+                    </p:column>
+
+                    <p:column headerText="Final Marks" sortBy="#{r.finalMarks}" filterBy="#{r.finalMarks}">
+                        <h:outputText value="#{r.finalMarks}"/>
+                    </p:column>
+
+                    <p:summaryRow>
+                        <p:column colspan="9" style="text-align:right">
+                            <h:outputText value="Total Marks:"/>
                         </p:column>
-
-                        <p:column headerText="Criteria" sortBy="#{r.criteria.name}" filterBy="#{r.criteria.name}">
-                            <h:outputText value="#{r.criteria.name}"/>
+                        <p:column>
+                            <h:outputText value="#{reportController.calculateMonthMarks(r.months)}"/>
                         </p:column>
-
-                        <p:column headerText="Method" sortBy="#{r.criteria.calculatedBy}" filterBy="#{r.criteria.calculatedBy}">
-                            <h:outputText value="#{r.criteria.calculatedBy}"/>
-                        </p:column>
-
-                        <p:column headerText="Full Marks" sortBy="#{r.criteria.marks}" filterBy="#{r.criteria.marks}">
-                            <h:outputText value="#{r.criteria.marks}"/>
-                        </p:column>
-
-                        <p:column headerText="Target" sortBy="#{r.criteria.target}" filterBy="#{r.criteria.target}">
-                            <h:outputText value="#{r.criteria.target}"/>
-                        </p:column>
-
-                        <p:column headerText="Achievements" sortBy="#{r.employeeAchievements}" filterBy="#{r.employeeAchievements}">
-                            <h:outputText value="#{r.employeeAchievements}"/>
-                        </p:column>
-
-                        <p:column headerText="Obtained Marks" sortBy="#{r.obtainedMarks}" filterBy="#{r.obtainedMarks}">
-                            <h:outputText value="#{r.obtainedMarks}"/>
-                        </p:column>
-
-                        <p:column headerText="Supervisor Marks" sortBy="#{r.supervisorEvaluation}" filterBy="#{r.supervisorEvaluation}">
-                            <h:outputText value="#{r.supervisorEvaluation}"/>
-                        </p:column>
-
-                        <p:column headerText="Final Marks" sortBy="#{r.finalMarks}" filterBy="#{r.finalMarks}">
-                            <h:outputText value="#{r.finalMarks}"/>
-                        </p:column>
-
-                        <p:summaryRow>
-                            <p:column colspan="9" style="text-align:right">
-                                <h:outputText value="Total Marks:"/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{reportController.calculateMonthMarks(r.months)}"/>
-                            </p:column>
-                        </p:summaryRow>
-
-                        <!--                        <p:columnGroup type="footer">
-                                                    <p:row>
-                                                        <p:column footerText="Total Marks: " style="float:right"/>
-                                                        <p:column footerText="{reportController.calculateMonthMarks(r.months)}" />
-                                                    </p:row>
-                                                </p:columnGroup>-->
-                    </p:subTable>
-
+                    </p:summaryRow>
 
                     <f:facet name="footer">
                         <p:column>

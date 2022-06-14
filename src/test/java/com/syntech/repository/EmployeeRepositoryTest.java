@@ -1,7 +1,6 @@
 package com.syntech.repository;
 
 import com.syntech.model.Employee;
-import java.time.LocalDate;
 import java.util.Date;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
