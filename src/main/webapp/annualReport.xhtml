@@ -29,7 +29,7 @@
             </f:facet>
 
             <h:form id="frm_emp_freport">
-                <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r"
+                <p:dataTable id = "table_emp_areport" value="#{reportController.reportList}" var ="r"
                              rowKey="#{r.id}" sortBy="#{r.months.order}" paginatorPosition="bottom"
                              rowIndexVar="rowIndex" allowUnsorting="true" selectionMode="single" 
                              paginator="false" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"

@@ -29,6 +29,7 @@
                          rendered="#{userBean.user.role eq 'admin'}"/>
             <p:menuitem value="Monthly Report" outcome="finalReport.xhtml?faces-redirect=true"/>
             <p:menuitem value="Annual Report" outcome="annualReport.xhtml?faces-redirect=true"/>
+            <p:menuitem value="Practice" outcome="practice.xhtml?faces-redirect=true"/>
             <p:menuitem value="Register" oncomplete="PF('sample').show();" update="@this :frm_user_create" process="@this"
                         icon="pi pi-user-plus" style="position: relative; left: 15rem;" rendered="#{userBean.user.role eq 'admin'}"/>
             <f:facet name="options">
