@@ -59,17 +59,17 @@ public class LazyEmployeeDataModel extends LazyDataModel<Employee> {
     @Override
     public List<Employee> load(int offset, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
         // apply offset & filters
-        List<Employee> employees = employeeRepository.findByOffsetNPagesize(offset, pageSize);
+        List<Employee> employees = employeeRepository.lazyLoad(offset, pageSize, sortBy, filterBy);
         System.out.println("size:" + employees.size());
-        setRowCount(employeeRepository.countTotal().intValue());
-        //     this.employeeList = employees;
-        //   employeeList.stream()
+        setRowCount(employeeRepository.lazyCount());
+
+//             this.employeeList = employees;
+//           employeeList.stream()
 //                .skip(offset)
 //                .filter(o -> filter(FacesContext.getCurrentInstance(), filterBy.values(), o))
 //                .limit(pageSize)
 //                .collect(Collectors.toList());
-
-        // sort
+        //sort
 //        if (!sortBy.isEmpty()) {
 //            List<Comparator<Employee>> comparators = sortBy.values().stream()
 //                    .map(o -> new LazySorter(o.getField(), o.getOrder()))

@@ -30,11 +30,11 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
-                    <p:column headerText="FirstName" sortBy="#{e.firstName}" filterBy="#{e.firstName}">
+                    <p:column headerText="FirstName" sortBy="#{e.firstName}" filterBy="#{e.firstName}" filterMatchMode="exact">
                         <h:outputText value="#{e.firstName}"/>
                     </p:column>
 
-                    <p:column headerText="LastName" sortBy="#{e.lastName}" filterBy="#{e.lastName}">
+                    <p:column headerText="LastName" sortBy="#{e.lastName}" filterBy="#{e.lastName}" filterMatchMode="contains">
                         <h:outputText value="#{e.lastName}"/>
                     </p:column>
 

@@ -45,4 +45,5 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
         getEntityManager().remove(findById(obj.getId()));
         getEntityManager().flush();
     }
+
 }

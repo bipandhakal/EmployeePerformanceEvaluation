@@ -1,24 +1,28 @@
 package com.syntech.repository;
 
 import com.syntech.model.Employee;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.MatchMode;
+import org.primefaces.model.SortMeta;
+import org.primefaces.model.SortOrder;
 
 /**
  *
  * @author bipan
  */
 @Stateless
-public class EmployeeRepository extends AbstractRepository<Employee> {
+public class EmployeeRepository extends LazyRepository<Employee> {
 
     @PersistenceContext(name = "EPE")
     private EntityManager em;
@@ -37,28 +41,60 @@ public class EmployeeRepository extends AbstractRepository<Employee> {
         em.flush();
     }
 
-    public List<Employee> findByOffsetNPagesize(int offset, int pagesize) {
-        Query query = em.createQuery("SELECT e FROM Employee e", Employee.class);
-        query.setMaxResults(pagesize);
-        query.setFirstResult(offset);
-        return query.getResultList();
+    @Override
+    public List<Employee> lazyLoad(int offset, int pagesize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
+        Root<Employee> root = criteriaQuery.from(Employee.class);
+        criteriaQuery.select(root);
 
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EPE");
-//        EntityManager entityManager = emf.createEntityManager();
-//        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-//        CriteriaQuery<Employee> criteriaQuery = cb.createQuery(Employee.class);
-//        Root<Employee> root = criteriaQuery.from(Employee.class);
-//        CriteriaQuery<Employee> select = criteriaQuery.select(root);
+        if (sortBy == null || sortBy.isEmpty()) {
+            criteriaQuery.orderBy(criteriaBuilder.desc(root.get("id")));
+        } else {
+            for (Map.Entry<String, SortMeta> entry : sortBy.entrySet()) {
+                if (entry.getValue().getOrder().equals(SortOrder.ASCENDING)) {
+                    criteriaQuery.orderBy(criteriaBuilder.asc(root.get(entry.getValue().getField())));
+                } else {
+                    criteriaQuery.orderBy(criteriaBuilder.desc(root.get(entry.getValue().getField())));
+                }
+            }
+        }
 //
-//        TypedQuery<Employee> query = entityManager.createQuery(select);
-//        query.setFirstResult(offset);
-//        query.setMaxResults(pagesize);
-//        List<Employee> list = query.getResultList();
-//        return list;
+        if (filterBy != null && !filterBy.isEmpty()) {
+            Predicate filterPredicate = criteriaBuilder.conjunction();
+            for (Map.Entry<String, FilterMeta> entry : filterBy.entrySet()) {
+                Predicate predicate = null;
+                if (entry.getValue().getMatchMode().equals(MatchMode.EXACT) || entry.getValue().getMatchMode().equals(MatchMode.EQUALS)) {
+                    predicate = criteriaBuilder.equal(root.get(entry.getValue().getField()), entry.getValue().getFilterValue().toString());
+                }
+                if (entry.getValue().getMatchMode().equals(MatchMode.CONTAINS)) {
+                    predicate = criteriaBuilder.like(root.get(entry.getValue().getField()), "%" + entry.getValue().getFilterValue().toString() + "%");
+                }
+                if (entry.getValue().getMatchMode().equals(MatchMode.STARTS_WITH)) {
+                    predicate = criteriaBuilder.like(root.get(entry.getValue().getField()), entry.getValue().getFilterValue().toString() + "%");
+                }
+                if (predicate != null) {
+                    filterPredicate = criteriaBuilder.and(filterPredicate, predicate);
+                }
+            }
+            if (filterPredicate != null) {
+                criteriaQuery.where(filterPredicate);
+            }
+        }
+
+        TypedQuery<Employee> query = em.createQuery(criteriaQuery);
+        query.setFirstResult(offset);
+        query.setMaxResults(pagesize);
+        List<Employee> list = query.getResultList();
+        return list;
     }
 
-    public Long countTotal() {
-        Query query = em.createQuery("SELECT count(e) FROM Employee e", Long.class);
-        return (Long) query.getSingleResult();
+    @Override
+    public Integer lazyCount() {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(Employee.class)));
+        Long count = em.createQuery(criteriaQuery).getSingleResult();
+        return count == null ? 0 : count.intValue();
     }
 }
