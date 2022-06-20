@@ -1,7 +1,6 @@
 package com.syntech.controller;
 
 import com.syntech.model.Employee;
-import com.syntech.practice.LazyEmployeeDataModel;
 import com.syntech.repository.EmployeeRepository;
 import com.syntech.util.MessageUtil;
 import java.io.Serializable;
@@ -10,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.model.LazyDataModel;
 
 /**
  *
@@ -59,10 +57,7 @@ public class EmployeeController implements Serializable {
     @PostConstruct
     public void init() {
         this.employee = new Employee();
-//        this.employeeList = employeeRepository.findAll();
-        //    this.employeeList = employeeRepository.findByOffsetNPagesize(1, 5);
-        //   System.out.println(employeeList.size());
-        this.lazyModel = new LazyEmployeeDataModel(employeeRepository);
+        this.lazyModel = new LazyDataModel(employeeRepository);
     }
 
     public void beforeCreate() {

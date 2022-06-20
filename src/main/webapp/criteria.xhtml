@@ -23,7 +23,7 @@
             <h:form id="frm_crt_table">
                 <p:growl id="growl" showDetail="true" />
 
-                <p:dataTable id = "crt_table" value="#{criteriaController.criteriaList}" var="c" sortMode="single"  
+                <p:dataTable id = "crt_table" value="#{criteriaController.lazyModel}" var="c" sortMode="single" lazy="true" 
                              rowIndexVar="rowIndex" rows="5" style="border: 1px solid" selectionMode="single"
                              paginator="true" paginatorPosition="bottom" allowUnsorting="true" rowKey="#{c.id}"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -34,23 +34,24 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
-                    <p:column headerText="Category" sortBy="#{c.category}" filterBy="#{c.category}">
+                    <p:column headerText="Category" sortBy="#{c.category.name}" filterBy="#{c.category.name}"
+                              filterMatchMode="startsWith">
                         <h:outputText value="#{c.category.name}"/>
                     </p:column>
 
-                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}">
+                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}" filterMatchMode="contains">
                         <h:outputText value="#{c.name}"/>
                     </p:column>
 
-                    <p:column headerText="Marks" sortBy="#{c.marks}" filterBy="#{c.marks}">
+                    <p:column headerText="Marks" sortBy="#{c.marks}" filterBy="#{c.marks}" filterMatchMode="exact">
                         <h:outputText value="#{c.marks}"/>
                     </p:column>
 
-                    <p:column headerText="Target" sortBy="#{c.target}" filterBy="#{c.target}">
+                    <p:column headerText="Target" sortBy="#{c.target}" filterBy="#{c.target}" filterMatchMode="exact">
                         <h:outputText value="#{c.target}"/>
                     </p:column>
 
-                    <p:column headerText="Calculated By" sortBy="#{c.calculatedBy}" filterBy="#{c.calculatedBy}">
+                    <p:column headerText="Calculated By" sortBy="#{c.calculatedBy}" filterBy="#{c.calculatedBy}" filterMatchMode="startsWith">
                         <h:outputText value="#{c.calculatedBy}"/>
                     </p:column>
 

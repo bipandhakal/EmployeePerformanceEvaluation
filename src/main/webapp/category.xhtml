@@ -23,7 +23,7 @@
             <h:form id="frm_ctg_table">
                 <p:growl id="growl" showDetail="true" />
 
-                <p:dataTable id = "ctg_table" value="#{categoryController.categoryList}" var="c" rowKey="#{c.id}" 
+                <p:dataTable id = "ctg_table" value="#{categoryController.lazyModel}" var="c" rowKey="#{c.id}" lazy="true"
                              rowIndexVar="rowIndex" rows="5" style="border: 1px solid" selectionMode="single"
                              paginator="true" paginatorPosition="bottom" allowUnsorting="true" sortMode="single"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -34,11 +34,12 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
-                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}">
+                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}" filterMatchMode="startsWith">
                         <h:outputText value="#{c.name}"/>
                     </p:column>
 
-                    <p:column headerText="Total Marks" sortBy="#{c.totalMarks}" filterBy="#{c.totalMarks}">
+                    <p:column headerText="Total Marks" sortBy="#{c.totalMarks}" filterBy="#{c.totalMarks}"
+                              filterMatchMode="exact">
                         <h:outputText value="#{c.totalMarks}"/>
                     </p:column>
 

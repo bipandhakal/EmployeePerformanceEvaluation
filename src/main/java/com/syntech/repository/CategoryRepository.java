@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
  * @author bipan
  */
 @Stateless
-public class CategoryRepository extends AbstractRepository<Category> {
+public class CategoryRepository extends LazyRepository<Category> {
 
     @PersistenceContext(name = "EPE")
     private EntityManager em;

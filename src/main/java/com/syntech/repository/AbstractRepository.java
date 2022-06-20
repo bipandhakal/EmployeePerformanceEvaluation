@@ -18,6 +18,14 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
         this.entityClass = entityClass;
     }
 
+    public Class<T> getEntityClass() {
+        return entityClass;
+    }
+
+    public void setEntityClass(Class<T> entityClass) {
+        this.entityClass = entityClass;
+    }
+
     @Override
     public void create(T obj) {
         getEntityManager().persist(obj);
@@ -45,5 +53,4 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
         getEntityManager().remove(findById(obj.getId()));
         getEntityManager().flush();
     }
-
 }

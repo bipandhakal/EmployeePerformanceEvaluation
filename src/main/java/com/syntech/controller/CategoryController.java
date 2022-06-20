@@ -22,6 +22,8 @@ public class CategoryController implements Serializable {
 
     private List<Category> categoryList;
 
+    private LazyDataModel<Category> lazyModel;
+
     @Inject
     private CategoryRepository categoryRepository;
 
@@ -44,11 +46,18 @@ public class CategoryController implements Serializable {
         this.categoryList = categoryList;
     }
 
+    public LazyDataModel<Category> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<Category> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
     @PostConstruct
     public void init() {
         this.category = new Category();
-        this.categoryList = categoryRepository.findAll();
-        System.out.println(categoryList.size());
+        this.lazyModel = new LazyDataModel(categoryRepository);
     }
 
     public void beforeCreate() {

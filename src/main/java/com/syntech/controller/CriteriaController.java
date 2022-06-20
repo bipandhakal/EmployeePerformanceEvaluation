@@ -26,6 +26,8 @@ public class CriteriaController implements Serializable {
 
     private List<Criteria> criteriaList;
 
+    private LazyDataModel<Criteria> lazyModel;
+
     @Inject
     private CriteriaRepository criteriaRepository;
 
@@ -51,11 +53,18 @@ public class CriteriaController implements Serializable {
         this.criteriaList = criteriaList;
     }
 
+    public LazyDataModel<Criteria> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<Criteria> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
     @PostConstruct
     public void init() {
         this.criteria = new Criteria();
-        this.criteriaList = criteriaRepository.findAll();
-        System.out.println(criteriaList.size());
+        this.lazyModel = new LazyDataModel(criteriaRepository);
     }
 
     public SelectItem[] getCalculatedByEnumOptions() {

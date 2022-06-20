@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<!--<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -30,7 +30,7 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
-                    <p:column headerText="FirstName" sortBy="#{e.firstName}" filterBy="#{e.firstName}" filterMatchMode="exact">
+                    <p:column headerText="FirstName" sortBy="#{e.firstName}" filterBy="#{e.firstName}" filterMatchMode="startsWith">
                         <h:outputText value="#{e.firstName}"/>
                     </p:column>
 
@@ -38,15 +38,15 @@
                         <h:outputText value="#{e.lastName}"/>
                     </p:column>
 
-                    <p:column headerText="Joined Date" sortBy="#{e.joinDate}" filterBy="#{e.joinDate}">
+                    <p:column headerText="Joined Date" sortBy="#{e.joinDate}" filterBy="#{e.joinDate}" filterMatchMode="contains">
                         <h:outputText value="#{e.joinDate}"/>
                     </p:column>
 
-                    <p:column headerText="Email" sortBy="#{e.email}" filterBy="#{e.email}" style="width: 20%;">
+                    <p:column headerText="Email" sortBy="#{e.email}" filterBy="#{e.email}" style="width: 20%;" filterMatchMode="exact">
                         <h:outputText value="#{e.email}"/>
                     </p:column>
 
-                    <p:column headerText="Phone Number" sortBy="#{e.phoneNumber}" filterBy="#{e.phoneNumber}">
+                    <p:column headerText="Phone Number" sortBy="#{e.phoneNumber}" filterBy="#{e.phoneNumber}" filterMatchMode="exact">
                         <h:outputText value="#{e.phoneNumber}"/>
                     </p:column>
 
@@ -57,4 +57,4 @@
     </ui:define>
 </ui:composition>
 
-
+-->
