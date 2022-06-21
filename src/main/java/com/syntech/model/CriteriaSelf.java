@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -24,7 +24,7 @@ public class CriteriaSelf implements IEntity {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "criteria", nullable = false)
     private Criteria criteria;
 

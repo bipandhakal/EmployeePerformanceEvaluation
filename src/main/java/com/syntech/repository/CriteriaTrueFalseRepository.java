@@ -14,7 +14,7 @@ import javax.persistence.Query;
  * @author bipan
  */
 @Stateless
-public class CriteriaTrueFalseRepository extends AbstractRepository<CriteriaTrueFalse> {
+public class CriteriaTrueFalseRepository extends LazyRepository<CriteriaTrueFalse> {
 
     @PersistenceContext(name = "EPE")
     private EntityManager em;

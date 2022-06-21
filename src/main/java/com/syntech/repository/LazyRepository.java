@@ -3,6 +3,7 @@ package com.syntech.repository;
 import com.syntech.model.IEntity;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -20,14 +21,35 @@ import org.primefaces.model.SortOrder;
  */
 public abstract class LazyRepository<T extends IEntity> extends AbstractRepository<T> {
 
+    protected CriteriaQuery<T> criteriaQuery;
+    protected CriteriaBuilder criteriaBuilder;
+    protected Root<T> root;
+    protected boolean sorted;
+
     public LazyRepository(Class<T> entityClass) {
         super(entityClass);
     }
 
+    public CriteriaQuery<T> getCriteriaQuery() {
+        return criteriaQuery;
+    }
+
+    public CriteriaBuilder getCriteriaBuilder() {
+        return criteriaBuilder;
+    }
+
+    public Root<T> getFrom() {
+        return root;
+    }
+
+    @PostConstruct
+    protected void _startQuery() {
+        this.criteriaBuilder = getEntityManager().getCriteriaBuilder();
+        this.criteriaQuery = this.criteriaBuilder.createQuery(getEntityClass());
+        root = this.criteriaQuery.from(getEntityClass());
+    }
+
     public List<T> lazyLoad(int offset, int pagesize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
-        CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(getEntityClass());
-        Root<T> root = criteriaQuery.from(getEntityClass());
         criteriaQuery.select(root);
 
         if (sortBy == null || sortBy.isEmpty()) {
@@ -35,9 +57,9 @@ public abstract class LazyRepository<T extends IEntity> extends AbstractReposito
         } else {
             for (Map.Entry<String, SortMeta> entry : sortBy.entrySet()) {
                 if (entry.getValue().getOrder().equals(SortOrder.ASCENDING)) {
-                    criteriaQuery.orderBy(criteriaBuilder.asc(root.get(entry.getValue().getField())));
+                    criteriaQuery.orderBy(criteriaBuilder.asc(getTransitivePath(entry.getValue().getField())));
                 } else {
-                    criteriaQuery.orderBy(criteriaBuilder.desc(root.get(entry.getValue().getField())));
+                    criteriaQuery.orderBy(criteriaBuilder.desc(getTransitivePath(entry.getValue().getField())));
                 }
             }
         }
@@ -46,13 +68,13 @@ public abstract class LazyRepository<T extends IEntity> extends AbstractReposito
             for (Map.Entry<String, FilterMeta> entry : filterBy.entrySet()) {
                 Predicate predicate = null;
                 if (entry.getValue().getMatchMode().equals(MatchMode.EXACT) || entry.getValue().getMatchMode().equals(MatchMode.EQUALS)) {
-                    predicate = criteriaBuilder.equal(root.get(entry.getValue().getField()), entry.getValue().getFilterValue().toString());
+                    predicate = criteriaBuilder.equal(getTransitivePath(entry.getValue().getField()), entry.getValue().getFilterValue().toString());
                 }
                 if (entry.getValue().getMatchMode().equals(MatchMode.CONTAINS)) {
-                    predicate = criteriaBuilder.like(root.get(entry.getValue().getField()), "%" + entry.getValue().getFilterValue().toString() + "%");
+                    predicate = criteriaBuilder.like(getTransitivePath(entry.getValue().getField()), "%" + entry.getValue().getFilterValue().toString() + "%");
                 }
                 if (entry.getValue().getMatchMode().equals(MatchMode.STARTS_WITH)) {
-                    predicate = criteriaBuilder.like(root.get(entry.getValue().getField()), entry.getValue().getFilterValue().toString() + "%");
+                    predicate = criteriaBuilder.like(getTransitivePath(entry.getValue().getField()), entry.getValue().getFilterValue().toString() + "%");
                 }
                 if (predicate != null) {
                     filterPredicate = criteriaBuilder.and(filterPredicate, predicate);
@@ -71,52 +93,25 @@ public abstract class LazyRepository<T extends IEntity> extends AbstractReposito
     }
 
     public Integer lazyCount() {
-        CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
         criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(getEntityClass())));
         Long count = getEntityManager().createQuery(criteriaQuery).getSingleResult();
         return count == null ? 0 : count.intValue();
     }
 
-//    protected Path getTransitivePath(String pathString) {
-//        CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-//        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(getEntityClass());
-//        Root<T> root = criteriaQuery.from(getEntityClass());
-//        String result[];
-//        result = pathString.split("\\.");
-//        Path p = null;
-//        Boolean firstTime = true;
-//        for (String filterPropty : result) {
-//            if (firstTime) {
-//                firstTime = false;
-//                p = root.get(filterPropty);
-//            } else {
-//                p = p.get(filterPropty);
-//            }
-//        }
-//        return p;
-//    }
-//
-//    public LazyRepository<T> addSorting(String sortField, final SortOrder sortOrder) {
-//        if (sortField != null) {
-//            Path pSort = getTransitivePath(sortField);
-//            return this.addSorting(pSort, sortOrder);
-//        }
-//        return this;
-//    }
-//
-//    public LazyRepository<T> addSorting(Path p, final SortOrder sortOrder) {
-//        CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-//        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(getEntityClass());
-//        Root<T> root = criteriaQuery.from(getEntityClass());
-//        criteriaQuery.select(root);
-//
-//        if (sortOrder == SortOrder.ASCENDING) {
-//            criteriaQuery.orderBy(criteriaBuilder.asc(p));
-//        } else {
-//            criteriaQuery.orderBy(criteriaBuilder.desc(p));
-//        }
-//        this.sorted = true;
-//        return this;
-//    }
+    protected Path getTransitivePath(String pathString) {
+        String result[];
+        result = pathString.split("\\.");
+        Path p = null;
+        Boolean firstTime = true;
+        for (String filterPropty : result) {
+            if (firstTime) {
+                firstTime = false;
+                p = root.get(filterPropty);
+            } else {
+                p = p.get(filterPropty);
+            }
+        }
+        return p;
+    }
 }

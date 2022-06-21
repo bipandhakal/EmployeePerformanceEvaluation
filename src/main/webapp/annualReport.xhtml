@@ -17,7 +17,7 @@
                         <p:selectOneMenu id="som_employee" value="#{reportController.selectedEmployee}" 
                                          converter="employeeConverter">
                             <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{employeeController.employeeList}" var="v" 
+                            <f:selectItems value="#{reportController.employeeList}" var="v" 
                                            itemLabel="#{v.firstName}" itemValue="#{v}"/>
                             <p:ajax update="@this olbl_employee" process="@this"/>
                         </p:selectOneMenu>

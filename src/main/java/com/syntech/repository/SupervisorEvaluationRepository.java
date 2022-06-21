@@ -16,7 +16,7 @@ import javax.persistence.Query;
  * @author bipan
  */
 @Stateless
-public class SupervisorEvaluationRepository extends AbstractRepository<SupervisorEvaluation> {
+public class SupervisorEvaluationRepository extends LazyRepository<SupervisorEvaluation> {
 
     @PersistenceContext(name = "EPE")
     private EntityManager em;

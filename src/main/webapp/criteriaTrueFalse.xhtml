@@ -23,7 +23,7 @@
             <h:form id="frm_crtf_table">
                 <p:growl id="growl" showDetail="true" />
 
-                <p:dataTable id = "crtf_table" value="#{criteriaTrueFalseController.criteriaTrueFalseList}" var="c"   
+                <p:dataTable id = "crtf_table" value="#{criteriaTrueFalseController.lazyModel}" var="c" lazy="true"  
                              rowIndexVar="rowIndex" rows="5" style="border: 1px solid" sortMode="single" rowKey="#{c.id}" 
                              paginator="true" paginatorPosition="bottom" allowUnsorting="true" selectionMode="single"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -34,15 +34,18 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
-                    <p:column headerText="Criteria" sortBy="#{c.criteria}" filterBy="#{c.criteria}">
+                    <p:column headerText="Criteria" sortBy="#{c.criteria.name}" filterBy="#{c.criteria.name}"
+                              filterMatchMode="contains">
                         <h:outputText value="#{c.criteria.name}"/>
                     </p:column>
 
-                    <p:column headerText="Status" sortBy="#{c.status}" filterBy="#{c.status}">
+                    <p:column headerText="Status" sortBy="#{c.status}" filterBy="#{c.status}"
+                              filterMatchMode="startsWith">
                         <h:outputText value="#{c.status}"/>
                     </p:column>
 
-                    <p:column headerText="Marks" sortBy="#{c.marks}" filterBy="#{c.marks}">
+                    <p:column headerText="Marks" sortBy="#{c.marks}" filterBy="#{c.marks}"
+                              filterMatchMode="exact">
                         <h:outputText value="#{c.marks}"/>
                     </p:column>
 
@@ -83,8 +86,7 @@
                         <p:outputLabel id="olbl_status" value = "Status"/>
                         <p:inputText id = "intxt_status" value="#{criteriaTrueFalseController.criteriaTrueFalse.status}" 
                                      label="Status" title="Status" required="true"
-                                     requiredMessage="Status is required" validatorMessage="Status should be string">
-                            <f:validateRegex pattern="^[a-zA-Z ]+$" />
+                                     requiredMessage="Status is required">
                             <p:ajax event="blur"  update="@this errmsg_status olbl_status"  process="@this" />
                             <p:watermark for="intxt_status" id="wm_status" value="Present"/>
                         </p:inputText>

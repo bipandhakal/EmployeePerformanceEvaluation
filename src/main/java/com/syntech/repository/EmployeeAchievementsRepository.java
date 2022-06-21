@@ -16,7 +16,7 @@ import javax.persistence.Query;
  * @author bipan
  */
 @Stateless
-public class EmployeeAchievementsRepository extends AbstractRepository<EmployeeAchievements> {
+public class EmployeeAchievementsRepository extends LazyRepository<EmployeeAchievements> {
 
     @PersistenceContext(name = "EPE")
     private EntityManager em;

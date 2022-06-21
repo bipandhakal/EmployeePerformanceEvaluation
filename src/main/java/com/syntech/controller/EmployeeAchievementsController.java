@@ -1,9 +1,6 @@
 package com.syntech.controller;
 
-import static com.syntech.model.CalculatedBy.AVERAGE;
-import static com.syntech.model.CalculatedBy.RANGE;
 import static com.syntech.model.CalculatedBy.SELF;
-import static com.syntech.model.CalculatedBy.TRUEORFALSE;
 import com.syntech.model.Criteria;
 import com.syntech.model.Employee;
 import com.syntech.model.EmployeeAchievements;
@@ -32,6 +29,8 @@ public class EmployeeAchievementsController implements Serializable {
     private EmployeeAchievements employeeAchievements;
 
     private List<EmployeeAchievements> employeeAchievementsList;
+
+    private LazyDataModel<EmployeeAchievements> lazyModel;
 
     @Inject
     private EmployeeAchievementsRepository employeeAchievementsRepository;
@@ -64,11 +63,18 @@ public class EmployeeAchievementsController implements Serializable {
         this.employeeAchievementsList = employeeAchievementsList;
     }
 
+    public LazyDataModel<EmployeeAchievements> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<EmployeeAchievements> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
     @PostConstruct
     public void init() {
         this.employeeAchievements = new EmployeeAchievements();
-        this.employeeAchievementsList = employeeAchievementsRepository.findAll();
-        System.out.println(employeeAchievementsList.size());
+        this.lazyModel = new LazyDataModel(employeeAchievementsRepository);
     }
 
     public List<Employee> getEmployeeDetails() {

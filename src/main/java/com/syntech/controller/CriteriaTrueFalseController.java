@@ -26,6 +26,8 @@ public class CriteriaTrueFalseController implements Serializable {
 
     private List<CriteriaTrueFalse> criteriaTrueFalseList;
 
+    private LazyDataModel<CriteriaTrueFalse> lazyModel;
+
     @Inject
     private CriteriaTrueFalseRepository criteriaTrueFalseRepository;
 
@@ -51,11 +53,18 @@ public class CriteriaTrueFalseController implements Serializable {
         this.criteriaTrueFalseList = criteriaTrueFalseList;
     }
 
+    public LazyDataModel<CriteriaTrueFalse> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<CriteriaTrueFalse> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
     @PostConstruct
     public void init() {
         this.criteriaTrueFalse = new CriteriaTrueFalse();
-        this.criteriaTrueFalseList = criteriaTrueFalseRepository.findAll();
-        System.out.println(criteriaTrueFalseList.size());
+        this.lazyModel = new LazyDataModel(criteriaTrueFalseRepository);
     }
 
     public List<Criteria> getCriteriaDetails() {

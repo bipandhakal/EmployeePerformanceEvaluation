@@ -23,7 +23,7 @@
             <h:form id="frm_crts_table">
                 <p:growl id="growl" showDetail="true" />
 
-                <p:dataTable id = "crts_table" value="#{criteriaSelfController.criteriaSelfList}" var="c" rowKey="#{c.id}"  
+                <p:dataTable id = "crts_table" value="#{criteriaSelfController.lazyModel}" var="c" rowKey="#{c.id}"  lazy="true"
                              rowIndexVar="rowIndex" rows="5" style="border: 1px solid" selectionMode="single"
                              paginator="true" paginatorPosition="bottom" allowUnsorting="true" sortMode="single"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -34,11 +34,13 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
-                    <p:column headerText="Criteria" sortBy="#{c.criteria}" filterBy="#{c.criteria}">
+                    <p:column headerText="Criteria" sortBy="#{c.criteria.name}" filterBy="#{c.criteria.name}"
+                              filterMatchMode="contains">
                         <h:outputText value="#{c.criteria.name}"/>
                     </p:column>
 
-                    <p:column headerText="Marks" sortBy="#{c.marks}" filterBy="#{c.marks}">
+                    <p:column headerText="Marks" sortBy="#{c.marks}" filterBy="#{c.marks}"
+                              filterMatchMode="exact">
                         <h:outputText value="#{c.marks}"/>
                     </p:column>
 

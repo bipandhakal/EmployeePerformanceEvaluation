@@ -4,6 +4,7 @@ import com.syntech.adapter.ReportGenerator;
 import com.syntech.model.Employee;
 import com.syntech.model.Months;
 import com.syntech.model.Report;
+import com.syntech.repository.EmployeeRepository;
 import com.syntech.repository.ReportRepository;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class ReportController implements Serializable {
     private Employee selectedEmployee;
     private Months selectedMonths;
     private List<Report> reportList;
+    private List<Employee> employeeList;
     private Map<Months, List<Report>> reportMap;
 
     @Inject
@@ -34,6 +36,9 @@ public class ReportController implements Serializable {
 
     @Inject
     private ReportRepository reportRepository;
+
+    @Inject
+    private EmployeeRepository employeeRepository;
 
     public Report getReport() {
         return report;
@@ -67,6 +72,14 @@ public class ReportController implements Serializable {
         this.reportMap = reportMap;
     }
 
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
+    }
+
     @PostConstruct
     public void init() {
         this.report = new Report();
@@ -74,6 +87,7 @@ public class ReportController implements Serializable {
         this.selectedMonths = new Months();
         this.reportList = new ArrayList<>();
         this.reportMap = new HashMap<>();
+        this.employeeList = employeeRepository.findAll();
     }
 
     public List<Report> getReportList() {

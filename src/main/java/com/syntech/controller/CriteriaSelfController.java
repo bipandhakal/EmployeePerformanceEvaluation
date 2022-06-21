@@ -26,6 +26,8 @@ public class CriteriaSelfController implements Serializable {
 
     private List<CriteriaSelf> criteriaSelfList;
 
+    private LazyDataModel<CriteriaSelf> lazyModel;
+
     @Inject
     private CriteriaSelfRepository criteriaSelfRepository;
 
@@ -51,11 +53,18 @@ public class CriteriaSelfController implements Serializable {
         this.criteriaSelfList = criteriaSelfList;
     }
 
+    public LazyDataModel<CriteriaSelf> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<CriteriaSelf> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
     @PostConstruct
     public void init() {
         this.criteriaSelf = new CriteriaSelf();
-        this.criteriaSelfList = criteriaSelfRepository.findAll();
-        System.out.println(criteriaSelfList.size());
+        this.lazyModel = new LazyDataModel(criteriaSelfRepository);
     }
 
     public List<Criteria> getCriteriaDetails() {

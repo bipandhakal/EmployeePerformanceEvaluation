@@ -28,6 +28,8 @@ public class SupervisorEvaluationController implements Serializable {
 
     private List<SupervisorEvaluation> supervisorEvaluationList;
 
+    private LazyDataModel<SupervisorEvaluation> lazyModel;
+
     @Inject
     private SupervisorEvaluationRepository supervisorEvaluationRepository;
 
@@ -59,11 +61,18 @@ public class SupervisorEvaluationController implements Serializable {
         this.supervisorEvaluationList = supervisorEvaluationList;
     }
 
+    public LazyDataModel<SupervisorEvaluation> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<SupervisorEvaluation> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
     @PostConstruct
     public void init() {
         this.supervisorEvaluation = new SupervisorEvaluation();
-        this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
-        System.out.println(supervisorEvaluationList.size());
+        this.lazyModel = new LazyDataModel(supervisorEvaluationRepository);
     }
 
     public List<Employee> getEmployeeDetails() {

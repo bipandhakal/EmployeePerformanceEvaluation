@@ -32,7 +32,7 @@ public class CriteriaRepository extends LazyRepository<Criteria> {
     public List<Criteria> findByCategory(Category category) {
         List<Criteria> crList = null;
         try {
-            Query query = em.createQuery("SELECT crList FROM Criteria crList WHERE crList.category=:ctg", Criteria.class);
+            Query query = em.createQuery("SELECT ct FROM Criteria ct WHERE ct.category=:ctg", Criteria.class);
             query.setParameter("ctg", category);
             crList = query.getResultList();
         } catch (NoResultException e) {
@@ -44,7 +44,7 @@ public class CriteriaRepository extends LazyRepository<Criteria> {
     public List<Criteria> findByCalculatedByMethod(CalculatedBy calculatedBy) {
         List<Criteria> criteriaList = null;
         try {
-            Query query = em.createQuery("SELECT criteriaList FROM Criteria criteriaList WHERE criteriaList.calculatedBy:cby", Criteria.class);
+            Query query = em.createQuery("SELECT c FROM Criteria c WHERE c.calculatedBy=:cby", Criteria.class);
             query.setParameter("cby", calculatedBy);
             criteriaList = query.getResultList();
         } catch (NoResultException e) {

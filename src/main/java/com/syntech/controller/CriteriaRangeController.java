@@ -26,6 +26,8 @@ public class CriteriaRangeController implements Serializable {
 
     private List<CriteriaRange> criteriaRangeList;
 
+    private LazyDataModel<CriteriaRange> lazyModel;
+
     @Inject
     private CriteriaRangeRepository criteriaRangeRepository;
 
@@ -51,11 +53,18 @@ public class CriteriaRangeController implements Serializable {
         this.criteriaRangeList = criteriaRangeList;
     }
 
+    public LazyDataModel<CriteriaRange> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<CriteriaRange> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
     @PostConstruct
     public void init() {
         this.criteriaRange = new CriteriaRange();
-        this.criteriaRangeList = criteriaRangeRepository.findAll();
-        System.out.println(criteriaRangeList.size());
+        this.lazyModel = new LazyDataModel(criteriaRangeRepository);
     }
 
     public List<Criteria> getCriteriaDetails() {

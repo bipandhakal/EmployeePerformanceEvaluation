@@ -23,7 +23,7 @@
             <h:form id="frm_emp_achv_table">
                 <p:growl id="growl" showDetail="true" />
 
-                <p:dataTable id = "emp_achv_table" value="#{employeeAchievementsController.employeeAchievementsList}"    
+                <p:dataTable id = "emp_achv_table" value="#{employeeAchievementsController.lazyModel}" lazy="true"   
                              rowIndexVar="rowIndex" rows="5" style="border: 1px solid" selectionMode="single" var="e"
                              paginator="true" paginatorPosition="bottom" allowUnsorting="true"  sortMode="single"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -34,19 +34,23 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
-                    <p:column headerText="Employee" sortBy="#{e.employee}" filterBy="#{e.employee}" filterMatchMode="contains">
+                    <p:column headerText="Employee" sortBy="#{e.employee.firstName}" filterBy="#{e.employee.firstName}"
+                              filterMatchMode="contains">
                         <h:outputText value="#{e.employee.firstName}"/>
                     </p:column>
 
-                    <p:column headerText="Criteria" sortBy="#{e.criteria}" filterBy="#{e.criteria}">
+                    <p:column headerText="Criteria" sortBy="#{e.criteria.name}" filterBy="#{e.criteria.name}"
+                              filterMatchMode="contains">
                         <h:outputText value="#{e.criteria.name}"/>
                     </p:column>
 
-                    <p:column headerText="Month" sortBy="#{e.months}" filterBy="#{e.months}">
+                    <p:column headerText="Month" sortBy="#{e.months.name}" filterBy="#{e.months.name}"
+                              filterMatchMode="contains">
                         <h:outputText value="#{e.months.name}"/>
                     </p:column>
 
-                    <p:column headerText="Achievement" sortBy="#{e.achievement}" filterBy="#{e.achievement}">
+                    <p:column headerText="Achievement" sortBy="#{e.achievement}" filterBy="#{e.achievement}"
+                              filterMatchMode="exact">
                         <h:outputText value="#{e.achievement}"/>
                     </p:column>
 
