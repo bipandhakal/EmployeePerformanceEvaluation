@@ -3,13 +3,10 @@ package com.syntech.repository;
 import com.syntech.model.IEntity;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.MatchMode;
 import org.primefaces.model.SortMeta;
@@ -21,32 +18,8 @@ import org.primefaces.model.SortOrder;
  */
 public abstract class LazyRepository<T extends IEntity> extends AbstractRepository<T> {
 
-    protected CriteriaQuery<T> criteriaQuery;
-    protected CriteriaBuilder criteriaBuilder;
-    protected Root<T> root;
-    protected boolean sorted;
-
     public LazyRepository(Class<T> entityClass) {
         super(entityClass);
-    }
-
-    public CriteriaQuery<T> getCriteriaQuery() {
-        return criteriaQuery;
-    }
-
-    public CriteriaBuilder getCriteriaBuilder() {
-        return criteriaBuilder;
-    }
-
-    public Root<T> getFrom() {
-        return root;
-    }
-
-    @PostConstruct
-    protected void _startQuery() {
-        this.criteriaBuilder = getEntityManager().getCriteriaBuilder();
-        this.criteriaQuery = this.criteriaBuilder.createQuery(getEntityClass());
-        root = this.criteriaQuery.from(getEntityClass());
     }
 
     public List<T> lazyLoad(int offset, int pagesize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {

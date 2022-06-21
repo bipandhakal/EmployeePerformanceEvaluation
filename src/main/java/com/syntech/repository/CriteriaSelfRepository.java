@@ -2,12 +2,13 @@ package com.syntech.repository;
 
 import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaSelf;
+import com.syntech.model.CriteriaSelf_;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.criteria.Predicate;
 
 /**
  *
@@ -28,12 +29,19 @@ public class CriteriaSelfRepository extends LazyRepository<CriteriaSelf> {
         return em;
     }
 
+    public CriteriaSelfRepository filterByCriteria(Criteria criteria) {
+        Predicate criteriaPredicates = criteriaBuilder.equal(root.get(CriteriaSelf_.criteria), criteria);
+        this.addCriteria(criteriaPredicates);
+        return this;
+    }
+
     public List<CriteriaSelf> findByCriteria(Criteria criteria) {
         List<CriteriaSelf> cs = null;
         try {
-            Query query = em.createQuery("SELECT cr FROM CriteriaSelf cr WHERE cr.criteria=:crt", CriteriaSelf.class);
-            query.setParameter("crt", criteria);
-            cs = query.getResultList();
+            cs = ((CriteriaSelfRepository) this.startQuery()).filterByCriteria(criteria).getResultList();
+//            Query query = em.createQuery("SELECT cr FROM CriteriaSelf cr WHERE cr.criteria=:crt", CriteriaSelf.class);
+//            query.setParameter("crt", criteria);
+//            cs = query.getResultList();
         } catch (NoResultException e) {
             cs = null;
         }
