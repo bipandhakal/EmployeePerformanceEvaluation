@@ -9,13 +9,14 @@
                 template="/layout.xhtml">
 
     <ui:define name="Center">
-        <p:panel  header="Final report Records">
+        <p:panel  header="Monthly report Records">
             <f:facet name="header">
                 <h:form id="form">
                     <p:panelGrid columns="5" style="float: left;">
-                        <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"/>
+                        <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"
+                                       rendered="#{userBean.user.role eq 'admin'}"/>
                         <p:selectOneMenu id="som_employee" value="#{reportController.selectedEmployee}" 
-                                         converter="employeeConverter">
+                                         converter="employeeConverter" rendered="#{userBean.user.role eq 'admin'}">
                             <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{reportController.employeeList}" var="v" 
                                            itemLabel="#{v.firstName}" itemValue="#{v}"/>
@@ -50,6 +51,10 @@
                              paginator="false" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+
+                    <f:facet name="header">
+                        <h:outputText value="Monthly Report of  #{reportController.selectedEmployee.firstName} for #{reportController.selectedMonths.name}:" />
+                    </f:facet>
 
                     <p:column headerText="S.N" sortBy="#{r.id}" filterBy="#{r.id}">
                         <h:outputText value="#{rowIndex + 1}"/>
@@ -100,7 +105,7 @@
                 <p:panelGrid columns="1" style="display: flex; justify-content: center;">
                     <h:commandLink>
                         <p:commandButton value="Download report" ajax="false" icon="pi pi-arrow-down"/>
-                        <p:dataExporter type="xls" target="table_emp_freport" fileName="EmployeeReport.xls" />
+                        <p:dataExporter type="xls" target="table_emp_freport" fileName="EmployeeMonthlyReport" />
                     </h:commandLink>
                 </p:panelGrid>
             </h:form>

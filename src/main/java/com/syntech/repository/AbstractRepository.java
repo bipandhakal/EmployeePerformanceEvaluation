@@ -65,7 +65,7 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
         this.criteriaBuilder = getEntityManager().getCriteriaBuilder();
         this.criteriaQuery = this.criteriaBuilder.createQuery(getEntityClass());
         root = this.criteriaQuery.from(getEntityClass());
-        predicates = new ArrayList<Predicate>();
+        predicates = new ArrayList<>();
     }
 
     public AbstractRepository<T> startQuery() {

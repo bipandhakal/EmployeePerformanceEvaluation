@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -24,6 +25,7 @@ public class User implements IEntity {
     @Column(name = "roles", nullable = false)
     private String role;
 
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "UserName should be string")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 

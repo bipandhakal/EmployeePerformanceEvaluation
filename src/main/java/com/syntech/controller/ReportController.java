@@ -1,6 +1,7 @@
 package com.syntech.controller;
 
 import com.syntech.adapter.ReportGenerator;
+import com.syntech.bean.UserBean;
 import com.syntech.model.Employee;
 import com.syntech.model.Months;
 import com.syntech.model.Report;
@@ -39,6 +40,9 @@ public class ReportController implements Serializable {
 
     @Inject
     private EmployeeRepository employeeRepository;
+
+    @Inject
+    private UserBean userBean;
 
     public Report getReport() {
         return report;
@@ -83,7 +87,8 @@ public class ReportController implements Serializable {
     @PostConstruct
     public void init() {
         this.report = new Report();
-        this.selectedEmployee = new Employee();
+//        this.selectedEmployee = new Employee();
+        this.selectedEmployee = employeeRepository.findByUserName(userBean.getUser().getUsername());
         this.selectedMonths = new Months();
         this.reportList = new ArrayList<>();
         this.reportMap = new HashMap<>();

@@ -78,16 +78,6 @@
                 <h:form id="frm_emp_achv_create_edit">
                     <h:panelGrid columns="3">
 
-                        <p:outputLabel id="olbl_employee" value="Employee" for="som_employee"/>
-                        <p:selectOneMenu id="som_employee" value="#{employeeAchievementsController.employeeAchievements.employee}" 
-                                         converter="employeeConverter">
-                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{employeeAchievementsController.employeeDetails}" var="v" 
-                                           itemLabel="#{v.firstName}" itemValue="#{v}"/>
-                            <p:ajax update="@this olbl_employee" process="@this"/>
-                        </p:selectOneMenu>
-                        <br></br>
-
                         <p:outputLabel id="olbl_criteria" value="Criteria" for="som_criteria"/>
                         <p:selectOneMenu id="som_criteria" value="#{employeeAchievementsController.employeeAchievements.criteria}" 
                                          converter="criteriaConverter">

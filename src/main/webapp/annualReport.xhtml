@@ -13,22 +13,23 @@
             <f:facet name="header">
                 <h:form id="form">
                     <p:panelGrid columns="5" style="float: left;">
-                        <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"/>
+                        <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"
+                                       rendered="#{userBean.user.role eq 'admin'}"/>
                         <p:selectOneMenu id="som_employee" value="#{reportController.selectedEmployee}" 
-                                         converter="employeeConverter">
+                                         converter="employeeConverter" rendered="#{userBean.user.role eq 'admin'}">
                             <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{reportController.employeeList}" var="v" 
                                            itemLabel="#{v.firstName}" itemValue="#{v}"/>
                             <p:ajax update="@this olbl_employee" process="@this"/>
                         </p:selectOneMenu>
 
-                        <p:commandButton id = "btn_show_report" value="Show Report" update="@this frm_emp_freport" 
+                        <p:commandButton id = "btn_show_report" value="Show Report" update="@this frm_emp_areport" 
                                          actionListener="#{reportController.generateAnnualReport()}"/>
                     </p:panelGrid>
                 </h:form>
             </f:facet>
 
-            <h:form id="frm_emp_freport">
+            <h:form id="frm_emp_areport">
                 <p:dataTable id = "table_emp_areport" value="#{reportController.reportList}" var ="r"
                              rowKey="#{r.id}" sortBy="#{r.months.order}" paginatorPosition="bottom"
                              rowIndexVar="rowIndex" allowUnsorting="true" selectionMode="single" 
@@ -37,7 +38,7 @@
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" >
 
                     <f:facet name="header">
-                        <h:outputText value="Annual Report of an employee" />
+                        <h:outputText value="Annual Report of  #{reportController.selectedEmployee.firstName}" />
                     </f:facet>
 
                     <p:column headerText="Months" groupRow="true" sortBy="#{r.months.name}" filterBy="#{r.months.name}">
@@ -98,7 +99,7 @@
                 <p:panelGrid id="Download_btn" columns="1" style="display: flex; justify-content: center;">
                     <h:commandLink>
                         <p:commandButton value="Download report" ajax="false" icon="pi pi-arrow-down"/>
-                        <p:dataExporter type="xls" target="table_emp_freport" fileName="EmployeeReport.xls" />
+                        <p:dataExporter type="xls" target="table_emp_areport" fileName="EmployeeAnnualReport" />
                     </h:commandLink>
                 </p:panelGrid>
             </h:form>

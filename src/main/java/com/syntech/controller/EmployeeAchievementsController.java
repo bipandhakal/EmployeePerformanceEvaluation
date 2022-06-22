@@ -1,5 +1,6 @@
 package com.syntech.controller;
 
+import com.syntech.bean.UserBean;
 import static com.syntech.model.CalculatedBy.SELF;
 import com.syntech.model.Criteria;
 import com.syntech.model.Employee;
@@ -46,6 +47,9 @@ public class EmployeeAchievementsController implements Serializable {
 
     @Inject
     private MessageUtil messageUtil;
+
+    @Inject
+    private UserBean userBean;
 
     public EmployeeAchievements getEmployeeAchievements() {
         return employeeAchievements;
@@ -96,6 +100,7 @@ public class EmployeeAchievementsController implements Serializable {
     }
 
     public void create() {
+        employeeAchievements.setEmployee(employeeRepository.findByUserName(userBean.getUser().getUsername()));
         employeeAchievementsRepository.create(employeeAchievements);
         this.employeeAchievementsList = employeeAchievementsRepository.findAll();
         messageUtil.showInfo("Employee Achievements Created Successfully!");
@@ -124,4 +129,5 @@ public class EmployeeAchievementsController implements Serializable {
     public void findById(Long id) {
         employeeAchievementsRepository.findById(id);
     }
+
 }

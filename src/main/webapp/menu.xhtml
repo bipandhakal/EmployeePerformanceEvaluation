@@ -29,8 +29,9 @@
                          rendered="#{userBean.user.role eq 'admin'}"/>
             <p:menuitem value="Monthly Report" outcome="finalReport.xhtml?faces-redirect=true"/>
             <p:menuitem value="Annual Report" outcome="annualReport.xhtml?faces-redirect=true"/>
-            <p:menuitem value="Register" oncomplete="PF('sample').show();" update="@this :frm_user_create" process="@this"
-                        icon="pi pi-user-plus" style="position: relative; left: 15rem;" rendered="#{userBean.user.role eq 'admin'}"/>
+            <p:menuitem value="Register" oncomplete="PF('rdialog').show();" update="@this :frm_user_create" process="@this"
+                        icon="pi pi-user-plus" style="position: relative; left: 15rem;"
+                        rendered="#{userBean.user.role eq 'admin'}" actionListener="#{userController.beforeCreate()}"/>
             <f:facet name="options">
                 <p:outputLabel value="Welcome, #{userBean.user.username}" rendered="#{userBean.loggedIn}" 
                                style="position: relative; right: 20px; top: 10px;"/>
@@ -48,7 +49,7 @@
         </p:confirmDialog>
     </h:form>
 
-    <p:dialog header="Enter user details" widgetVar="sample" id="dlog_user">
+    <p:dialog header="Enter user details" widgetVar="rdialog" id="dlog_user">
         <h:form id="frm_user_create">
             <h:panelGrid columns ="3" styleClass="ui-panelgrid">
 
