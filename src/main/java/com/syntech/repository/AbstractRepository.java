@@ -115,4 +115,13 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
         return getEntityManager().createQuery(criteriaQuery).getResultList();
     }
+
+    public List<T> getResultList(int first, int pageSize) {
+        criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+        // paginate
+        List<T> data = getEntityManager().createQuery(criteriaQuery)
+                .setFirstResult(first).setMaxResults(pageSize)
+                .getResultList();
+        return data;
+    }
 }
