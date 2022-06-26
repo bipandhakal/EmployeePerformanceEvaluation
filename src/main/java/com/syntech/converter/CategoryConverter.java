@@ -20,6 +20,7 @@ public class CategoryConverter implements Converter {
     @Inject
     CategoryRepository categoryRepository;
 
+    // This can be on abstract level as all other converters have same behaviour but with different repository
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value == null || value.isEmpty() || value.length() == 0 || value.equals("")) {

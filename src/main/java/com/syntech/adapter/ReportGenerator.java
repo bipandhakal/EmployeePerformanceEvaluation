@@ -59,6 +59,7 @@ public class ReportGenerator {
 
     @PostConstruct
     public void init() {
+        //TODO fetching all records on postconstruct is not a good practice
         this.criteriaRangeList = criteriaRangeRepository.findAll();
         this.criteriaTrueFalseList = criteriaTrueFalseRepository.findAll();
         this.criteriaSelfList = criteriaSelfRepository.findAll();
@@ -68,6 +69,7 @@ public class ReportGenerator {
         if (!criteria.getCalculatedBy().equals(CalculatedBy.RANGE)) {
             return 0.0;
         }
+        // can be used stream - java 8
         for (CriteriaRange cr : criteriaRangeList) {
             if (cr.getCriteria().equals(criteria)) {
                 Long achv = Long.parseLong(employeeAchievementMarks);
@@ -83,6 +85,7 @@ public class ReportGenerator {
         if (!criteria.getCalculatedBy().equals(CalculatedBy.TRUEORFALSE)) {
             return 0.0;
         }
+        // can be used stream - java 8
         for (CriteriaTrueFalse ctf : criteriaTrueFalseList) {
             if (ctf.getCriteria().equals(criteria)) {
                 if (employeeAchievements.equals(ctf.getStatus())) {
@@ -98,6 +101,7 @@ public class ReportGenerator {
             return 0.0;
         }
         Double d = Double.parseDouble(employeeAchievements);
+        // handle divide by zero exception while division
         return (criteria.getMarks() * d) / (criteria.getTarget().doubleValue());
     }
 

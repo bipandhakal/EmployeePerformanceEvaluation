@@ -1,0 +1,5 @@
+1. Froup xhtml files on folder i.e. report -> annualReport.xhtml, finalReport.xhtml
+2. put images, js, css files on seperate folders under resources
+3. make js, css, images cachable in order to reduce server response time
+4. create layout for normal employee and supervisor 
+

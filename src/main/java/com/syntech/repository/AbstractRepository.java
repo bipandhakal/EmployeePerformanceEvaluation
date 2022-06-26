@@ -87,6 +87,7 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
 
     @Override
     public List<T> findAll() {
+        //convert jpql by criteria query
         return getEntityManager().createQuery("Select t from " + entityClass.getName() + " t").getResultList();
     }
 

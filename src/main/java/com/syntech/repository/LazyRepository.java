@@ -27,6 +27,8 @@ public abstract class LazyRepository<T extends IEntity> extends AbstractReposito
     public List<T> lazyLoad(int offset, int pagesize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) throws ParseException {
         criteriaQuery.select(root);
 
+
+        //create seperate readable method for filter  and sort
         if (sortBy == null || sortBy.isEmpty()) {
             criteriaQuery.orderBy(criteriaBuilder.desc(root.get("id")));
         } else {
@@ -38,6 +40,7 @@ public abstract class LazyRepository<T extends IEntity> extends AbstractReposito
                 }
             }
         }
+
         if (filterBy != null && !filterBy.isEmpty()) {
             for (Map.Entry<String, FilterMeta> entry : filterBy.entrySet()) {
                 Path p = getTransitivePath(entry.getValue().getField());
