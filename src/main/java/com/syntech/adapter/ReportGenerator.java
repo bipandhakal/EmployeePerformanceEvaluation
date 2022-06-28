@@ -19,6 +19,7 @@ import com.syntech.repository.ReportRepository;
 import com.syntech.repository.SupervisorEvaluationRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -69,40 +70,45 @@ public class ReportGenerator {
         if (!criteria.getCalculatedBy().equals(CalculatedBy.RANGE)) {
             return 0.0;
         }
-        // can be used stream - java 8
-        for (CriteriaRange cr : criteriaRangeList) {
-            if (cr.getCriteria().equals(criteria)) {
-                Long achv = Long.parseLong(employeeAchievementMarks);
-                if (achv >= cr.getFromRange() && achv <= cr.getToRange()) {
-                    return cr.getMarks();
-                }
-            }
-        }
-        return 0.0;
+        Optional<CriteriaRange> optCr = criteriaRangeList.stream().filter(cr -> cr.getCriteria().equals(criteria))
+                .filter(cr -> Long.parseLong(employeeAchievementMarks) >= cr.getFromRange()
+                && Long.parseLong(employeeAchievementMarks) <= cr.getToRange())
+                .findFirst();
+        return optCr.isPresent() ? optCr.get().getMarks() : 0.0;
     }
 
     public Double criteriaTrueFalseMarks(Criteria criteria, String employeeAchievements) {
         if (!criteria.getCalculatedBy().equals(CalculatedBy.TRUEORFALSE)) {
             return 0.0;
         }
-        // can be used stream - java 8
-        for (CriteriaTrueFalse ctf : criteriaTrueFalseList) {
-            if (ctf.getCriteria().equals(criteria)) {
-                if (employeeAchievements.equals(ctf.getStatus())) {
-                    return ctf.getMarks();
-                }
-            }
-        }
-        return 0.0;
+
+        Optional<CriteriaTrueFalse> optCr = criteriaTrueFalseList.stream().filter(cr -> cr.getCriteria().equals(criteria))
+                .filter(cr -> cr.getStatus().equals(employeeAchievements))
+                .findFirst();
+        return optCr.isPresent() ? optCr.get().getMarks() : 0.0;
+
+//        for (CriteriaTrueFalse ctf : criteriaTrueFalseList) {
+//            if (ctf.getCriteria().equals(criteria)) {
+//                if (employeeAchievements.equals(ctf.getStatus())) {
+//                    return ctf.getMarks();
+//                }
+//            }
+//        }
+//        return 0.0;
     }
 
+    // handle divide by zero exception while division using custom exception
     public Double criteriaAverageMarks(Criteria criteria, String employeeAchievements) {
         if (!criteria.getCalculatedBy().equals(CalculatedBy.AVERAGE)) {
             return 0.0;
         }
-        Double d = Double.parseDouble(employeeAchievements);
-        // handle divide by zero exception while division
-        return (criteria.getMarks() * d) / (criteria.getTarget().doubleValue());
+        try {
+            Double d = Double.parseDouble(employeeAchievements);
+            return (criteria.getMarks() * d) / (criteria.getTarget().doubleValue());
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
     }
 
     public Double obtainedMarks(Criteria criteria, EmployeeAchievements ea) {

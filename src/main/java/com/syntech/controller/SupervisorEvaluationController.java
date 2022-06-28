@@ -6,6 +6,7 @@ import com.syntech.model.Months;
 import com.syntech.model.SupervisorEvaluation;
 import com.syntech.repository.CriteriaRepository;
 import com.syntech.repository.EmployeeRepository;
+import com.syntech.repository.ExcelFileImplementation;
 import com.syntech.repository.MonthsRepository;
 import com.syntech.repository.SupervisorEvaluationRepository;
 import com.syntech.util.MessageUtil;
@@ -44,6 +45,9 @@ public class SupervisorEvaluationController implements Serializable {
 
     @Inject
     private MessageUtil messageUtil;
+
+    @Inject
+    private ExcelFileImplementation excelFileImplementation;
 
     public SupervisorEvaluation getSupervisorEvaluation() {
         return supervisorEvaluation;
@@ -121,4 +125,11 @@ public class SupervisorEvaluationController implements Serializable {
         supervisorEvaluationRepository.findById(id);
     }
 
+    public void excelFileUpload() {
+        try {
+            excelFileImplementation.readExcelFile("/home/bipan/Documents/se.xlsx");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

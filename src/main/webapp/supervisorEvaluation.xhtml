@@ -11,14 +11,19 @@
     <ui:define name="Center">
         <p:panel  header="Supervisor Evaluation Records">
             <f:facet name="header">
-                <p:panelGrid columns="7" style="float: left;">
-                    <h:outputText value="Supervisor Evaluation Records"/>
-                </p:panelGrid>
-                <p:panelGrid columns="7" style="float: right;">
-                    <p:commandButton id = "btn_create_sup_eval" icon="pi pi-plus" oncomplete="PF('sample').show();" 
-                                     actionListener="#{supervisorEvaluationController.beforeCreate()}"
-                                     title="Add" update="@this :frm_sup_eval_create_edit" process="@this"/>
-                </p:panelGrid>
+                <h:form enctype="multipart/form-data">
+                    <p:panelGrid columns="5">
+                        <h:outputText value="Supervisor Evaluation Records"/>
+
+                        <p:fileUpload  mode="simple" skinSimple="true"/>
+                        <p:commandButton value="Upload" ajax="false" action="#{supervisorEvaluationController.excelFileUpload()}" 
+                                         styleClass="p-mt-3 ui-button-outlined p-d-block"/>
+
+                        <p:commandButton id = "btn_create_sup_eval" icon="pi pi-plus" oncomplete="PF('sample').show();" 
+                                         actionListener="#{supervisorEvaluationController.beforeCreate()}"
+                                         title="Add" update="@this :frm_sup_eval_create_edit" process="@this"/>
+                    </p:panelGrid>
+                </h:form>
             </f:facet>
             <h:form id="frm_sup_eval_table">
                 <p:growl id="growl" showDetail="true"/>

@@ -2,8 +2,12 @@ package com.syntech.controller;
 
 import com.syntech.model.IEntity;
 import com.syntech.repository.LazyRepository;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 
@@ -50,7 +54,12 @@ public class LazyDataModel<T extends IEntity> extends org.primefaces.model.LazyD
     @Override
     public List<T> load(int offset, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
         // apply offset & filters
-        List<T> totalList = lazyRepository.lazyLoad(offset, pageSize, sortBy, filterBy);
+        List<T> totalList = new ArrayList<>();
+        try {
+            totalList = lazyRepository.lazyLoad(offset, pageSize, sortBy, filterBy);
+        } catch (ParseException ex) {
+            Logger.getLogger(LazyDataModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("size:" + totalList.size());
         setRowCount(lazyRepository.lazyCount());
         return totalList;
