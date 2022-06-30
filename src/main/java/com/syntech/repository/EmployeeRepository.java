@@ -37,6 +37,7 @@ public class EmployeeRepository extends LazyRepository<Employee> {
         this.addCriteria(userNamePredicates);
         return this;
     }
+    
 
     public Employee findByUserName(String uname) {
         Employee emp;
@@ -47,4 +48,6 @@ public class EmployeeRepository extends LazyRepository<Employee> {
         }
         return emp;
     }
+    
+    
 }

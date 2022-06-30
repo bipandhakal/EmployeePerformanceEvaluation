@@ -77,6 +77,7 @@ public class SupervisorEvaluationController implements Serializable {
     public void init() {
         this.supervisorEvaluation = new SupervisorEvaluation();
         this.lazyModel = new LazyDataModel(supervisorEvaluationRepository);
+//        this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
     }
 
     public List<Employee> getEmployeeDetails() {
@@ -127,9 +128,14 @@ public class SupervisorEvaluationController implements Serializable {
 
     public void excelFileUpload() {
         try {
-            excelFileImplementation.readExcelFile("/home/bipan/Documents/se.xlsx");
+            List<SupervisorEvaluation> sEvaluationList = excelFileImplementation.readExcelFile("/home/bipan/Documents/se.xlsx");
+
+            sEvaluationList.stream()
+                    .filter(x -> !supervisorEvaluationRepository.isAlreadyInserted(x.getEmployee(), x.getMonths(), x.getCriteria()))
+                    .forEach(x -> supervisorEvaluationRepository.create(x));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

@@ -1,13 +1,18 @@
 package com.syntech.repository;
 
+import com.syntech.model.Criteria;
+import com.syntech.model.Employee;
+import com.syntech.model.Months;
+import com.syntech.model.SupervisorEvaluation;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import javax.inject.Inject;
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -18,8 +23,17 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ExcelFileImplementation implements Serializable {
 
-    public void readExcelFile(String excelFilePath) throws EncryptedDocumentException, IOException {
+    @Inject
+    MonthsRepository monthsRepository;
 
+    @Inject
+    EmployeeRepository employeeRepository;
+
+    @Inject
+    CriteriaRepository criteriaRepository;
+
+    public List<SupervisorEvaluation> readExcelFile(String excelFilePath) throws EncryptedDocumentException, IOException {
+        List<SupervisorEvaluation> supervisorEvaluations = new ArrayList<>();
         FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
         //Get the workbook instance for XLS file 
@@ -34,22 +48,33 @@ public class ExcelFileImplementation implements Serializable {
 
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
-
-            //For each row, iterate through each columns
-            Iterator<Cell> cellIterator = row.cellIterator();
-            while (cellIterator.hasNext()) {
-                Cell cell = cellIterator.next();
-
-                if (cell.getCellType().equals(CellType.NUMERIC)) {
-                    System.out.println(cell.getNumericCellValue());
-                }
-                if (cell.getCellType().equals(CellType.STRING)) {
-                    System.out.println(cell.getStringCellValue());
-                }
+            if (row.getRowNum() == 0) {
+                continue;
             }
+            SupervisorEvaluation supervisorEvaluation = new SupervisorEvaluation();
+
+            String monthName = row.getCell(0).toString();
+            Months months = monthsRepository.findByName(monthName);
+            supervisorEvaluation.setMonths(months);
+
+            Long employeeId = Long.valueOf((int) row.getCell(1).getNumericCellValue());
+            Employee employee = employeeRepository.findById(employeeId);
+            supervisorEvaluation.setEmployee(employee);
+
+            Long criteriaId = Long.valueOf((int) row.getCell(3).getNumericCellValue());
+            Criteria criteria = criteriaRepository.findById(criteriaId);
+            supervisorEvaluation.setCriteria(criteria);
+
+            supervisorEvaluation.setMarks(row.getCell(5).getNumericCellValue());
+
+            System.out.println(supervisorEvaluation.getEmployee().getFirstName());
+            System.out.println(supervisorEvaluation.getCriteria().getName());
+            System.out.println(supervisorEvaluation.getMarks());
+            supervisorEvaluations.add(supervisorEvaluation);
             System.out.println("");
         }
         fileInputStream.close();
+        return supervisorEvaluations;
     }
 
 }
