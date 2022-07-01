@@ -10,7 +10,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -91,21 +90,6 @@ public class SupervisorEvaluationRepository extends LazyRepository<SupervisorEva
         return se;
     }
 
-//    public Boolean checkIfFound(SupervisorEvaluation sevaluation) {
-//
-//        String month = sevaluation.getMonths().getName();
-//        String employeeName = sevaluation.getEmployee().getFirstName();
-//
-//        Query query = em.createQuery("Select a from SupervisorEvaluation a where a.months = :u and a.employee = :x", SupervisorEvaluation.class);
-//        query.setParameter("u", month);
-//        query.setParameter("x", employeeName);
-//        SupervisorEvaluation s = (SupervisorEvaluation) query.getSingleResult();
-//
-//        if (s == null) {
-//            return false;
-//        }
-//        return true;
-//    }
     public void deleteById(Long id) {
         em.remove(findById(id));
         em.flush();
@@ -125,7 +109,6 @@ public class SupervisorEvaluationRepository extends LazyRepository<SupervisorEva
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

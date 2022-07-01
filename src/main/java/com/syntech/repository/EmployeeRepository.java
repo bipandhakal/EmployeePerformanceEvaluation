@@ -48,6 +48,4 @@ public class EmployeeRepository extends LazyRepository<Employee> {
         }
         return emp;
     }
-    
-    
 }

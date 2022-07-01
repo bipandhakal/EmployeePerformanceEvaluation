@@ -4,9 +4,8 @@ import com.syntech.model.Criteria;
 import com.syntech.model.Employee;
 import com.syntech.model.Months;
 import com.syntech.model.SupervisorEvaluation;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,12 +31,12 @@ public class ExcelFileImplementation implements Serializable {
     @Inject
     CriteriaRepository criteriaRepository;
 
-    public List<SupervisorEvaluation> readExcelFile(String excelFilePath) throws EncryptedDocumentException, IOException {
+    public List<SupervisorEvaluation> processExcelFile(InputStream inputStream) throws EncryptedDocumentException, IOException {
         List<SupervisorEvaluation> supervisorEvaluations = new ArrayList<>();
-        FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
+//        FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
         //Get the workbook instance for XLS file 
-        XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 
         //Get first sheet from the workbook
         XSSFSheet sheet = workbook.getSheetAt(0);
@@ -73,7 +72,7 @@ public class ExcelFileImplementation implements Serializable {
             supervisorEvaluations.add(supervisorEvaluation);
             System.out.println("");
         }
-        fileInputStream.close();
+//        fileInputStream.close();
         return supervisorEvaluations;
     }
 

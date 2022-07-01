@@ -12,13 +12,13 @@
         <p:panel  header="Supervisor Evaluation Records">
             <f:facet name="header">
                 <h:form enctype="multipart/form-data">
-                    <p:panelGrid columns="5">
+                    <p:panelGrid columns="2" style="float: left;">
                         <h:outputText value="Supervisor Evaluation Records"/>
+                        <p:fileUpload update="frm_sup_eval_table" auto="true" process="@this"
+                                      listener="#{supervisorEvaluationController.handleExcelFileUpload}"/>
+                    </p:panelGrid>
 
-                        <p:fileUpload  mode="simple" skinSimple="true"/>
-                        <p:commandButton value="Upload" ajax="false" action="#{supervisorEvaluationController.excelFileUpload()}" 
-                                         styleClass="p-mt-3 ui-button-outlined p-d-block"/>
-
+                    <p:panelGrid columns="1" style="float: right;">
                         <p:commandButton id = "btn_create_sup_eval" icon="pi pi-plus" oncomplete="PF('sample').show();" 
                                          actionListener="#{supervisorEvaluationController.beforeCreate()}"
                                          title="Add" update="@this :frm_sup_eval_create_edit" process="@this"/>

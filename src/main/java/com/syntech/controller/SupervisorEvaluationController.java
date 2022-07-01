@@ -10,12 +10,14 @@ import com.syntech.repository.ExcelFileImplementation;
 import com.syntech.repository.MonthsRepository;
 import com.syntech.repository.SupervisorEvaluationRepository;
 import com.syntech.util.MessageUtil;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -118,17 +120,10 @@ public class SupervisorEvaluationController implements Serializable {
         messageUtil.showInfo("Supervisor Evaluation Deleted Successfully!");
     }
 
-    public void findAll() {
-        supervisorEvaluationRepository.findAll();
-    }
-
-    public void findById(Long id) {
-        supervisorEvaluationRepository.findById(id);
-    }
-
-    public void excelFileUpload() {
+    public void handleExcelFileUpload(FileUploadEvent event) {
         try {
-            List<SupervisorEvaluation> sEvaluationList = excelFileImplementation.readExcelFile("/home/bipan/Documents/se.xlsx");
+            InputStream file = event.getFile().getInputStream();
+            List<SupervisorEvaluation> sEvaluationList = excelFileImplementation.processExcelFile(file);
 
             sEvaluationList.stream()
                     .filter(x -> !supervisorEvaluationRepository.isAlreadyInserted(x.getEmployee(), x.getMonths(), x.getCriteria()))

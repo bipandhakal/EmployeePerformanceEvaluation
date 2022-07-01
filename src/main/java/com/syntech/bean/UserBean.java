@@ -12,21 +12,21 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class UserBean implements Serializable {
-    
+
     private User user;
-    
+
     public User getUser() {
         return user;
     }
-    
+
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     public boolean isLoggedIn() {
-        return user.getId() != null;
+        return user != null && user.getId() != null;
     }
-    
+
     public boolean isAdmin() {
         return user != null && user.getRole().equals("admin");
     }

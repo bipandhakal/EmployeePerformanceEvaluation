@@ -5,8 +5,10 @@ import com.syntech.bean.UserBean;
 import com.syntech.model.Employee;
 import com.syntech.model.Months;
 import com.syntech.model.Report;
+import com.syntech.model.SupervisorEvaluation;
 import com.syntech.repository.EmployeeRepository;
 import com.syntech.repository.ReportRepository;
+import com.syntech.repository.SupervisorEvaluationRepository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +42,9 @@ public class ReportController implements Serializable {
 
     @Inject
     private EmployeeRepository employeeRepository;
+
+    @Inject
+    private SupervisorEvaluationRepository supervisorEvaluationRepository;
 
     @Inject
     private UserBean userBean;
@@ -169,6 +174,8 @@ public class ReportController implements Serializable {
     }
 
     public boolean isAlreadyGenerated() {
+
         return this.reportList == null || this.reportList.isEmpty() ? false : this.reportList.stream().allMatch(x -> x.getId() != null);
     }
+
 }
