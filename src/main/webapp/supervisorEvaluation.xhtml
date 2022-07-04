@@ -14,11 +14,12 @@
                 <h:form enctype="multipart/form-data">
                     <p:panelGrid columns="2" style="float: left;">
                         <h:outputText value="Supervisor Evaluation Records"/>
-                        <p:fileUpload update="frm_sup_eval_table" auto="true" process="@this"
-                                      listener="#{supervisorEvaluationController.handleExcelFileUpload}"/>
                     </p:panelGrid>
 
-                    <p:panelGrid columns="1" style="float: right;">
+                    <p:panelGrid columns="2" style="float: right;">
+                        <p:commandButton value="Upload Data" oncomplete="PF('excelUpload').show();"
+                                         update="@this :dlog_excel_upload" />
+
                         <p:commandButton id = "btn_create_sup_eval" icon="pi pi-plus" oncomplete="PF('sample').show();" 
                                          actionListener="#{supervisorEvaluationController.beforeCreate()}"
                                          title="Add" update="@this :frm_sup_eval_create_edit" process="@this"/>
@@ -76,7 +77,33 @@
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
                 </p:confirmDialog>
-            </h:form> 
+            </h:form>
+
+
+            <p:dialog header="Enter Details" widgetVar="excelUpload" id="dlog_excel_upload">
+                <h:form id="frm_excel_file_upload" enctype="multipart/form-data">
+                    <h:panelGrid columns="1">
+                        <p:fileUpload  auto="true"  id="btn_upload_sEvalList" process="@this"
+                                       listener ="#{supervisorEvaluationController.handleExcelFileUpload}" update="@form" >
+                        </p:fileUpload>
+
+                        <p:commandButton value="Save" id="btn_save_to_db"  process="@this"
+                                         actionListener="#{supervisorEvaluationController.saveUploadedSupervisorEvaluationList()}"
+                                         oncomplete="if(!args.validationFailed) {PF('excelUpload').hide();}" 
+                                         update="@form frm_sup_eval_table" >
+                        </p:commandButton>
+
+                        <p:outputLabel value="Notes:" style="font-weight: bold;"/>
+                        <h:outputText value="Column 1: Employee_id; type: Long"/>
+                        <h:outputText value="Column 2: Employee_name;  type: String"/>
+                        <h:outputText value="Column 3: Criteria_id;  type: Long"/>
+                        <h:outputText value="Column 4: Criteria_name;  type: String"/>
+                        <h:outputText value="Column 5: Marks;  type: Double"/>
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+
+
 
             <p:dialog header="Enter Supervisor Evaluation Details" widgetVar="sample" id="dlog_sup_eval">
                 <h:form id="frm_sup_eval_create_edit">
@@ -86,8 +113,8 @@
                         <p:selectOneMenu id="som_months" value="#{supervisorEvaluationController.supervisorEvaluation.months}" 
                                          converter="monthsConverter">
                             <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{supervisorEvaluationController.monthsDetails}" var="v" 
-                                           itemLabel="#{v.name}" itemValue="#{v}"/>
+                            <f:selectItems value="#{supervisorEvaluationController.monthsDetails}" var="m" 
+                                           itemLabel="#{m.name}" itemValue="#{m}"/>
                             <p:ajax update="@this olbl_months" process="@this"/>
                         </p:selectOneMenu>
                         <br></br>

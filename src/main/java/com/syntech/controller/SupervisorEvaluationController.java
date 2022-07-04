@@ -12,6 +12,7 @@ import com.syntech.repository.SupervisorEvaluationRepository;
 import com.syntech.util.MessageUtil;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -79,7 +80,6 @@ public class SupervisorEvaluationController implements Serializable {
     public void init() {
         this.supervisorEvaluation = new SupervisorEvaluation();
         this.lazyModel = new LazyDataModel(supervisorEvaluationRepository);
-//        this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
     }
 
     public List<Employee> getEmployeeDetails() {
@@ -120,17 +120,22 @@ public class SupervisorEvaluationController implements Serializable {
         messageUtil.showInfo("Supervisor Evaluation Deleted Successfully!");
     }
 
+    private List<SupervisorEvaluation> sEvaluations;
+
     public void handleExcelFileUpload(FileUploadEvent event) {
+        this.sEvaluations = new ArrayList<>();
         try {
             InputStream file = event.getFile().getInputStream();
-            List<SupervisorEvaluation> sEvaluationList = excelFileImplementation.processExcelFile(file);
+            sEvaluations = excelFileImplementation.processExcelFile(file);
 
-            sEvaluationList.stream()
-                    .filter(x -> !supervisorEvaluationRepository.isAlreadyInserted(x.getEmployee(), x.getMonths(), x.getCriteria()))
-                    .forEach(x -> supervisorEvaluationRepository.create(x));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void saveUploadedSupervisorEvaluationList() {
+        this.sEvaluations.stream()
+                .filter(x -> !supervisorEvaluationRepository.isAlreadyInserted(x.getEmployee(), x.getMonths(), x.getCriteria()))
+                .forEach(x -> supervisorEvaluationRepository.create(x));
+    }
 }

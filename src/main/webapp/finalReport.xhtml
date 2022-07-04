@@ -32,12 +32,14 @@
                             <p:ajax update="@this olbl_months" process="@this"/>
                         </p:selectOneMenu>
 
-                        <p:commandButton id = "btn_show_report" value="Show Report" update="@this frm_emp_freport btn_save_report" 
+                        <p:commandButton id = "btn_show_report" value="Show Report"
+                                         update="@this frm_emp_freport btn_save_report" 
                                          actionListener="#{reportController.generateReport()}"/>
                     </p:panelGrid>
 
                     <p:panelGrid columns="2" style="float: right;">
-                        <p:commandButton id = "btn_regenerate_report" value="Regenerate Report" update="@this frm_emp_freport btn_save_report" 
+                        <p:commandButton id = "btn_regenerate_report" value="Regenerate Report"
+                                         update="@this frm_emp_freport" 
                                          actionListener="#{reportController.generateReport()}"/>
 
                         <p:commandButton id = "btn_save_report" value="Save Report"  update="@this :frm_emp_freport"
