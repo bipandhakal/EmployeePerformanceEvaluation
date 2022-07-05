@@ -198,6 +198,26 @@ public class ReportGenerator {
         return reportList;
     }
 
+    public List<Report> rePrepareMonthlyReport(Employee selectedEmployee, Months selectedMonths) {
+        List<Report> rList = reportRepository.findByEmployeeNMonths(selectedEmployee, selectedMonths);
+
+        List<Criteria> criteriaList = criteriaRepository.findAll();
+        List<Report> reportList = new ArrayList<>();
+        for (Criteria c : criteriaList) {
+
+            EmployeeAchievements empachv = employeeAchievementsDetails(c, selectedEmployee, selectedMonths);
+            Double sevalMarks = supervisorEvaluationMarks(c, selectedEmployee, selectedMonths);
+
+            Double obtmarks = obtainedMarks(c, empachv);
+            Double finalMarks = finalMarks(obtmarks, sevalMarks);
+
+            Report oldreport = rList.stream().filter(r -> r.getCriteria().equals(c)).findFirst().orElse(null);
+            Report report = new Report(oldreport == null ? null : oldreport.getId(), selectedMonths, selectedEmployee, c.getCategory(), c, empachv == null ? null : empachv.getAchievement(), sevalMarks, obtmarks, finalMarks);
+            reportList.add(report);
+        }
+        return reportList;
+    }
+
     public List<Report> prepareAnnualReport(Employee selectedEmployee) {
         return reportRepository.findByEmployee(selectedEmployee);
     }

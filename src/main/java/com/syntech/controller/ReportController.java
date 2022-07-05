@@ -5,7 +5,6 @@ import com.syntech.bean.UserBean;
 import com.syntech.model.Employee;
 import com.syntech.model.Months;
 import com.syntech.model.Report;
-import com.syntech.model.SupervisorEvaluation;
 import com.syntech.repository.EmployeeRepository;
 import com.syntech.repository.ReportRepository;
 import com.syntech.repository.SupervisorEvaluationRepository;
@@ -33,6 +32,7 @@ public class ReportController implements Serializable {
     private List<Report> reportList;
     private List<Employee> employeeList;
     private Map<Months, List<Report>> reportMap;
+    private Boolean alreadyGenerated = Boolean.FALSE;
 
     @Inject
     private ReportGenerator reportGenerator;
@@ -89,6 +89,22 @@ public class ReportController implements Serializable {
         this.employeeList = employeeList;
     }
 
+    public Boolean getAlreadyGenerated() {
+        return alreadyGenerated;
+    }
+
+    public void setAlreadyGenerated(Boolean alreadyGenerated) {
+        this.alreadyGenerated = alreadyGenerated;
+    }
+
+    public List<Report> getReportList() {
+        return reportList;
+    }
+
+    public void setReportList(List<Report> reportList) {
+        this.reportList = reportList;
+    }
+
     @PostConstruct
     public void init() {
         this.report = new Report();
@@ -100,22 +116,28 @@ public class ReportController implements Serializable {
         this.employeeList = employeeRepository.findAll();
     }
 
-    public List<Report> getReportList() {
-        return reportList;
-    }
-
-    public void setReportList(List<Report> reportList) {
-        this.reportList = reportList;
-    }
-
     public void save() {
         reportList.forEach((r) -> {
-            reportRepository.create(r);
+            if (r.getId() != null) {
+                reportRepository.edit(r);
+            } else {
+                reportRepository.create(r);
+            }
         });
+        alreadyGenerated = Boolean.TRUE;
     }
 
     public void generateReport() {
         reportList = reportGenerator.prepareReport(selectedEmployee, selectedMonths);
+        alreadyGenerated = this.reportList == null || this.reportList.isEmpty()
+                ? false
+                : this.reportList.stream().allMatch(x -> x.getId() != null);
+
+    }
+
+    public void reGenerateMonthlyReport() {
+        reportList = reportGenerator.rePrepareMonthlyReport(selectedEmployee, selectedMonths);
+        alreadyGenerated = Boolean.FALSE;
     }
 
     public void generateAnnualReport() {
@@ -171,11 +193,6 @@ public class ReportController implements Serializable {
             }
         }
         return Double.parseDouble(String.format("%.2f", monthTotalMarks));
-    }
-
-    public boolean isAlreadyGenerated() {
-
-        return this.reportList == null || this.reportList.isEmpty() ? false : this.reportList.stream().allMatch(x -> x.getId() != null);
     }
 
 }

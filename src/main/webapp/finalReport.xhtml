@@ -39,8 +39,8 @@
 
                     <p:panelGrid columns="2" style="float: right;">
                         <p:commandButton id = "btn_regenerate_report" value="Regenerate Report"
-                                         update="@this frm_emp_freport" 
-                                         actionListener="#{reportController.generateReport()}"/>
+                                         update="@this frm_emp_freport btn_save_report" 
+                                         actionListener="#{reportController.reGenerateMonthlyReport()}"/>
 
                         <p:commandButton id = "btn_save_report" value="Save Report"  update="@this :frm_emp_freport"
                                          title="Save"  process="@this" actionListener="#{reportController.save()}"
