@@ -85,7 +85,6 @@
                                      label="First Name" title="First Name" 
                                      required="true" requiredMessage="first name is required">
                             <p:ajax event="blur"  update="@this errmsg_fname olbl_fname"  process="@this" />
-                            <p:watermark for="intxt_first_name" id="wm_fname" value="Bipan" />
                         </p:inputText>
                         <p:message for="intxt_first_name" id="errmsg_fname"  style="color: red"/>
 
@@ -94,7 +93,6 @@
                                      label="Last Name" title="Last Name" 
                                      required="true" requiredMessage="last name is required">
                             <p:ajax event="blur"  update="@this errmsg_lname olbl_lname"  process="@this" />
-                            <p:watermark for="intxt_last_name" id="wm_lname" value="Dhakal" />
                         </p:inputText>
                         <p:message for="intxt_last_name" id="errmsg_lname"  style="color: red"/>
 
@@ -102,7 +100,6 @@
                         <p:datePicker id="dpick_jdate"  value="#{employeeController.employee.joinDate}"
                                       title="Joined Date" required="true" requiredMessage="Joined Date is required">
                             <p:ajax update="@this errmsg_jdate olbl_jdate" process="@this" />
-                            <p:watermark for="dpick_jdate" id ="wm_date" value="2022-02-03"/>
                         </p:datePicker>
                         <p:message for="dpick_jdate" id = "errmsg_jdate" />
 
@@ -111,7 +108,6 @@
                                      label="Phone Number" title="Phone Number"
                                      required="true" requiredMessage="Phone number is required">
                             <p:ajax event="blur"  update="@this errmsg_phno olbl_phno"  process="@this" />
-                            <p:watermark for="intxt_phno" id="wm_phno" value="9811824707"/>
                         </p:inputText>
                         <p:message for="intxt_phno" id="errmsg_phno"  style="color: red"/>
 
@@ -119,7 +115,6 @@
                         <p:inputText id = "intxt_email" value="#{employeeController.employee.email}" 
                                      label="Email" title="Email" required="true" requiredMessage="Email is required">
                             <p:ajax event="blur"  update="@this errmsg_email olbl_email"  process="@this" />
-                            <p:watermark for="intxt_email" id="wm_email" value="abc12@gmail.com"/>
                         </p:inputText>
                         <p:message for="intxt_email" id="errmsg_email"  style="color: red"/>
                     </h:panelGrid>

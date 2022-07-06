@@ -98,7 +98,6 @@
                                      validatorMessage="Name should be string">
                             <f:validateRegex pattern="^[a-zA-Z ]+$" />
                             <p:ajax event="blur"  update="@this errmsg_name olbl_name"  process="@this" />
-                            <p:watermark for="intxt_name" id="wm_name" value="Number of completed task" />
                         </p:inputText>
                         <p:message for="intxt_name" id="errmsg_name"  style="color:red"/>
 
@@ -107,7 +106,6 @@
                                        label="Marks" title="Marks" required="true" decimalPlaces="5"
                                        requiredMessage="Total Marks is required">
                             <p:ajax event="blur" update="@this errmsg_marks olbl_marks" process="@this"/>
-                            <p:watermark for="inpnm_marks" id ="wm_marks" value="10"/>
                         </p:inputNumber>
                         <p:message for="inpnm_marks" id = "errmsg_marks" />
 
@@ -116,7 +114,6 @@
                                        label="Target" title="Target" required="true" decimalPlaces="5"
                                        requiredMessage="Total Marks is required">
                             <p:ajax event="blur" update="@this errmsg_target olbl_target" process="@this"/>
-                            <p:watermark for="inpnm_target" id ="wm_target" value="10"/>
                         </p:inputNumber>
                         <p:message for="inpnm_target" id = "errmsg_target" />
 

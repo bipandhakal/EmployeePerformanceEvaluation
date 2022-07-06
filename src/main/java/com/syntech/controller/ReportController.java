@@ -108,7 +108,6 @@ public class ReportController implements Serializable {
     @PostConstruct
     public void init() {
         this.report = new Report();
-//        this.selectedEmployee = new Employee();
         this.selectedEmployee = employeeRepository.findByUserName(userBean.getUser().getUsername());
         this.selectedMonths = new Months();
         this.reportList = new ArrayList<>();
@@ -132,7 +131,6 @@ public class ReportController implements Serializable {
         alreadyGenerated = this.reportList == null || this.reportList.isEmpty()
                 ? false
                 : this.reportList.stream().allMatch(x -> x.getId() != null);
-
     }
 
     public void reGenerateMonthlyReport() {

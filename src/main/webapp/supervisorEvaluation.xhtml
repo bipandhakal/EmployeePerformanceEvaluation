@@ -144,7 +144,6 @@
                                        label="Marks" title="Marks" required="true" decimalPlaces="5"
                                        requiredMessage="Marks is required">
                             <p:ajax event="blur" update="@this errmsg_marks olbl_marks" process="@this"/>
-                            <p:watermark for="inpnm_marks" id ="wm_marks" value="-5"/>
                         </p:inputNumber>
                         <p:message for="inpnm_marks" id = "errmsg_marks"/>
                     </h:panelGrid>

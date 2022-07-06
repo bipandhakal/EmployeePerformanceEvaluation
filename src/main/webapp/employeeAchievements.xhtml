@@ -103,7 +103,6 @@
                                      value="#{employeeAchievementsController.employeeAchievements.achievement}" 
                                      required="true" requiredMessage="Achievement is required">
                             <p:ajax event="blur"  update="@this errmsg_achievement olbl_achievement"  process="@this" />
-                            <p:watermark for="intxt_achievement" id="wm_achievement" value="20"/>
                         </p:inputText>
                         <p:message for="intxt_achievement" id="errmsg_achievement"  style="color:red"/>
 

@@ -88,7 +88,6 @@
                                      label="Status" title="Status" required="true"
                                      requiredMessage="Status is required">
                             <p:ajax event="blur"  update="@this errmsg_status olbl_status"  process="@this" />
-                            <p:watermark for="intxt_status" id="wm_status" value="Present"/>
                         </p:inputText>
                         <p:message for="intxt_status" id="errmsg_status"  style="color:red"/>
 
@@ -97,7 +96,6 @@
                                        label="Marks" title="Marks" required="true" decimalPlaces="5"
                                        requiredMessage="Marks is required">
                             <p:ajax event="blur" update="@this errmsg_marks olbl_marks" process="@this"/>
-                            <p:watermark for="inpnm_marks" id ="wm_marks" value="10"/>
                         </p:inputNumber>
                         <p:message for="inpnm_marks" id = "errmsg_marks"/>
                     </h:panelGrid>

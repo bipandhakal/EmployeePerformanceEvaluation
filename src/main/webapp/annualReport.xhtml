@@ -26,6 +26,12 @@
                         <p:commandButton id = "btn_show_report" value="Show Report" update="@this frm_emp_areport" 
                                          actionListener="#{reportController.generateAnnualReport()}"/>
                     </p:panelGrid>
+                    <p:panelGrid id="Download_btn" columns="1" style="float: right;">
+                        <h:commandLink>
+                            <p:commandButton  ajax="false" icon="pi pi-arrow-down" title="Download Report"/>
+                            <p:dataExporter type="xls" target=":frm_emp_areport:table_emp_areport" fileName="EmployeeAnnualReport" />
+                        </h:commandLink>
+                    </p:panelGrid>
                 </h:form>
             </f:facet>
 
@@ -38,46 +44,47 @@
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" >
 
                     <f:facet name="header">
-                        <h:outputText value="Annual Report of  #{reportController.selectedEmployee.firstName}" />
+                        <h:outputText value="Annual Report of  #{reportController.selectedEmployee.firstName}"
+                                      style="display: flex; justify-content: center;" />
                     </f:facet>
 
-                    <p:column headerText="Months" groupRow="true" sortBy="#{r.months.name}" filterBy="#{r.months.name}">
+                    <p:column headerText="Months" groupRow="true"  filterBy="#{r.months.name}">
                         <h:outputText value="#{r.months.name}"/>
                     </p:column>
 
-                    <p:column headerText="Category" sortBy="#{r.category.name}" filterBy="#{r.category.name}">
+                    <p:column headerText="Category"  filterBy="#{r.category.name}">
                         <h:outputText value="#{r.category.name}"/>
                     </p:column>
 
-                    <p:column headerText="Criteria" sortBy="#{r.criteria.name}" filterBy="#{r.criteria.name}">
+                    <p:column headerText="Criteria" filterBy="#{r.criteria.name}">
                         <h:outputText value="#{r.criteria.name}"/>
                     </p:column>
 
-                    <p:column headerText="Method" sortBy="#{r.criteria.calculatedBy}" filterBy="#{r.criteria.calculatedBy}">
+                    <p:column headerText="Method"  filterBy="#{r.criteria.calculatedBy}">
                         <h:outputText value="#{r.criteria.calculatedBy}"/>
                     </p:column>
 
-                    <p:column headerText="Full Marks" sortBy="#{r.criteria.marks}" filterBy="#{r.criteria.marks}">
+                    <p:column headerText="Full Marks"  filterBy="#{r.criteria.marks}">
                         <h:outputText value="#{r.criteria.marks}"/>
                     </p:column>
 
-                    <p:column headerText="Target" sortBy="#{r.criteria.target}" filterBy="#{r.criteria.target}">
+                    <p:column headerText="Target"  filterBy="#{r.criteria.target}">
                         <h:outputText value="#{r.criteria.target}"/>
                     </p:column>
 
-                    <p:column headerText="Achievements" sortBy="#{r.employeeAchievements}" filterBy="#{r.employeeAchievements}">
+                    <p:column headerText="Achievements"  filterBy="#{r.employeeAchievements}">
                         <h:outputText value="#{r.employeeAchievements}"/>
                     </p:column>
 
-                    <p:column headerText="Obtained Marks" sortBy="#{r.obtainedMarks}" filterBy="#{r.obtainedMarks}">
+                    <p:column headerText="Obtained Marks"  filterBy="#{r.obtainedMarks}">
                         <h:outputText value="#{r.obtainedMarks}"/>
                     </p:column>
 
-                    <p:column headerText="Supervisor Marks" sortBy="#{r.supervisorEvaluation}" filterBy="#{r.supervisorEvaluation}">
+                    <p:column headerText="Supervisor Marks"  filterBy="#{r.supervisorEvaluation}">
                         <h:outputText value="#{r.supervisorEvaluation}"/>
                     </p:column>
 
-                    <p:column headerText="Final Marks" sortBy="#{r.finalMarks}" filterBy="#{r.finalMarks}">
+                    <p:column headerText="Final Marks"  filterBy="#{r.finalMarks}">
                         <h:outputText value="#{r.finalMarks}"/>
                     </p:column>
 
@@ -96,12 +103,6 @@
                         </p:column>
                     </f:facet>
                 </p:dataTable>
-                <p:panelGrid id="Download_btn" columns="1" style="display: flex; justify-content: center;">
-                    <h:commandLink>
-                        <p:commandButton value="Download report" ajax="false" icon="pi pi-arrow-down"/>
-                        <p:dataExporter type="xls" target="table_emp_areport" fileName="EmployeeAnnualReport" />
-                    </h:commandLink>
-                </p:panelGrid>
             </h:form>
         </p:panel>
     </ui:define>

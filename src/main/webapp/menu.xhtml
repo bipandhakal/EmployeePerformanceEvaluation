@@ -27,7 +27,7 @@
                          rendered="#{userBean.user.role eq 'employee'}" />
             <p:menuitem  value="Supervisor Evaluation" outcome="supervisorEvaluation.xhtml?faces-redirect=true"
                          rendered="#{userBean.user.role eq 'admin'}"/>
-            <p:menuitem value="Monthly Report" outcome="finalReport.xhtml?faces-redirect=true"/>
+            <p:menuitem value="Monthly Report" outcome="monthlyReport.xhtml?faces-redirect=true"/>
             <p:menuitem value="Annual Report" outcome="annualReport.xhtml?faces-redirect=true"/>
             <p:menuitem value="Register" oncomplete="PF('rdialog').show();" update="@this :frm_user_create" process="@this"
                         icon="pi pi-user-plus" style="position: relative; left: 15rem;"

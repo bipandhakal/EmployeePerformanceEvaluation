@@ -12,7 +12,7 @@
         <p:panel  header="Monthly report Records">
             <f:facet name="header">
                 <h:form id="form">
-                    <p:panelGrid columns="5" style="float: left;">
+                    <p:panelGrid columns="6" style="float: left;">
                         <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"
                                        rendered="#{userBean.user.role eq 'admin'}"/>
                         <p:selectOneMenu id="som_employee" value="#{reportController.selectedEmployee}" 
@@ -35,16 +35,21 @@
                         <p:commandButton id = "btn_show_report" value="Show Report"
                                          update="@this frm_emp_freport btn_save_report" 
                                          actionListener="#{reportController.generateReport()}"/>
-                    </p:panelGrid>
 
-                    <p:panelGrid columns="2" style="float: right;">
                         <p:commandButton id = "btn_regenerate_report" value="Regenerate Report"
                                          update="@this frm_emp_freport btn_save_report" 
                                          actionListener="#{reportController.reGenerateMonthlyReport()}"/>
+                    </p:panelGrid>
 
+                    <p:panelGrid columns="2" style="float: right;">
                         <p:commandButton id = "btn_save_report" value="Save Report"  update="@this :frm_emp_freport"
                                          title="Save"  process="@this" actionListener="#{reportController.save()}"
                                          disabled="#{reportController.alreadyGenerated}"/>
+
+                        <h:commandLink>
+                            <p:commandButton title="Download report" ajax="false" icon="pi pi-arrow-down"/>
+                            <p:dataExporter type="xls" target=":frm_emp_freport:table_emp_freport" fileName="EmployeeMonthlyReport" />
+                        </h:commandLink>
                     </p:panelGrid>
                 </h:form>
             </f:facet>
@@ -58,7 +63,8 @@
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
 
                     <f:facet name="header">
-                        <h:outputText value="Monthly Report of  #{reportController.selectedEmployee.firstName} for #{reportController.selectedMonths.name}:" />
+                        <h:outputText value="Monthly Report of  #{reportController.selectedEmployee.firstName} for #{reportController.selectedMonths.name}:" 
+                                      style="display: flex; justify-content: center;"/>
                     </f:facet>
 
                     <p:column headerText="S.N" sortBy="#{r.id}" filterBy="#{r.id}">
@@ -107,12 +113,7 @@
                         </p:column>
                     </f:facet>
                 </p:dataTable>
-                <p:panelGrid columns="1" style="display: flex; justify-content: center;">
-                    <h:commandLink>
-                        <p:commandButton value="Download report" ajax="false" icon="pi pi-arrow-down"/>
-                        <p:dataExporter type="xls" target="table_emp_freport" fileName="EmployeeMonthlyReport" />
-                    </h:commandLink>
-                </p:panelGrid>
+
             </h:form>
         </p:panel>
     </ui:define>

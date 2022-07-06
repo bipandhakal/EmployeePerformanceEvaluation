@@ -93,7 +93,6 @@
                                        label="From" title="From" required="true" decimalPlaces="0"
                                        requiredMessage="From is required">
                             <p:ajax event="blur" update="@this errmsg_from olbl_from" process="@this"/>
-                            <p:watermark for="inpnm_from" id ="wm_from" value="10"/>
                         </p:inputNumber>
                         <p:message for="inpnm_from" id = "errmsg_from"/>
 
@@ -102,7 +101,6 @@
                                        label="To" title="To" required="true" decimalPlaces="0"
                                        requiredMessage="To is required">
                             <p:ajax event="blur" update="@this errmsg_to olbl_to" process="@this"/>
-                            <p:watermark for="inpnm_to" id ="wm_to" value="10"/>
                         </p:inputNumber>
                         <p:message for="inpnm_to" id = "errmsg_to"/>
 
@@ -111,7 +109,6 @@
                                        label="Marks" title="Marks" required="true" decimalPlaces="5"
                                        requiredMessage="Marks is required">
                             <p:ajax event="blur" update="@this errmsg_marks olbl_marks" process="@this"/>
-                            <p:watermark for="inpnm_marks" id ="wm_marks" value="15"/>
                         </p:inputNumber>
                         <p:message for="inpnm_marks" id = "errmsg_marks"/>
                     </h:panelGrid>
