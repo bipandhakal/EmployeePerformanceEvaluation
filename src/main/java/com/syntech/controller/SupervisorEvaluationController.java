@@ -101,7 +101,7 @@ public class SupervisorEvaluationController implements Serializable {
     public void create() {
         supervisorEvaluationRepository.create(supervisorEvaluation);
         this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
-        messageUtil.showInfo("Supervisor Evaluation Created Successfully!");
+        messageUtil.showInfo("Supervisor Evaluation Created Successfully !!!");
     }
 
     public void beforeEdit(SupervisorEvaluation supervisorEvaluation) {
@@ -111,13 +111,13 @@ public class SupervisorEvaluationController implements Serializable {
     public void edit() {
         supervisorEvaluationRepository.edit(this.supervisorEvaluation);
         this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
-        messageUtil.showInfo("Supervisor Evaluation Updated Successfully!");
+        messageUtil.showInfo("Supervisor Evaluation Updated Successfully !!!");
     }
 
     public void delete(SupervisorEvaluation supervisorEvaluation) {
         supervisorEvaluationRepository.delete(supervisorEvaluation);
         this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
-        messageUtil.showInfo("Supervisor Evaluation Deleted Successfully!");
+        messageUtil.showInfo("Supervisor Evaluation Deleted Successfully !!!");
     }
 
     private List<SupervisorEvaluation> sEvaluations;
@@ -137,5 +137,15 @@ public class SupervisorEvaluationController implements Serializable {
         this.sEvaluations.stream()
                 .filter(x -> !supervisorEvaluationRepository.isAlreadyInserted(x.getEmployee(), x.getMonths(), x.getCriteria()))
                 .forEach(x -> supervisorEvaluationRepository.create(x));
+    }
+
+    public void saveIfNotInserted() {
+        if (!supervisorEvaluationRepository.isAlreadyInserted(supervisorEvaluation.getEmployee(),
+                supervisorEvaluation.getMonths(), supervisorEvaluation.getCriteria())) {
+            supervisorEvaluationRepository.create(supervisorEvaluation);
+            messageUtil.showInfo("Supervisor Evaluation Created Successfully !!!");
+        } else {
+            messageUtil.showInfo("Record is already inserted");
+        }
     }
 }

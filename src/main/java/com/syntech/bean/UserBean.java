@@ -30,4 +30,8 @@ public class UserBean implements Serializable {
     public boolean isAdmin() {
         return user != null && user.getRole().equals("admin");
     }
+
+    public boolean isEmployee() {
+        return user != null && user.getRole().equals("employee");
+    }
 }

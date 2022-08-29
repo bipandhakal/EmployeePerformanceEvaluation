@@ -191,7 +191,8 @@ public class ReportGenerator {
             Double obtmarks = obtainedMarks(c, empachv);
             Double finalMarks = finalMarks(obtmarks, sevalMarks);
 
-            Report report = new Report(null, selectedMonths, selectedEmployee, c.getCategory(), c, empachv == null ? null : empachv.getAchievement(), sevalMarks, obtmarks, finalMarks);
+            Report report = new Report(null, selectedMonths, selectedEmployee, c.getCategory(), c,
+                    empachv == null ? "-" : empachv.getAchievement(), sevalMarks, obtmarks, finalMarks);
             reportList.add(report);
             System.out.println(c);
         }

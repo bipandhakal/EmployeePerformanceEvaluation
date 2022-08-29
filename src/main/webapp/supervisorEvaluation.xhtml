@@ -94,11 +94,12 @@
                         </p:commandButton>
 
                         <p:outputLabel value="Notes:" style="font-weight: bold;"/>
-                        <h:outputText value="Column 1: Employee_id; type: Long"/>
-                        <h:outputText value="Column 2: Employee_name;  type: String"/>
-                        <h:outputText value="Column 3: Criteria_id;  type: Long"/>
-                        <h:outputText value="Column 4: Criteria_name;  type: String"/>
-                        <h:outputText value="Column 5: Marks;  type: Double"/>
+                        <h:outputText value="Column 1: Months; type:Month"/>
+                        <h:outputText value="Column 2: Employee_id; type: Long"/>
+                        <h:outputText value="Column 3: Employee_name;  type: String"/>
+                        <h:outputText value="Column 4: Criteria_id;  type: Long"/>
+                        <h:outputText value="Column 5: Criteria_name;  type: String"/>
+                        <h:outputText value="Column 6: Marks;  type: Double"/>
                     </h:panelGrid>
                 </h:form>
             </p:dialog>
@@ -153,7 +154,8 @@
                                      oncomplete="if(!args.validationFailed) {PF('sample').hide();}"
                                      update="@form frm_sup_eval_table :frm_sup_eval_table:growl" process="@this"
                                      rendered="#{empty supervisorEvaluationController.supervisorEvaluation.id}"
-                                     actionListener="#{supervisorEvaluationController.create()}"/>
+                                     actionListener="#{supervisorEvaluationController.saveIfNotInserted()}"
+                                     />
 
                     <p:commandButton id = "update" value="Update"  
                                      oncomplete="if(!args.validationFailed) {PF('sample').hide();}"

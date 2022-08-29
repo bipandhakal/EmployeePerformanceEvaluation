@@ -14,9 +14,9 @@
                 <h:form id="form">
                     <p:panelGrid columns="6" style="float: left;">
                         <p:outputLabel id="olbl_employee" value=" Choose Employee" for="som_employee"
-                                       rendered="#{userBean.user.role eq 'admin'}"/>
+                                       rendered="#{userBean.admin}"/>
                         <p:selectOneMenu id="som_employee" value="#{reportController.selectedEmployee}" 
-                                         converter="employeeConverter" rendered="#{userBean.user.role eq 'admin'}">
+                                         converter="employeeConverter" rendered="#{userBean.admin}">
                             <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{reportController.employeeList}" var="v" 
                                            itemLabel="#{v.firstName}" itemValue="#{v}"/>
@@ -113,7 +113,6 @@
                         </p:column>
                     </f:facet>
                 </p:dataTable>
-
             </h:form>
         </p:panel>
     </ui:define>

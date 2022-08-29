@@ -111,8 +111,7 @@
 
                         <p:outputLabel id="olbl_target" value = "Target"/>
                         <p:inputNumber id ="inpnm_target" value="#{criteriaController.criteria.target}"
-                                       label="Target" title="Target" required="true" decimalPlaces="5"
-                                       requiredMessage="Total Marks is required">
+                                       label="Target" title="Target"  decimalPlaces="5">
                             <p:ajax event="blur" update="@this errmsg_target olbl_target" process="@this"/>
                         </p:inputNumber>
                         <p:message for="inpnm_target" id = "errmsg_target" />
