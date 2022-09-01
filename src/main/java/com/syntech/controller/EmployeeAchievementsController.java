@@ -130,4 +130,13 @@ public class EmployeeAchievementsController implements Serializable {
         employeeAchievementsRepository.findById(id);
     }
 
+    public void saveIfNotInserted() {
+        if (!employeeAchievementsRepository.isAlreadyInserted(employeeAchievements.getEmployee(),
+                employeeAchievements.getMonths(), employeeAchievements.getCriteria())) {
+            employeeAchievementsRepository.create(employeeAchievements);
+            messageUtil.showInfo("Employee Achievements Created Successfully !!!");
+        } else {
+            messageUtil.showInfo("Record is already inserted");
+        }
+    }
 }

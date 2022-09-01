@@ -16,7 +16,7 @@
                 </p:panelGrid>
                 <p:panelGrid columns="7" style="float: right;">
                     <p:commandButton id = "btn_create_crt" icon="pi pi-plus" oncomplete="PF('sample').show();" 
-                                     actionListener="#{criteriaController.beforeCreate()}"
+                                     actionListener="#{criteriaController.beforeCreate()}" rendered="#{userBean.admin}"
                                      title="Add" update="@this :frm_crt_create_edit" process="@this"/>
                 </p:panelGrid>
             </f:facet>
@@ -56,7 +56,7 @@
                         <h:outputText value="#{c.calculatedBy}"/>
                     </p:column>
 
-                    <p:column headerText="Action" id="action">  
+                    <p:column headerText="Action" id="action" rendered="#{userBean.admin}">  
                         <p:commandButton id = "btn_edit"  actionListener="#{criteriaController.beforeEdit(c)}" 
                                          oncomplete="PF('sample').show();" process="@this" title="Edit"
                                          update="@this :frm_crt_create_edit" icon="pi pi-pencil"

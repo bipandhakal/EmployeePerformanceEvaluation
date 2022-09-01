@@ -17,7 +17,8 @@
                 <p:panelGrid columns="7" style="float: right;">
                     <p:commandButton id = "btn_create_emp_achv" icon="pi pi-plus" oncomplete="PF('sample').show();" 
                                      actionListener="#{employeeAchievementsController.beforeCreate()}"
-                                     title="Add" update="@this :frm_emp_achv_create_edit" process="@this"/>
+                                     title="Add" update="@this :frm_emp_achv_create_edit" process="@this"
+                                     rendered="#{userBean.employee}"/>
                 </p:panelGrid>
             </f:facet>
             <h:form id="frm_emp_achv_table">
@@ -54,11 +55,12 @@
                         <h:outputText value="#{e.achievement}"/>
                     </p:column>
 
-                    <p:column headerText="Action" id="action">  
+                    <p:column headerText="Action" id="action" rendered="#{userBean.employee}">  
                         <p:commandButton id = "btn_edit" title="Edit" icon="pi pi-pencil" process="@this"
                                          actionListener="#{employeeAchievementsController.beforeEdit(e)}" 
                                          oncomplete="PF('sample').show();"  style="margin-right: 10px;"
-                                         update="@this :frm_emp_achv_create_edit"/>
+                                         update="@this :frm_emp_achv_create_edit" 
+                                         />
 
                         <p:commandButton id = "btn_delete" icon="pi pi-trash" title="Delete"
                                          actionListener="#{employeeAchievementsController.delete(e)}"
@@ -77,6 +79,16 @@
             <p:dialog header="Enter Employee Achievements Details" widgetVar="sample" id="dlog_emp_achv">
                 <h:form id="frm_emp_achv_create_edit">
                     <h:panelGrid columns="3">
+
+                        <p:outputLabel id="olbl_employee" value="Employee" for="som_employee"/>
+                        <p:selectOneMenu id="som_employee" value="#{employeeAchievementsController.employeeAchievements.employee}" 
+                                         converter="employeeConverter">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{employeeAchievementsController.employeeDetails}" var="v" 
+                                           itemLabel="#{v.firstName}" itemValue="#{v}"/>
+                            <p:ajax update="@this olbl_employee" process="@this"/>
+                        </p:selectOneMenu>
+                        <br></br>
 
                         <p:outputLabel id="olbl_criteria" value="Criteria" for="som_criteria"/>
                         <p:selectOneMenu id="som_criteria" value="#{employeeAchievementsController.employeeAchievements.criteria}" 
@@ -113,7 +125,7 @@
                                      oncomplete="if(!args.validationFailed) {PF('sample').hide();}"
                                      update="@form frm_emp_achv_table :frm_emp_achv_table:growl" process="@this"
                                      rendered="#{empty employeeAchievementsController.employeeAchievements.id}"
-                                     actionListener="#{employeeAchievementsController.create()}"/>
+                                     actionListener="#{employeeAchievementsController.saveIfNotInserted()}"/>
 
                     <p:commandButton id = "update" value="Update"  
                                      oncomplete="if(!args.validationFailed) {PF('sample').hide();}"

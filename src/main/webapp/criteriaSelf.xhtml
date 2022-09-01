@@ -34,6 +34,16 @@
                         <h:outputText value="#{rowIndex + 1}"/> 
                     </p:column>
 
+                    <p:column headerText="Employee" sortBy="#{c.employee}" filterBy="#{c.employee}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{c.employee.firstName}"/>
+                    </p:column>
+
+                    <p:column headerText="Month" sortBy="#{c.months}" filterBy="#{c.months}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{c.months.name}"/>
+                    </p:column>
+
                     <p:column headerText="Criteria" sortBy="#{c.criteria.name}" filterBy="#{c.criteria.name}"
                               filterMatchMode="contains">
                         <h:outputText value="#{c.criteria.name}"/>
@@ -68,6 +78,26 @@
                 <h:form id="frm_crts_create_edit">
                     <h:panelGrid columns="3">
 
+                        <p:outputLabel id="olbl_employee" value="Employee" for="som_employee"/>
+                        <p:selectOneMenu id="som_employee" value="#{criteriaSelfController.criteriaSelf.employee}" 
+                                         converter="employeeConverter">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{criteriaSelfController.employeeDetails}" var="v" 
+                                           itemLabel="#{v.firstName}" itemValue="#{v}"/>
+                            <p:ajax update="@this olbl_employee" process="@this"/>
+                        </p:selectOneMenu>
+                        <br></br>
+
+                        <p:outputLabel id="olbl_months" value="Months" for="som_months"/>
+                        <p:selectOneMenu id="som_months" value="#{criteriaSelfController.criteriaSelf.months}" 
+                                         converter="monthsConverter">
+                            <f:selectItem itemLabel="Select one ---" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{criteriaSelfController.monthsDetails}" var="v" 
+                                           itemLabel="#{v.name}" itemValue="#{v}"/>
+                            <p:ajax update="@this olbl_months" process="@this"/>
+                        </p:selectOneMenu>
+                        <br></br>
+
                         <p:outputLabel id="olbl_criteria" value="Criteria" for="som_criteria"/>
                         <p:selectOneMenu id="som_criteria" value="#{criteriaSelfController.criteriaSelf.criteria}" 
                                          converter="criteriaConverter">
@@ -92,7 +122,7 @@
                                      oncomplete="if(!args.validationFailed) {PF('sample').hide();}"
                                      update="@form frm_crts_table :frm_crts_table:growl" process="@this"
                                      rendered="#{empty criteriaSelfController.criteriaSelf.id}"
-                                     actionListener="#{criteriaSelfController.create()}"/>
+                                     actionListener="#{criteriaSelfController.saveIfNotInserted()}"/>
 
                     <p:commandButton id = "update" value="Update"  
                                      oncomplete="if(!args.validationFailed) {PF('sample').hide();}"

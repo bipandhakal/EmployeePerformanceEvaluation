@@ -3,8 +3,12 @@ package com.syntech.controller;
 import static com.syntech.model.CalculatedBy.SELF;
 import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaSelf;
+import com.syntech.model.Employee;
+import com.syntech.model.Months;
 import com.syntech.repository.CriteriaRepository;
 import com.syntech.repository.CriteriaSelfRepository;
+import com.syntech.repository.EmployeeRepository;
+import com.syntech.repository.MonthsRepository;
 import com.syntech.util.MessageUtil;
 import java.io.Serializable;
 import java.util.List;
@@ -36,6 +40,12 @@ public class CriteriaSelfController implements Serializable {
 
     @Inject
     private MessageUtil messageUtil;
+
+    @Inject
+    private EmployeeRepository employeeRepository;
+
+    @Inject
+    private MonthsRepository monthsRepository;
 
     public CriteriaSelf getCriteriaSelf() {
         return criteriaSelf;
@@ -79,7 +89,7 @@ public class CriteriaSelfController implements Serializable {
     public void create() {
         criteriaSelfRepository.create(criteriaSelf);
         this.criteriaSelfList = criteriaSelfRepository.findAll();
-        messageUtil.showInfo("CriteriaSelf Created Successfully!");
+        messageUtil.showInfo("CriteriaSelf Record Created Successfully!");
     }
 
     public void beforeEdit(CriteriaSelf crts) {
@@ -89,7 +99,7 @@ public class CriteriaSelfController implements Serializable {
     public void edit() {
         criteriaSelfRepository.edit(this.criteriaSelf);
         this.criteriaSelfList = criteriaSelfRepository.findAll();
-        messageUtil.showInfo("CriteriaSelf Edited Successfully!");
+        messageUtil.showInfo("CriteriaSelf Record Edited Successfully!");
     }
 
     public void findAll() {
@@ -104,5 +114,23 @@ public class CriteriaSelfController implements Serializable {
         criteriaSelfRepository.delete(criteriaSelf);
         this.criteriaSelfList = criteriaSelfRepository.findAll();
         messageUtil.showInfo("Criteria Self Removed");
+    }
+
+    public List<Employee> getEmployeeDetails() {
+        return employeeRepository.findAll();
+    }
+
+    public List<Months> getMonthsDetails() {
+        return monthsRepository.findAll();
+    }
+
+    public void saveIfNotInserted() {
+        if (!criteriaSelfRepository.isAlreadyInserted(criteriaSelf.getEmployee(),
+                criteriaSelf.getMonths(), criteriaSelf.getCriteria())) {
+            criteriaSelfRepository.create(criteriaSelf);
+            messageUtil.showInfo("Criteria Self Records Created Successfully !!!");
+        } else {
+            messageUtil.showInfo("Record is already inserted");
+        }
     }
 }

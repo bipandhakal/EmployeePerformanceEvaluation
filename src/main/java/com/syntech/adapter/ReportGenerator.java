@@ -35,8 +35,6 @@ public class ReportGenerator {
 
     private List<CriteriaTrueFalse> criteriaTrueFalseList;
 
-    private List<CriteriaSelf> criteriaSelfList;
-
     @Inject
     private CriteriaRepository criteriaRepository;
 
@@ -63,7 +61,6 @@ public class ReportGenerator {
         //TODO fetching all records on postconstruct is not a good practice
         this.criteriaRangeList = criteriaRangeRepository.findAll();
         this.criteriaTrueFalseList = criteriaTrueFalseRepository.findAll();
-        this.criteriaSelfList = criteriaSelfRepository.findAll();
     }
 
     public Double criteriaRangeMarks(Criteria criteria, String employeeAchievementMarks) {
@@ -111,14 +108,14 @@ public class ReportGenerator {
         return 0.0;
     }
 
-    public Double obtainedMarks(Criteria criteria, EmployeeAchievements ea) {
+    public Double obtainedMarks(Criteria criteria, EmployeeAchievements ea, Employee selectedEmployee, Months selectedMonths) {
         Double d = 0.0;
         if (ea != null) {
             d = criteriaRangeMarks(criteria, ea.getAchievement())
                     + criteriaTrueFalseMarks(criteria, ea.getAchievement())
                     + criteriaAverageMarks(criteria, ea.getAchievement());
         }
-        d = d + criteriaSelfMarks(criteria);
+        d = d + criteriaSelfMarks(criteria, selectedEmployee, selectedMonths);
         return Double.parseDouble(String.format("%.2f", d));
     }
 
@@ -126,11 +123,12 @@ public class ReportGenerator {
         return obtainedMarks + sevaluation;
     }
 
-    public Double criteriaSelfMarks(Criteria criteria) {
+    public Double criteriaSelfMarks(Criteria criteria, Employee selectedEmployee, Months selectedMonths) {
         if (!criteria.getCalculatedBy().equals(CalculatedBy.SELF)) {
             return 0.0;
         }
-        for (CriteriaSelf cs : criteriaSelfList) {
+        List<CriteriaSelf> csList = criteriaSelfRepository.findByEmployeeNMonths(selectedEmployee, selectedMonths);
+        for (CriteriaSelf cs : csList) {
             if (cs.getCriteria().equals(criteria)) {
                 return cs.getMarks();
             }
@@ -188,7 +186,7 @@ public class ReportGenerator {
             EmployeeAchievements empachv = employeeAchievementsDetails(c, selectedEmployee, selectedMonths);
             Double sevalMarks = supervisorEvaluationMarks(c, selectedEmployee, selectedMonths);
 
-            Double obtmarks = obtainedMarks(c, empachv);
+            Double obtmarks = obtainedMarks(c, empachv, selectedEmployee, selectedMonths);
             Double finalMarks = finalMarks(obtmarks, sevalMarks);
 
             Report report = new Report(null, selectedMonths, selectedEmployee, c.getCategory(), c,
@@ -209,7 +207,7 @@ public class ReportGenerator {
             EmployeeAchievements empachv = employeeAchievementsDetails(c, selectedEmployee, selectedMonths);
             Double sevalMarks = supervisorEvaluationMarks(c, selectedEmployee, selectedMonths);
 
-            Double obtmarks = obtainedMarks(c, empachv);
+            Double obtmarks = obtainedMarks(c, empachv, selectedEmployee, selectedMonths);
             Double finalMarks = finalMarks(obtmarks, sevalMarks);
 
             Report oldreport = rList.stream().filter(r -> r.getCriteria().equals(c)).findFirst().orElse(null);
