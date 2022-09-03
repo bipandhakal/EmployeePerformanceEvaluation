@@ -39,7 +39,7 @@
                         <h:outputText value="#{c.category.name}"/>
                     </p:column>
 
-                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}" filterMatchMode="contains">
+                    <p:column headerText="Criteria" sortBy="#{c.name}" filterBy="#{c.name}" filterMatchMode="contains">
                         <h:outputText value="#{c.name}"/>
                     </p:column>
 
@@ -91,7 +91,7 @@
                         </p:selectOneMenu>
                         <br></br>
 
-                        <p:outputLabel id="olbl_name" value = "Name"/>
+                        <p:outputLabel id="olbl_name" value = "Criteria"/>
                         <p:inputText id = "intxt_name" value="#{criteriaController.criteria.name}" 
                                      label="Name" title="Name" 
                                      required="true" requiredMessage="Name is required"

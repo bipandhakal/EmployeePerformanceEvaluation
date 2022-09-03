@@ -101,9 +101,12 @@ public class CriteriaSelfController implements Serializable {
     }
 
     public void edit() {
-        criteriaSelfRepository.edit(this.criteriaSelf);
-        this.criteriaSelfList = criteriaSelfRepository.findAll();
-        messageUtil.showInfo("CriteriaSelf Record Edited Successfully!");
+        if (!criteriaSelfRepository.isAlreadyInserted(criteriaSelf.getEmployee(), criteriaSelf.getMonths(), criteriaSelf.getCriteria())) {
+            criteriaSelfRepository.edit(this.criteriaSelf);
+            messageUtil.showInfo("CriteriaSelf Record Edited Successfully !!!");
+        } else {
+            messageUtil.showError("Record is already inserted !!!");
+        }
     }
 
     public void findAll() {
@@ -136,11 +139,15 @@ public class CriteriaSelfController implements Serializable {
             criteriaSelfRepository.create(criteriaSelf);
             messageUtil.showInfo("Criteria Self Records Created Successfully !!!");
         } else {
-            messageUtil.showInfo("Record is already inserted");
+            messageUtil.showError("Record is already inserted");
         }
     }
 
     public List<CriteriaSelf> loadCriteriaSelfData() {
+        if (userBean.isAdmin() == Boolean.TRUE) {
+            List<CriteriaSelf> criteriaSelfList = this.criteriaSelfRepository.findAll();
+            return criteriaSelfList;
+        }
         Employee employee = employeeRepository.findByUserName(userBean.getUser().getUsername());
         List<CriteriaSelf> cselflist = criteriaSelfRepository.findByEmployee(employee);
         return cselflist;

@@ -32,7 +32,7 @@
                             <p:ajax update="@this olbl_months" process="@this"/>
                         </p:selectOneMenu>
 
-                        <p:commandButton id = "btn_show_report" value="Show Report"
+                        <p:commandButton id = "btn_show_report" value="Show Report" 
                                          update="@this frm_emp_freport btn_save_report" 
                                          actionListener="#{reportController.generateReport()}"/>
 
@@ -63,7 +63,7 @@
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
 
                     <f:facet name="header">
-                        <h:outputText value="Monthly Report of  #{reportController.selectedEmployee.firstName} for #{reportController.selectedMonths.name}:" 
+                        <h:outputText value="Monthly Report of  #{reportController.selectedEmployee.firstName} of #{reportController.selectedMonths.name}:" 
                                       style="display: flex; justify-content: center;"/>
                     </f:facet>
 
@@ -109,7 +109,7 @@
 
                     <f:facet name="footer">
                         <p:column>
-                            <h:outputText style="float: right;" value="Total Marks : #{reportController.calculateTotalMarks()}"/>
+                            <h:outputText style="float: right; margin-right: 6%;" value="Total Marks : #{reportController.calculateTotalMarks()}"/>
                         </p:column>
                     </f:facet>
                 </p:dataTable>

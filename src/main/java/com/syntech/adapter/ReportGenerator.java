@@ -120,7 +120,8 @@ public class ReportGenerator {
     }
 
     public Double finalMarks(Double obtainedMarks, Double sevaluation) {
-        return obtainedMarks + sevaluation;
+        Double finalMarks = obtainedMarks + sevaluation;
+        return Double.parseDouble(String.format("%.2f", finalMarks));
     }
 
     public Double criteriaSelfMarks(Criteria criteria, Employee selectedEmployee, Months selectedMonths) {
