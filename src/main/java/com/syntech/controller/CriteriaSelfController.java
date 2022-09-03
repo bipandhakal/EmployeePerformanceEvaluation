@@ -1,5 +1,6 @@
 package com.syntech.controller;
 
+import com.syntech.bean.UserBean;
 import static com.syntech.model.CalculatedBy.SELF;
 import com.syntech.model.Criteria;
 import com.syntech.model.CriteriaSelf;
@@ -31,6 +32,9 @@ public class CriteriaSelfController implements Serializable {
     private List<CriteriaSelf> criteriaSelfList;
 
     private LazyDataModel<CriteriaSelf> lazyModel;
+
+    @Inject
+    private UserBean userBean;
 
     @Inject
     private CriteriaSelfRepository criteriaSelfRepository;
@@ -113,11 +117,13 @@ public class CriteriaSelfController implements Serializable {
     public void delete(CriteriaSelf criteriaSelf) {
         criteriaSelfRepository.delete(criteriaSelf);
         this.criteriaSelfList = criteriaSelfRepository.findAll();
-        messageUtil.showInfo("Criteria Self Removed");
+        messageUtil.showInfo("Criteria Self Record deleted successfully !!!");
     }
 
-    public List<Employee> getEmployeeDetails() {
-        return employeeRepository.findAll();
+    public Employee getEmployeeDetails() {
+        Employee employee = employeeRepository.findByUserName(userBean.getUser().getUsername());
+        System.out.println("Login Employee:" + employee);
+        return employee;
     }
 
     public List<Months> getMonthsDetails() {
@@ -125,12 +131,18 @@ public class CriteriaSelfController implements Serializable {
     }
 
     public void saveIfNotInserted() {
-        if (!criteriaSelfRepository.isAlreadyInserted(criteriaSelf.getEmployee(),
-                criteriaSelf.getMonths(), criteriaSelf.getCriteria())) {
+        if (!criteriaSelfRepository.isAlreadyInserted(criteriaSelf.getEmployee(), criteriaSelf.getMonths(), criteriaSelf.getCriteria())) {
+            criteriaSelf.setEmployee(employeeRepository.findByUserName(userBean.getUser().getUsername()));
             criteriaSelfRepository.create(criteriaSelf);
             messageUtil.showInfo("Criteria Self Records Created Successfully !!!");
         } else {
             messageUtil.showInfo("Record is already inserted");
         }
+    }
+
+    public List<CriteriaSelf> loadCriteriaSelfData() {
+        Employee employee = employeeRepository.findByUserName(userBean.getUser().getUsername());
+        List<CriteriaSelf> cselflist = criteriaSelfRepository.findByEmployee(employee);
+        return cselflist;
     }
 }

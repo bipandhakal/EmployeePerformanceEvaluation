@@ -51,6 +51,16 @@ public class CriteriaSelfRepository extends LazyRepository<CriteriaSelf> {
         return this;
     }
 
+    public List<CriteriaSelf> findByEmployee(Employee employee) {
+        List<CriteriaSelf> cs = null;
+        try {
+            cs = ((CriteriaSelfRepository) this.startQuery()).filterByEmployee(employee).getResultList();
+        } catch (NoResultException e) {
+            cs = null;
+        }
+        return cs;
+    }
+
     public List<CriteriaSelf> findByCriteria(Criteria criteria) {
         List<CriteriaSelf> cs = null;
         try {

@@ -5,6 +5,7 @@ import com.syntech.model.Employee;
 import com.syntech.model.EmployeeAchievements;
 import com.syntech.model.EmployeeAchievements_;
 import com.syntech.model.Months;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -55,9 +56,6 @@ public class EmployeeAchievementsRepository extends LazyRepository<EmployeeAchie
         List<EmployeeAchievements> ea = null;
         try {
             ea = ((EmployeeAchievementsRepository) this.startQuery()).filterByEmployee(employee).getResultList();
-//            Query query = em.createQuery("SELECT ea FROM EmployeeAchievements ea WHERE ea.employee=:e", EmployeeAchievements.class);
-//            query.setParameter("e", employee);
-//            ea = query.getResultList();
         } catch (NoResultException e) {
             ea = null;
         }
@@ -67,17 +65,7 @@ public class EmployeeAchievementsRepository extends LazyRepository<EmployeeAchie
     public List<EmployeeAchievements> findByEmployeeNMonths(Employee employee, Months months) {
         List<EmployeeAchievements> ea = null;
         try {
-//            Predicate employeePredicates = criteriaBuilder.equal(root.get(EmployeeAchievements_.employee), employee);
-//            Predicate monthsPredicates = criteriaBuilder.equal(root.get(EmployeeAchievements_.months), months);
-//            Predicate finalPredicates = criteriaBuilder.and(employeePredicates, monthsPredicates);
-//            criteriaQuery.where(finalPredicates);
-//            ea = getEntityManager().createQuery(criteriaQuery).getResultList();
-
             ea = ((EmployeeAchievementsRepository) this.startQuery()).filterByEmployee(employee).filterByMonths(months).getResultList();
-
-//            Query query = em.createQuery("SELECT ea FROM EmployeeAchievements ea WHERE ea.months=:m AND ea.employee=:e", EmployeeAchievements.class);
-//            query.setParameter("m", months).setParameter("e", employee);
-//            ea = query.getResultList();
         } catch (NoResultException e) {
             ea = null;
         }
@@ -88,10 +76,6 @@ public class EmployeeAchievementsRepository extends LazyRepository<EmployeeAchie
         EmployeeAchievements ea = null;
         try {
             ea = ((EmployeeAchievementsRepository) this.startQuery()).filterByEmployee(employee).filterByCriteria(criteria).getSingleResult();
-
-//            Query query = em.createQuery("SELECT ea FROM EmployeeAchievements ea WHERE ea.criteria=:c AND ea.employee=:e", EmployeeAchievements.class);
-//            query.setParameter("c", criteria).setParameter("e", employee);
-//            ea = (EmployeeAchievements) query.getSingleResult();
         } catch (NoResultException e) {
             ea = null;
         }
@@ -118,5 +102,15 @@ public class EmployeeAchievementsRepository extends LazyRepository<EmployeeAchie
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<EmployeeAchievements> findByEmployee(Employee employee) {
+        List<EmployeeAchievements> cs = new ArrayList<>();
+        try {
+            cs = ((EmployeeAchievementsRepository) this.startQuery()).filterByEmployee(employee).getResultList();
+        } catch (NoResultException e) {
+            cs = null;
+        }
+        return cs;
     }
 }

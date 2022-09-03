@@ -81,8 +81,10 @@ public class EmployeeAchievementsController implements Serializable {
         this.lazyModel = new LazyDataModel(employeeAchievementsRepository);
     }
 
-    public List<Employee> getEmployeeDetails() {
-        return employeeRepository.findAll();
+    public Employee getEmployeeDetails() {
+        Employee employee = employeeRepository.findByUserName(userBean.getUser().getUsername());
+        System.out.println("Login Employee:" + employee);
+        return employee;
     }
 
     public List<Months> getMonthsDetails() {
@@ -133,10 +135,21 @@ public class EmployeeAchievementsController implements Serializable {
     public void saveIfNotInserted() {
         if (!employeeAchievementsRepository.isAlreadyInserted(employeeAchievements.getEmployee(),
                 employeeAchievements.getMonths(), employeeAchievements.getCriteria())) {
+            employeeAchievements.setEmployee(employeeRepository.findByUserName(userBean.getUser().getUsername()));
             employeeAchievementsRepository.create(employeeAchievements);
-            messageUtil.showInfo("Employee Achievements Created Successfully !!!");
+            messageUtil.showInfo("Employee Achievements Record Created Successfully !!!");
         } else {
             messageUtil.showInfo("Record is already inserted");
         }
+    }
+
+    public List<EmployeeAchievements> loadEmployeeAchievementsData() {
+        if (userBean.isAdmin() == Boolean.TRUE) {
+            List<EmployeeAchievements> empAchvList = employeeAchievementsRepository.findAll();
+            return empAchvList;
+        }
+        Employee employee = employeeRepository.findByUserName(userBean.getUser().getUsername());
+        List<EmployeeAchievements> empAchievementsList = employeeAchievementsRepository.findByEmployee(employee);
+        return empAchievementsList;
     }
 }
