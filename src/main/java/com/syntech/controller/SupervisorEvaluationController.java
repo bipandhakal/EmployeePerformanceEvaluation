@@ -2,9 +2,11 @@ package com.syntech.controller;
 
 import com.syntech.model.Criteria;
 import com.syntech.model.Employee;
+import com.syntech.model.EmployeeAchievements;
 import com.syntech.model.Months;
 import com.syntech.model.SupervisorEvaluation;
 import com.syntech.repository.CriteriaRepository;
+import com.syntech.repository.EmployeeAchievementsRepository;
 import com.syntech.repository.EmployeeRepository;
 import com.syntech.repository.ExcelFileImplementation;
 import com.syntech.repository.MonthsRepository;
@@ -42,6 +44,9 @@ public class SupervisorEvaluationController implements Serializable {
 
     @Inject
     private EmployeeRepository employeeRepository;
+
+    @Inject
+    private EmployeeAchievementsRepository employeeAchievementsRepository;
 
     @Inject
     private MonthsRepository monthsRepository;
@@ -101,7 +106,7 @@ public class SupervisorEvaluationController implements Serializable {
     public void create() {
         supervisorEvaluationRepository.create(supervisorEvaluation);
         this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
-        messageUtil.showInfo("Supervisor Evaluation Created Successfully !!!");
+        messageUtil.showInfo("Supervisor Evaluation Record Created Successfully !!!");
     }
 
     public void beforeEdit(SupervisorEvaluation supervisorEvaluation) {
@@ -111,13 +116,13 @@ public class SupervisorEvaluationController implements Serializable {
     public void edit() {
         supervisorEvaluationRepository.edit(this.supervisorEvaluation);
         this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
-        messageUtil.showInfo("Supervisor Evaluation Updated Successfully !!!");
+        messageUtil.showInfo("Supervisor Evaluation Record Updated Successfully !!!");
     }
 
     public void delete(SupervisorEvaluation supervisorEvaluation) {
         supervisorEvaluationRepository.delete(supervisorEvaluation);
         this.supervisorEvaluationList = supervisorEvaluationRepository.findAll();
-        messageUtil.showInfo("Supervisor Evaluation Deleted Successfully !!!");
+        messageUtil.showInfo("Supervisor Evaluation Record Deleted Successfully !!!");
     }
 
     private List<SupervisorEvaluation> sEvaluations;
@@ -140,12 +145,17 @@ public class SupervisorEvaluationController implements Serializable {
     }
 
     public void saveIfNotInserted() {
-        if (!supervisorEvaluationRepository.isAlreadyInserted(supervisorEvaluation.getEmployee(),
+        if (employeeAchievementsRepository.isAlreadyInserted(supervisorEvaluation.getEmployee(),
                 supervisorEvaluation.getMonths(), supervisorEvaluation.getCriteria())) {
-            supervisorEvaluationRepository.create(supervisorEvaluation);
-            messageUtil.showInfo("Supervisor Evaluation Created Successfully !!!");
+            if (!supervisorEvaluationRepository.isAlreadyInserted(supervisorEvaluation.getEmployee(),
+                    supervisorEvaluation.getMonths(), supervisorEvaluation.getCriteria())) {
+                supervisorEvaluationRepository.create(supervisorEvaluation);
+                messageUtil.showInfo("Supervisor Evaluation Record Created Successfully !!!");
+            } else {
+                messageUtil.showError("Record is already inserted !!!");
+            }
         } else {
-            messageUtil.showInfo("Record is already inserted");
+            messageUtil.showError("Employee achievements record not found !!!");
         }
     }
 }

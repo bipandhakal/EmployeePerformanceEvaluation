@@ -18,7 +18,7 @@
 
                     <p:panelGrid columns="2" style="float: right;">
                         <p:commandButton value="Upload Data" oncomplete="PF('excelUpload').show();"
-                                         update="@this :dlog_excel_upload" />
+                                         update="@this :dlog_excel_upload" rendered="false" />
 
                         <p:commandButton id = "btn_create_sup_eval" icon="pi pi-plus" oncomplete="PF('sample').show();" 
                                          actionListener="#{supervisorEvaluationController.beforeCreate()}"

@@ -139,7 +139,7 @@ public class EmployeeAchievementsController implements Serializable {
             employeeAchievementsRepository.create(employeeAchievements);
             messageUtil.showInfo("Employee Achievements Record Created Successfully !!!");
         } else {
-            messageUtil.showInfo("Record is already inserted");
+            messageUtil.showError("Record is already inserted");
         }
     }
 
