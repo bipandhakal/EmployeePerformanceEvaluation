@@ -29,7 +29,7 @@
                              paginator="true" paginatorPosition="bottom" allowUnsorting="true"  sortMode="single"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             rowsPerPageTemplate="5,10,{ShowAll|'All'}" rowKey="#{e.id}" emptyMessage="No data found">
+                             rowsPerPageTemplate="5,10,20,50,{ShowAll|'All'}" rowKey="#{e.id}" emptyMessage="No data found">
 
                     <p:column headerText="S.N" sortBy="#{e.id}" filterBy="#{e.id}">
                         <h:outputText value="#{rowIndex + 1}"/> 

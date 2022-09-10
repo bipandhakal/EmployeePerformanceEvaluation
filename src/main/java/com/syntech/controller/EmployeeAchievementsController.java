@@ -113,19 +113,14 @@ public class EmployeeAchievementsController implements Serializable {
     }
 
     public void edit() {
-        if (!employeeAchievementsRepository.isAlreadyInserted(employeeAchievements.getEmployee(),
-                employeeAchievements.getMonths(), employeeAchievements.getCriteria())) {
-            employeeAchievementsRepository.edit(this.employeeAchievements);
-            messageUtil.showInfo("Employee Achievements Record Updated Successfully !!!");
-        } else {
-            messageUtil.showError("Record is already inserted !!!");
-        }
+        employeeAchievementsRepository.edit(this.employeeAchievements);
+        messageUtil.showInfo("Employee Achievements Record Updated Successfully !!!");
     }
 
     public void delete(EmployeeAchievements employeeAchievements) {
         employeeAchievementsRepository.delete(employeeAchievements);
         this.employeeAchievementsList = employeeAchievementsRepository.findAll();
-        messageUtil.showInfo("Employee Achievements Deleted Successfully!");
+        messageUtil.showInfo("Employee Achievements Record Deleted Successfully!");
     }
 
     public void findAll() {

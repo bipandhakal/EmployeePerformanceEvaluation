@@ -44,7 +44,7 @@
                     <p:panelGrid columns="2" style="float: right;">
                         <p:commandButton id = "btn_save_report" value="Save Report"  update="@this :frm_emp_freport"
                                          title="Save"  process="@this" actionListener="#{reportController.save()}"
-                                         disabled="#{reportController.alreadyGenerated}"/>
+                                         disabled="#{reportController.alreadyGenerated}" rendered="#{userBean.admin}"/>
 
                         <h:commandLink>
                             <p:commandButton title="Download report" ajax="false" icon="pi pi-arrow-down"/>

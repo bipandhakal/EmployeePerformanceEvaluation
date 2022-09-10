@@ -13,7 +13,7 @@
             <f:facet name="header">
                 <h:form enctype="multipart/form-data">
                     <p:panelGrid columns="2" style="float: left;">
-                        <h:outputText value="Supervisor Evaluation Records"/>
+                        <h:outputText value="Evaluation Records"/>
                     </p:panelGrid>
 
                     <p:panelGrid columns="2" style="float: right;">
@@ -34,7 +34,7 @@
                              paginator="true" paginatorPosition="bottom" allowUnsorting="true" selectionMode="single"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found">
+                             rowsPerPageTemplate="5,10,20,50,{ShowAll|'All'}" emptyMessage="No data found">
 
                     <p:column headerText="S.N" sortBy="#{s.id}" filterBy="#{s.id}">
                         <h:outputText value="#{rowIndex + 1}"/> 
@@ -106,7 +106,7 @@
 
 
 
-            <p:dialog header="Enter Supervisor Evaluation Details" widgetVar="sample" id="dlog_sup_eval">
+            <p:dialog header="Add/Edit Evaluation Records" widgetVar="sample" id="dlog_sup_eval">
                 <h:form id="frm_sup_eval_create_edit">
                     <h:panelGrid columns="3">
 
