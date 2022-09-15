@@ -101,12 +101,8 @@ public class CriteriaSelfController implements Serializable {
     }
 
     public void edit() {
-        if (!criteriaSelfRepository.isAlreadyInserted(criteriaSelf.getEmployee(), criteriaSelf.getMonths(), criteriaSelf.getCriteria())) {
-            criteriaSelfRepository.edit(this.criteriaSelf);
-            messageUtil.showInfo("CriteriaSelf Record Edited Successfully !!!");
-        } else {
-            messageUtil.showError("Record is already inserted !!!");
-        }
+        criteriaSelfRepository.edit(this.criteriaSelf);
+        messageUtil.showInfo("CriteriaSelf Record Edited Successfully !!!");
     }
 
     public void findAll() {

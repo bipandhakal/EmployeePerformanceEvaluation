@@ -56,7 +56,7 @@
 
             <h:form id="frm_emp_freport">
                 <p:dataTable id = "table_emp_freport" value="#{reportController.reportList}" var ="r" rowKey="#{r.id}" 
-                             sortBy="#{r.category.name}"  style="border: 1px solid" sortMode="single"
+                             sortBy="#{r.category.name}" sortMode="single"
                              rowIndexVar="rowIndex" allowUnsorting="true" selectionMode="single" paginatorPosition="bottom"
                              paginator="false" rowsPerPageTemplate="5,10,{ShowAll|'All'}" emptyMessage="No data found"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
